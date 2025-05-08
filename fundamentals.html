@@ -1,0 +1,1212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundamentals | Software Services & Tech Education</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #7e22ce;
+            --primary-dark: #6b21a8;
+            --primary-light: #a855f7;
+            --secondary: #e879f9;
+            --dark: #1e1b2e;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            box-shadow: 0 5px 20px rgba(126, 34, 206, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .dropdown {
+            position: relative;
+        }
+        
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            z-index: 1;
+            padding: 10px 0;
+        }
+        
+        .dropdown:hover .dropdown-content {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .dropdown-content a {
+            padding: 10px 20px;
+            display: block;
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 180px 0 100px;
+            background: var(--gradient);
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            position: relative;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: white;
+            color: var(--primary);
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeInUp 1s ease 0.4s forwards;
+            opacity: 0;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: var(--primary);
+            z-index: -1;
+            transition: width 0.3s ease;
+        }
+        
+        .btn:hover {
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+            margin-left: 15px;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #d946ef;
+            color: white;
+        }
+        
+        .btn-secondary::before {
+            background-color: #d946ef;
+        }
+        
+        /* Services Section */
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 36px;
+            color: var(--dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(126, 34, 206, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+        
+        .service-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        
+        /* Learning Hub */
+        .learning-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-btn {
+            padding: 12px 25px;
+            background: none;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+        
+        .tab-btn.active {
+            background: rgba(126, 34, 206, 0.1);
+            color: var(--primary);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .syllabus-level {
+            background-color: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--primary);
+        }
+        
+        .syllabus-level h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .syllabus-level h3 i {
+            margin-right: 10px;
+        }
+        
+        .syllabus-level ul {
+            columns: 2;
+            list-style-type: none;
+        }
+        
+        .syllabus-level li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+            break-inside: avoid;
+        }
+        
+        .syllabus-level li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        
+        .about-img {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .about-img img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .mission-vision {
+            margin-top: 40px;
+        }
+        
+        .mission-vision h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+        }
+        
+        .contact-info h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .contact-form input,
+        .contact-form textarea,
+        .contact-form select {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .contact-form textarea {
+            height: 150px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--secondary);
+        }
+        
+        .footer-links a {
+            display: block;
+            color: var(--gray);
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--gradient);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--gray);
+            font-size: 14px;
+        }
+        
+        /* Page Transition */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .about-content,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-img {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+            }
+            
+            .nav-links.show {
+                display: flex;
+                animation: fadeIn 0.3s ease;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+            }
+            
+            .syllabus-level ul {
+                columns: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header id="header">
+        <div class="container">
+            <nav>
+                <a href="#home" class="logo" data-page="home">
+                    <i class="fas fa-cube logo-icon"></i>
+                    Fundamentals
+                </a>
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="nav-links">
+                    <a href="#home" data-page="home">Home</a>
+                    <div class="dropdown">
+                        <a href="#services" data-page="services">Services <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#services" data-page="services">Custom Software</a>
+                            <a href="#services" data-page="services">Web Development</a>
+                            <a href="#services" data-page="services">Digital Marketing</a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#learning" data-page="learning">Learning Hub <i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-content">
+                            <a href="#learning" data-page="learning">Python Programming</a>
+                            <a href="#learning" data-page="learning">Full-Stack Development</a>
+                        </div>
+                    </div>
+                    <a href="#about" data-page="about">About Us</a>
+                    <a href="#contact" data-page="contact">Contact</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Pages -->
+    <div id="pages">
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="container">
+                    <h1>Transform Your Digital Presence</h1>
+                    <p>We deliver cutting-edge software solutions and empower the next generation of developers through our comprehensive training programs.</p>
+                    <a href="#contact" class="btn" data-page="contact">Get a Free Consultation</a>
+                    <a href="#learning" class="btn btn-secondary" data-page="learning">Explore Our Courses</a>
+                </div>
+            </section>
+
+            <!-- Services Preview -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Our Services</h2>
+                        <p>Comprehensive digital solutions tailored to your business needs</p>
+                    </div>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>Custom Software Development</h3>
+                            <p>Tailor-made applications designed to solve your specific business challenges and streamline operations.</p>
+                            <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Web Design & Development</h3>
+                            <p>Beautiful, responsive websites that don't just look good but drive conversions and business growth.</p>
+                            <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Digital Marketing</h3>
+                            <p>End-to-end digital marketing strategies including SEO, content marketing, and social media management.</p>
+                            <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Hub Preview -->
+            <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Learning Hub</h2>
+                        <p>Comprehensive training programs designed to launch your tech career</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fab fa-python"></i>
+                            </div>
+                            <h3>Python Programming</h3>
+                            <p>Master Python from basics to advanced concepts with our structured curriculum and hands-on projects.</p>
+                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">View Syllabus</a>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-layer-group"></i>
+                            </div>
+                            <h3>Full-Stack Development</h3>
+                            <p>Become a freelance-ready full-stack developer with our intensive 12-week program.</p>
+                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">View Syllabus</a>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3>Freelance Support</h3>
+                            <p>Get your first paid project (₹3k-5k) after course completion with our guidance and mentorship.</p>
+                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>What Our Clients Say</h2>
+                        <p>Don't just take our word for it - hear from our satisfied clients and students</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <p>"Fundamentals built us a custom inventory management system that saved us 20 hours per week in manual work. Their attention to detail is unmatched."</p>
+                            <div style="margin-top: 20px; font-weight: 600;">- Rajesh Mehta, Retail Business Owner</div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <p>"The Python course took me from complete beginner to landing my first developer job in just 6 months. The practical approach made all the difference."</p>
+                            <div style="margin-top: 20px; font-weight: 600;">- Priya Sharma, Junior Developer</div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-quote-left"></i>
+                            </div>
+                            <p>"Our website traffic increased by 300% after Fundamentals optimized our SEO and ran targeted ad campaigns. Their digital marketing expertise is top-notch."</p>
+                            <div style="margin-top: 20px; font-weight: 600;">- Amit Patel, Startup Founder</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Services Page -->
+        <div class="page" id="services-page">
+            <section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
+                <div class="container">
+                    <h1>Our Services</h1>
+                    <p>Comprehensive digital solutions tailored to your business needs</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <h3>Custom Software Development</h3>
+                            <p>We create tailor-made applications designed to solve your specific business challenges:</p>
+                            <ul style="margin-top: 15px; margin-left: 20px;">
+                                <li>Inventory management systems</li>
+                                <li>CRM solutions</li>
+                                <li>Automation tools</li>
+                                <li>Business process software</li>
+                                <li>Custom integrations</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <h3>Web Design & Development</h3>
+                            <p>Complete web solutions that drive results:</p>
+                            <ul style="margin-top: 15px; margin-left: 20px;">
+                                <li>Responsive website design</li>
+                                <li>E-commerce development</li>
+                                <li>Web application development</li>
+                                <li>CMS implementation</li>
+                                <li>Website maintenance</li>
+                            </ul>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Digital Marketing</h3>
+                            <p>End-to-end digital marketing strategies:</p>
+                            <ul style="margin-top: 15px; margin-left: 20px;">
+                                <li>Search Engine Optimization (SEO)</li>
+                                <li>Content marketing</li>
+                                <li>Social media management</li>
+                                <li>Email marketing</li>
+                                <li>Conversion rate optimization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Our Process</h2>
+                        <p>How we deliver exceptional results for our clients</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <span>1</span>
+                            </div>
+                            <h3>Discovery</h3>
+                            <p>We start by thoroughly understanding your business, goals, and challenges through detailed consultations.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <span>2</span>
+                            </div>
+                            <h3>Planning</h3>
+                            <p>Our team creates a customized strategy with clear milestones, timelines, and deliverables.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <span>3</span>
+                            </div>
+                            <h3>Execution</h3>
+                            <p>We implement the solution with regular updates and opportunities for your feedback.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <span>4</span>
+                            </div>
+                            <h3>Delivery & Support</h3>
+                            <p>We deliver the final product and provide ongoing support to ensure your continued success.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Learning Hub Page -->
+        <div class="page" id="learning-page">
+            <section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
+                <div class="container">
+                    <h1>Learning Hub</h1>
+                    <p>Comprehensive training programs designed to launch your tech career</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="learning-tabs">
+                        <button class="tab-btn active" data-tab="python">Python Programming</button>
+                        <button class="tab-btn" data-tab="fullstack">Full-Stack Development</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="python-tab">
+                        <div class="syllabus-level">
+                            <h3><i class="fas fa-star"></i> Basic Level: Python Basics (4 Weeks)</h3>
+                            <ul>
+                                <li>Introduction to Python</li>
+                                <li>Variables and Data Types</li>
+                                <li>Operators and Expressions</li>
+                                <li>Conditional Statements</li>
+                                <li>Loops (for, while, nested)</li>
+                                <li>Functions and Scope</li>
+                                <li>Lists, Tuples, Sets, Dictionaries</li>
+                                <li>String Manipulation</li>
+                                <li>Input/Output Handling</li>
+                                <li>Basic Exception Handling</li>
+                                <li>List Comprehensions</li>
+                                <li>Lambda Functions</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="syllabus-level">
+                            <h3><i class="fas fa-bolt"></i> Medium Level: Intermediate Python (6 Weeks)</h3>
+                            <ul>
+                                <li>Modules and Packages</li>
+                                <li>File Handling (read/write)</li>
+                                <li>Error Handling (try-except-else-finally)</li>
+                                <li>Object-Oriented Programming</li>
+                                <li>Decorators and Generators</li>
+                                <li>Working with JSON and CSV</li>
+                                <li>Regular Expressions</li>
+                                <li>Python Standard Libraries</li>
+                                <li>Virtual Environments and pip</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="syllabus-level">
+                            <h3><i class="fas fa-rocket"></i> Advanced Python (8 Weeks)</h3>
+                            <ul>
+                                <li>Metaclasses</li>
+                                <li>Descriptors and the __get__ Protocol</li>
+                                <li>Context Managers</li>
+                                <li>Generators and Coroutines</li>
+                                <li>Closures and Nonlocal Variables</li>
+                                <li>The GIL (Global Interpreter Lock)</li>
+                                <li>Asyncio and Asynchronous Programming</li>
+                                <li>Data Model and Magic Methods</li>
+                                <li>Memory Management</li>
+                                <li>C Extensions and Cython</li>
+                                <li>Monkey Patching</li>
+                                <li>Function and Class Annotations</li>
+                                <li>Abstract Base Classes</li>
+                                <li>Inspect and Reflection</li>
+                                <li>Multiple Inheritance and MRO</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-content" id="fullstack-tab">
+                        <div class="syllabus-level">
+                            <h3><i class="fas fa-laptop-code"></i> Full Stack Freelancer Course (12 Weeks)</h3>
+                            <ul>
+                                <li>HTML Fundamentals</li>
+                                <li>CSS Basics and Advanced</li>
+                                <li>Vanilla JavaScript</li>
+                                <li>Node.js Introduction</li>
+                                <li>Flask Framework Deep Dive</li>
+                                <li>Routing and Templates (Jinja2)</li>
+                                <li>Form Handling</li>
+                                <li>Working with Databases (SQLite/MySQL/GCP)</li>
+                                <li>REST APIs with Flask</li>
+                                <li>Session Management</li>
+                                <li>Authentication Systems</li>
+                                <li>AJAX and Fetch API</li>
+                                <li>Deploying Flask Apps (Heroku)</li>
+                                <li>Final Project: Full Stack Application</li>
+                            </ul>
+                            <div style="margin-top: 30px; background: rgba(232, 121, 249, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--secondary);">
+                                <h4 style="color: var(--secondary); margin-bottom: 10px;"><i class="fas fa-gift"></i> Freelance Launch Package</h4>
+                                <p>After successful completion, we provide:</p>
+                                <ul style="margin-top: 10px; margin-left: 20px;">
+                                    <li>Your first freelancer bid worth ₹3k-5k</li>
+                                    <li>Real client project experience</li>
+                                    <li>Guidance through the entire process</li>
+                                    <li>Portfolio review and optimization</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Why Learn With Us?</h2>
+                        <p>What makes our training programs different</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                            </div>
+                            <h3>Industry-Experienced Instructors</h3>
+                            <p>Learn from professionals who actively work in the field and bring real-world insights to the classroom.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-project-diagram"></i>
+                            </div>
+                            <h3>Project-Based Learning</h3>
+                            <p>Build real projects throughout the course to develop a portfolio that showcases your skills.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-briefcase"></i>
+                            </div>
+                            <h3>Career Support</h3>
+                            <p>Get help with resume building, interview preparation, and job search strategies.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- About Page -->
+        <div class="page" id="about-page">
+            <section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
+                <div class="container">
+                    <h1>About Us</h1>
+                    <p>Learn what makes Fundamentals different</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="about-content">
+                        <div class="about-img">
+                            <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Our Team">
+                        </div>
+                        <div>
+                            <h3 style="font-size: 28px; margin-bottom: 20px; color: var(--primary);">The Fundamentals Difference</h3>
+                            <p>At Fundamentals, we bridge the gap between cutting-edge technology solutions and accessible tech education. Our dual focus allows us to stay at the forefront of industry trends while empowering the next generation of developers.</p>
+                            
+                            <div class="mission-vision">
+                                <h3>Our Vision</h3>
+                                <p>To democratize technology excellence - empowering businesses with custom digital solutions while equipping learners with future-proof skills that transform careers.</p>
+                                
+                                <h3 style="margin-top: 20px;">Our Mission</h3>
+                                <p>We deliver bulletproof software solutions tailored to your exact needs, marketing strategies that actually work, and world-class tech education that's accessible to all. Our practical approach ensures both our clients and students achieve tangible results.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div class="page" id="contact-page">
+            <section class="hero" style="background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);">
+                <div class="container">
+                    <h1>Get In Touch</h1>
+                    <p>Have a project in mind or want to learn more about our courses? Reach out to us!</p>
+                </div>
+            </section>
+
+            <section class="section">
+                <div class="container">
+                    <div class="contact-container">
+                        <div class="contact-info">
+                            <h3>Contact Information</h3>
+                            <div class="contact-details">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Phone</h4>
+                                        <p>+91 8248992453</p>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Email</h4>
+                                        <p>info@fundamentals.com</p>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fab fa-whatsapp"></i>
+                                    </div>
+                                    <div>
+                                        <h4>WhatsApp</h4>
+                                        <p>+91 8248992453</p>
+                                    </div>
+                                </div>
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fab fa-instagram"></i>
+                                    </div>
+                                    <div>
+                                        <h4>Instagram</h4>
+                                        <p>@fundamentals_tech</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <h3>Business Hours</h3>
+                            <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                            <p>Saturday: 10:00 AM - 4:00 PM</p>
+                            <p>Sunday: Closed</p>
+                        </div>
+                        
+                        <div class="contact-form">
+                            <form id="inquiryForm">
+                                <input type="text" placeholder="Your Name" required>
+                                <input type="email" placeholder="Your Email" required>
+                                <input type="tel" placeholder="Your Phone">
+                                <select required>
+                                    <option value="">I'm interested in...</option>
+                                    <option value="software">Custom Software Development</option>
+                                    <option value="web">Web Development</option>
+                                    <option value="marketing">Digital Marketing</option>
+                                    <option value="python">Python Course</option>
+                                    <option value="fullstack">Full-Stack Course</option>
+                                    <option value="other">Other</option>
+                                </select>
+                                <textarea placeholder="Your Message" required></textarea>
+                                <button type="submit" class="btn">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Fundamentals</h3>
+                    <p>Your partner in digital transformation and tech education. We build solutions that work and teach skills that matter.</p>
+                    <div class="social-links" style="margin-top: 20px;">
+                        <a href="https://wa.me/918248992453" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="https://instagram.com/fundamentals_tech" target="_blank"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <div class="footer-links">
+                        <a href="#services" data-page="services">Custom Software</a>
+                        <a href="#services" data-page="services">Web Development</a>
+                        <a href="#services" data-page="services">Digital Marketing</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Learning Hub</h3>
+                    <div class="footer-links">
+                        <a href="#learning" data-page="learning">Python Programming</a>
+                        <a href="#learning" data-page="learning">Full-Stack Development</a>
+                        <a href="#learning" data-page="learning">Course Syllabus</a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <div class="footer-links">
+                        <a href="#about" data-page="about">About Us</a>
+                        <a href="#contact" data-page="contact">Contact</a>
+                        <a href="#">Privacy Policy</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Fundamentals. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('show');
+        });
+        
+        // Tab Switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Show corresponding content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+        
+        // Form Submission
+        document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your inquiry! We will contact you shortly.');
+            this.reset();
+        });
+        
+        // Page Switching
+        const pages = document.querySelectorAll('.page');
+        const navLinks = document.querySelectorAll('[data-page]');
+        
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+                if (page.id === `${pageId}-page`) {
+                    page.classList.add('active');
+                }
+            });
+            
+            // Update URL without reload
+            history.pushState(null, null, `#${pageId}`);
+            
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const pageId = this.getAttribute('data-page');
+                showPage(pageId);
+                
+                // Close mobile menu if open
+                document.querySelector('.nav-links').classList.remove('show');
+            });
+        });
+        
+        // Check URL on load
+        window.addEventListener('load', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.querySelector(`[data-page="${hash}"]`)) {
+                showPage(hash);
+            }
+        });
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
