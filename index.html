@@ -1898,7 +1898,7 @@
                     
                     <div class="tab-content" id="fullstack-tab">
                         <div class="syllabus-level">
-                            <h3><i class="fas fa-laptop-code"></i> Full Stack Freelancer Course</h3>
+                            <h3><i class="fas fa-laptop-code"></i> Full Stack Freelancer Course (12 Weeks)</h3>
                             <ul>
                                 <li>HTML Fundamentals</li>
                                 <li>CSS Basics and Advanced</li>
@@ -2184,574 +2184,658 @@
     <!-- Particles.js -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
-    <script>
-        // Mobile Menu Toggle
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            document.querySelector('.nav-links').classList.toggle('show');
-        });
-        
-        // Dropdown toggle for mobile
-        document.querySelectorAll('.dropdown > a').forEach(dropdown => {
-            dropdown.addEventListener('click', function(e) {
-                if (window.innerWidth <= 767) {
-                    e.preventDefault();
-                    const parent = this.parentElement;
-                    parent.classList.toggle('active');
-                    
-                    // Close other dropdowns
-                    document.querySelectorAll('.dropdown').forEach(item => {
-                        if (item !== parent) {
-                            item.classList.remove('active');
-                        }
-                    });
-                }
-            });
-        });
-        
-        // Tab Switching
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-        
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons and contents
-                tabBtns.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(content => content.classList.remove('active'));
+<script>
+    // Mobile Menu Toggle
+    document.querySelector('.mobile-menu').addEventListener('click', function() {
+        document.querySelector('.nav-links').classList.toggle('show');
+    });
+    
+    // Dropdown toggle for mobile
+    document.querySelectorAll('.dropdown > a').forEach(dropdown => {
+        dropdown.addEventListener('click', function(e) {
+            if (window.innerWidth <= 767) {
+                e.preventDefault();
+                const parent = this.parentElement;
+                parent.classList.toggle('active');
                 
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                // Show corresponding content
-                const tabId = btn.getAttribute('data-tab');
-                document.getElementById(`${tabId}-tab`).classList.add('active');
-            });
+                // Close other dropdowns
+                document.querySelectorAll('.dropdown').forEach(item => {
+                    if (item !== parent) {
+                        item.classList.remove('active');
+                    }
+                });
+            }
         });
-        
-        // FAQ Toggle
-        const faqItems = document.querySelectorAll('.faq-item');
-        faqItems.forEach(item => {
-            const question = item.querySelector('.faq-question');
-            question.addEventListener('click', () => {
-                item.classList.toggle('active');
-            });
+    });
+    
+    // Tab Switching
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class from all buttons and contents
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Add active class to clicked button
+            btn.classList.add('active');
+            
+            // Show corresponding content
+            const tabId = btn.getAttribute('data-tab');
+            document.getElementById(`${tabId}-tab`).classList.add('active');
         });
+    });
+    
+    // FAQ Toggle
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+    
+    // Form Submission with WhatsApp
+    document.getElementById('inquiryForm').addEventListener('submit', function(e) {
+        e.preventDefault();
         
-        // Form Submission with WhatsApp
-        document.getElementById('inquiryForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const phone = document.getElementById('phone').value;
-            const interest = document.getElementById('interest').value;
-            const message = document.getElementById('message').value;
-            
-            // Create WhatsApp message
-            const whatsappMessage = `New Inquiry from Fundamentals Website:
-            
+        // Get form values
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const interest = document.getElementById('interest').value;
+        const message = document.getElementById('message').value;
+        
+        // Create WhatsApp message
+        const whatsappMessage = `New Inquiry from Fundamentals Website:
+        
 Name: ${name}
 Email: ${email}
 Phone: ${phone}
 Interest: ${interest}
 Message: ${message}`;
-            
-            // Encode for WhatsApp URL
-            const encodedMessage = encodeURIComponent(whatsappMessage);
-            
-            // Open WhatsApp with the message
-            window.open(`https://wa.me/918248992453?text=${encodedMessage}`, '_blank');
-            
-            // Show confirmation
-            alert('Thank you for your inquiry! We will contact you shortly.');
-            this.reset();
+        
+        // Encode for WhatsApp URL
+        const encodedMessage = encodeURIComponent(whatsappMessage);
+        
+        // Open WhatsApp with the message
+        window.open(`https://wa.me/918248992453?text=${encodedMessage}`, '_blank');
+        
+        // Show confirmation
+        alert('Thank you for your inquiry! We will contact you shortly.');
+        this.reset();
+    });
+    
+    // Page Switching
+    const pages = document.querySelectorAll('.page');
+    const navLinks = document.querySelectorAll('.nav-links a, .footer-links a, .btn[data-page]');
+    
+    function showPage(pageId) {
+        pages.forEach(page => {
+            page.classList.remove('active');
+            if (page.id === `${pageId}-page`) {
+                page.classList.add('active');
+            }
         });
         
-        // Page Switching
-        const pages = document.querySelectorAll('.page');
-        const navLinks = document.querySelectorAll('.nav-links a, .footer-links a, .btn[data-page]');
+        // Update URL without reload
+        history.pushState(null, null, `#${pageId}`);
         
-        function showPage(pageId) {
-            pages.forEach(page => {
-                page.classList.remove('active');
-                if (page.id === `${pageId}-page`) {
-                    page.classList.add('active');
-                }
-            });
-            
-            // Update URL without reload
-            history.pushState(null, null, `#${pageId}`);
-            
-            // Scroll to top
-            window.scrollTo(0, 0);
-            
-            // Close mobile menu if open
-            document.querySelector('.nav-links').classList.remove('show');
+        // Scroll to top
+        window.scrollTo(0, 0);
+        
+        // Close mobile menu if open
+        document.querySelector('.nav-links').classList.remove('show');
+    }
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const pageId = this.getAttribute('data-page');
+            showPage(pageId);
+        });
+    });
+    
+    // Check URL on load
+    window.addEventListener('load', function() {
+        const hash = window.location.hash.substring(1);
+        if (hash && document.querySelector(`[data-page="${hash}"]`)) {
+            showPage(hash);
         }
-        
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const pageId = this.getAttribute('data-page');
-                showPage(pageId);
-            });
-        });
-        
-        // Check URL on load
-        window.addEventListener('load', function() {
-            const hash = window.location.hash.substring(1);
-            if (hash && document.querySelector(`[data-page="${hash}"]`)) {
-                showPage(hash);
-            }
-        });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', function() {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-        
-        // Initialize Particles.js with optimized settings for mobile
-        document.addEventListener('DOMContentLoaded', function() {
-            if (window.innerWidth <= 768) {
-                particlesJS('particles-js', {
-                    particles: {
-                        number: { value: 40, density: { enable: true, value_area: 400 } },
-                        line_linked: { enable: true, distance: 100, opacity: 0.3 }
+    });
+    
+    // Header scroll effect
+    window.addEventListener('scroll', function() {
+        const header = document.getElementById('header');
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    });
+    
+    // Initialize Particles.js with optimized settings for mobile
+    function initParticles() {
+        if (window.innerWidth <= 768) {
+            // Mobile configuration
+            particlesJS('particles-js', {
+                particles: {
+                    number: { 
+                        value: 30,
+                        density: { 
+                            enable: true, 
+                            value_area: 600
+                        } 
                     },
-                    interactivity: {
-                        events: {
-                            onhover: { enable: false },
-                            onclick: { enable: false }
+                    color: {
+                        value: "#ffffff"
+                    },
+                    shape: {
+                        type: "circle"
+                    },
+                    opacity: {
+                        value: 0.3,
+                        random: true
+                    },
+                    size: {
+                        value: 2,
+                        random: true,
+                        anim: {
+                            enable: false
                         }
+                    },
+                    line_linked: {
+                        enable: true,
+                        distance: 120,
+                        color: "#ffffff",
+                        opacity: 0.2,
+                        width: 0.5
+                    },
+                    move: {
+                        enable: true,
+                        speed: 2,
+                        direction: "none",
+                        random: true,
+                        straight: false,
+                        out_mode: "out",
+                        bounce: false
                     }
-                });
-            } else {
-                particlesJS('particles-js', {
-                    "particles": {
-                        "number": {
-                            "value": 80,
-                            "density": {
-                                "enable": true,
-                                "value_area": 800
-                            }
+                },
+                interactivity: {
+                    detect_on: "canvas",
+                    events: {
+                        onhover: {
+                            enable: false
                         },
-                        "color": {
-                            "value": "#ffffff"
+                        onclick: {
+                            enable: false
                         },
-                        "shape": {
-                            "type": "circle",
-                            "stroke": {
-                                "width": 0,
-                                "color": "#000000"
-                            },
-                            "polygon": {
-                                "nb_sides": 5
-                            }
-                        },
-                        "opacity": {
-                            "value": 0.5,
-                            "random": false,
-                            "anim": {
-                                "enable": false,
-                                "speed": 1,
-                                "opacity_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "size": {
-                            "value": 3,
-                            "random": true,
-                            "anim": {
-                                "enable": false,
-                                "speed": 40,
-                                "size_min": 0.1,
-                                "sync": false
-                            }
-                        },
-                        "line_linked": {
+                        resize: true
+                    }
+                },
+                retina_detect: true
+            });
+        } else {
+            // Desktop configuration
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
                             "enable": true,
-                            "distance": 150,
-                            "color": "#ffffff",
-                            "opacity": 0.4,
-                            "width": 1
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#ffffff"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
                         },
-                        "move": {
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.5,
+                        "random": false,
+                        "anim": {
+                            "enable": false,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": false,
+                            "speed": 40,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#ffffff",
+                        "opacity": 0.4,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 3,
+                        "direction": "none",
+                        "random": false,
+                        "straight": false,
+                        "out_mode": "bounce",
+                        "bounce": false,
+                        "attract": {
+                            "enable": false,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
                             "enable": true,
-                            "speed": 3,
-                            "direction": "none",
-                            "random": false,
-                            "straight": false,
-                            "out_mode": "bounce",
-                            "bounce": false,
-                            "attract": {
-                                "enable": false,
-                                "rotateX": 600,
-                                "rotateY": 1200
-                            }
-                        }
-                    },
-                    "interactivity": {
-                        "detect_on": "canvas",
-                        "events": {
-                            "onhover": {
-                                "enable": true,
-                                "mode": "grab"
-                            },
-                            "onclick": {
-                                "enable": true,
-                                "mode": "push"
-                            },
-                            "resize": true
+                            "mode": "grab"
                         },
-                        "modes": {
-                            "grab": {
-                                "distance": 140,
-                                "line_linked": {
-                                    "opacity": 1
-                                }
-                            },
-                            "bubble": {
-                                "distance": 400,
-                                "size": 40,
-                                "duration": 2,
-                                "opacity": 8,
-                                "speed": 3
-                            },
-                            "repulse": {
-                                "distance": 200,
-                                "duration": 0.4
-                            },
-                            "push": {
-                                "particles_nb": 4
-                            },
-                            "remove": {
-                                "particles_nb": 2
-                            }
-                        }
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
                     },
-                    "retina_detect": true
-                });
-            }
-        });
-        
-        // Chatbot functionality
-        const chatbotBtn = document.querySelector('.chatbot-btn');
-        const chatbotWindow = document.querySelector('.chatbot-window');
-        const chatbotClose = document.querySelector('.chatbot-close');
-        const chatInput = document.getElementById('chatInput');
-        const chatSubmit = document.querySelector('.chatbot-input button');
-        const chatMessages = document.querySelector('.chatbot-messages');
-        
-        // Toggle chatbot window
-        chatbotBtn.addEventListener('click', () => {
-            chatbotWindow.classList.toggle('show');
-        });
-        
-        // Close chatbot
-        chatbotClose.addEventListener('click', () => {
-            chatbotWindow.classList.remove('show');
-        });
-        
-        // Quick reply buttons
-        function quickReply(text) {
-            addMessage(text, 'user-message');
-            respondToMessage(text);
-        }
-        
-        // Send message
-        function sendMessage() {
-            const message = chatInput.value.trim();
-            if (message) {
-                addMessage(message, 'user-message');
-                chatInput.value = '';
-                respondToMessage(message);
-            }
-        }
-        
-        // Add message to chat
-        function addMessage(text, className) {
-            const messageDiv = document.createElement('div');
-            messageDiv.classList.add('message', className);
-            messageDiv.textContent = text;
-            chatMessages.appendChild(messageDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // Add quick reply buttons
-        function addQuickReplies(replies) {
-            const container = document.createElement('div');
-            container.className = 'quick-reply-container';
-            
-            replies.forEach(reply => {
-                const btn = document.createElement('button');
-                btn.className = 'quick-reply-btn';
-                btn.textContent = reply;
-                btn.onclick = function() {
-                    if (reply === "Call Now") {
-                        window.location.href = "tel:+918248992453";
-                    } else {
-                        quickReply(reply);
-                    }
-                };
-                container.appendChild(btn);
-            });
-            
-            const lastMessage = chatMessages.lastChild;
-            lastMessage.appendChild(container);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-        
-        // Comprehensive knowledge base for the chatbot
-        const knowledgeBase = {
-            greetings: {
-                patterns: ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"],
-                responses: [
-                    "Hello there! Welcome to Fundamentals. How can I assist you today?",
-                    "Hi! I'm your Fundamentals assistant. What would you like to know about our services?",
-                    "Greetings! I'm here to help with information about our digital services and courses. What can I tell you about?"
-                ],
-                quickReplies: ["Services", "Courses", "About Us", "Contact"]
-            },
-            
-            // Services Categories
-            services: {
-                patterns: ["services", "offerings", "what do you offer", "what services"],
-                responses: [
-                    "We specialize in these core services:\n\n1. Paid Advertising\n2. Digital Marketing\n3. Web Development\n4. Custom Software\n\nWhich service would you like detailed information about?",
-                    "Our professional services include:\n• Strategic Paid Advertising\n• Comprehensive Digital Marketing\n• Custom Web Solutions\n• Business Software Development\n\nWhat would you like to know more about?"
-                ],
-                quickReplies: ["Paid Ads", "Digital Marketing", "Web Development", "Custom Software"]
-            },
-            
-            // Paid Advertising
-            paidAds: {
-                patterns: ["paid ads", "advertising", "ppc", "google ads", "facebook ads"],
-                responses: [
-                    "Our Paid Advertising service includes:\n\n• Google Ads Management\n• Facebook/Instagram Ads\n• LinkedIn Advertising\n• Display Network Campaigns\n• Remarketing Strategies\n\nWe create targeted campaigns that maximize your ROI by reaching the right audience at the right time.",
-                    "Fundamentals Paid Ads Services:\n\n1. Campaign Strategy Development\n2. Audience Targeting & Segmentation\n3. Ad Creative Development\n4. Landing Page Optimization\n5. Performance Monitoring & A/B Testing\n6. Conversion Rate Optimization\n\nWe manage all aspects of your paid advertising to ensure optimal results."
-                ],
-                quickReplies: ["Google Ads", "Social Ads", "Remarketing", "Ad Strategy"]
-            },
-            googleAds: {
-                patterns: ["google ads"],
-                responses: [
-                    "Our Google Ads expertise includes:\n\n• Search Network Campaigns\n• Display Network Advertising\n• Shopping Ads for eCommerce\n• YouTube Video Ads\n• App Promotion Campaigns\n• Local Service Ads\n\nWe optimize for:\n- Keyword selection\n- Bid management\n- Quality score improvement\n- Conversion tracking\n\nOur strategies help you appear for high-intent searches while controlling costs."
-                ],
-                quickReplies: ["Search Ads", "Display Ads", "Shopping Ads", "YouTube Ads"]
-            },
-            socialAds: {
-                patterns: ["social ads", "facebook ads", "instagram ads"],
-                responses: [
-                    "Social Media Advertising Services:\n\n• Facebook & Instagram Campaigns\n• Lead Generation Ads\n• Conversion Campaigns\n• Lookalike Audience Targeting\n• Carousel & Video Ads\n• Story Ads & Collection Ads\n\nWe create visually compelling ads tailored to each platform's unique audience and algorithms."
-                ],
-                quickReplies: ["Facebook Ads", "Instagram Ads", "Lead Generation", "Audience Targeting"]
-            },
-            remarketing: {
-                patterns: ["remarketing", "retargeting"],
-                responses: [
-                    "Our Remarketing Solutions:\n\n• Website Visitor Retargeting\n• Customer List Remarketing\n• Dynamic Product Ads\n• Cross-platform Retargeting\n• Sequential Messaging\n• Frequency Capping\n\nWe help you re-engage visitors who didn't convert, dramatically improving conversion rates."
-                ],
-                quickReplies: ["Website Retargeting", "Social Retargeting", "Email Remarketing", "Ad Frequency"]
-            },
-            
-            // Digital Marketing
-            digitalMarketing: {
-                patterns: ["digital marketing", "online marketing"],
-                responses: [
-                    "Our Comprehensive Digital Marketing Services:\n\n1. Search Engine Optimization (SEO)\n2. Content Marketing\n3. Social Media Management\n4. Email Marketing\n5. Conversion Rate Optimization\n6. Analytics & Reporting\n\nWe create integrated strategies that build your brand and drive qualified traffic.",
-                    "Digital Marketing at Fundamentals includes:\n\n• Technical & Local SEO\n• Blog Content Creation\n• Social Media Strategy\n• Email Campaigns\n• Landing Page Optimization\n• Performance Tracking\n\nWe focus on data-driven strategies that deliver measurable results."
-                ],
-                quickReplies: ["SEO", "Content Marketing", "Social Media", "Email Marketing"]
-            },
-            seo: {
-                patterns: ["seo", "search engine optimization"],
-                responses: [
-                    "Our SEO Services:\n\n• Keyword Research & Strategy\n• On-Page Optimization\n• Technical SEO Audits\n• Local SEO for Businesses\n• Backlink Building\n• Content Optimization\n• Performance Tracking\n\nWe improve your search visibility organically, driving qualified traffic without ongoing ad costs."
-                ],
-                quickReplies: ["Local SEO", "Technical SEO", "Content SEO", "SEO Results"]
-            },
-            contentMarketing: {
-                patterns: ["content marketing", "blog content"],
-                responses: [
-                    "Content Marketing Solutions:\n\n• Blog Content Strategy\n• Article Writing (SEO-optimized)\n• Infographic Creation\n• Video Content Planning\n• Content Distribution\n• Performance Analysis\n\nWe create valuable content that attracts and engages your target audience while improving search rankings."
-                ],
-                quickReplies: ["Blog Strategy", "SEO Content", "Visual Content", "Content Calendar"]
-            },
-            socialMedia: {
-                patterns: ["social media", "smm"],
-                responses: [
-                    "Social Media Management Services:\n\n• Platform-Specific Strategies\n• Content Calendar Development\n• Community Engagement\n• Influencer Collaborations\n• Performance Analytics\n• Ad Campaign Integration\n\nWe build authentic connections with your audience across all relevant social platforms."
-                ],
-                quickReplies: ["Facebook", "Instagram", "LinkedIn", "Twitter"]
-            },
-            
-            // Web Development
-            webDevelopment: {
-                patterns: ["web development", "website"],
-                responses: [
-                    "Our Web Development Services:\n\n• Responsive Website Design\n• eCommerce Development\n• WordPress Solutions\n• Custom Web Applications\n• API Integrations\n• Performance Optimization\n\nWe build fast, secure websites that convert visitors into customers.",
-                    "Website Services Include:\n\n1. Business Website Development\n2. Online Store Creation\n3. Web Portal Development\n4. CMS Implementation\n5. Website Maintenance\n6. Hosting & Security\n\nEvery site we build is mobile-friendly, SEO-optimized, and designed for results."
-                ],
-                quickReplies: ["Business Websites", "eCommerce", "Web Apps", "Website Maintenance"]
-            },
-            
-            // Custom Software
-            customSoftware: {
-                patterns: ["custom software", "business software"],
-                responses: [
-                    "Our Custom Software Solutions:\n\n• Inventory Management Systems\n• CRM Development\n• Business Process Automation\n• Data Analysis Tools\n• Custom Database Solutions\n• Integration with Existing Systems\n\nWe create tailored software that streamlines your operations and boosts productivity.",
-                    "Custom Software Development Services:\n\n1. Requirement Analysis\n2. UI/UX Design\n3. Database Architecture\n4. Application Development\n5. Quality Assurance\n6. Deployment & Training\n\nWe build solutions that grow with your business needs."
-                ],
-                quickReplies: ["Business Tools", "Automation", "CRM Systems", "Integration"]
-            },
-            
-            // Courses
-            courses: {
-                patterns: ["courses", "training", "learning"],
-                responses: [
-                    "Our Educational Programs:\n\n1. Python Programming Course\n2. Full-Stack Development Program\n\nBoth courses include:\n• Hands-on projects\n• Industry-relevant curriculum\n• Career support\n• Certificate of completion\n\nWould you like details about a specific course?",
-                    "Learning Opportunities at Fundamentals:\n\n• Python Programming (Comprehensive)\n• Full-Stack Web Development\n\nOur courses are designed to make you job-ready with practical skills and real-world projects."
-                ],
-                quickReplies: ["Python Course", "Full-Stack Course", "Syllabus", "Career Support"]
-            },
-            
-            // Contact Information
-            contact: {
-                patterns: ["contact", "reach", "phone", "email", "whatsapp"],
-                responses: [
-                    "You can reach us through:\n\n📞 Phone: +91 8248992453\n📧 Email: fundamentals.official.py@gmail.com\n💬 WhatsApp: +91 8248992453\n\nOur team is available Mon-Fri 9AM-6PM and Sat 10AM-4PM.",
-                    "Contact Options:\n\n• Call: +91 8248992453\n• Email: fundamentals.official.py@gmail.com\n• WhatsApp: +91 8248992453\n• Instagram: @__.fundamentals.__\n\nLet us know how we can help!"
-                ],
-                quickReplies: ["Call Now", "WhatsApp", "Email", "Business Hours"]
-            },
-            
-            // Default responses
-            default: {
-                responses: [
-                    "I'd be happy to help with that. Could you tell me more about what you're looking for?",
-                    "Let me connect you with the right information. Could you specify your question?",
-                    "I can provide detailed information about our services and courses. What would you like to know?"
-                ],
-                quickReplies: ["Paid Ads", "Digital Marketing", "Web Development", "Contact"]
-            }
-        };
-
-        // Enhanced response function
-        function respondToMessage(message) {
-            setTimeout(() => {
-                const lowerMessage = message.toLowerCase();
-                let response = null;
-                let quickReplies = [];
-                let matchedCategory = null;
-                
-                // First check for service-specific questions
-                if (lowerMessage.includes('paid ad') || lowerMessage.includes('ppc') || 
-                    lowerMessage.includes('google ad') || lowerMessage.includes('facebook ad')) {
-                    matchedCategory = 'paidAds';
-                }
-                else if (lowerMessage.includes('digital market') || lowerMessage.includes('online market')) {
-                    matchedCategory = 'digitalMarketing';
-                }
-                else if (lowerMessage.includes('web') || lowerMessage.includes('website')) {
-                    matchedCategory = 'webDevelopment';
-                }
-                else if (lowerMessage.includes('software') || lowerMessage.includes('custom') || lowerMessage.includes('application')) {
-                    matchedCategory = 'customSoftware';
-                }
-                else if (lowerMessage.includes('course') || lowerMessage.includes('train') || lowerMessage.includes('learn')) {
-                    matchedCategory = 'courses';
-                }
-                else if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('call')) {
-                    matchedCategory = 'contact';
-                }
-                else {
-                    // Check knowledge base patterns
-                    for (const category in knowledgeBase) {
-                        if (knowledgeBase[category].patterns) {
-                            for (const pattern of knowledgeBase[category].patterns) {
-                                if (lowerMessage.includes(pattern)) {
-                                    matchedCategory = category;
-                                    break;
-                                }
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 1
                             }
-                            if (matchedCategory) break;
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
                         }
                     }
-                }
-                
-                // Get response from matched category or default
-                if (matchedCategory && knowledgeBase[matchedCategory]) {
-                    const responses = knowledgeBase[matchedCategory].responses;
-                    response = responses[Math.floor(Math.random() * responses.length)];
-                    if (knowledgeBase[matchedCategory].quickReplies) {
-                        quickReplies = knowledgeBase[matchedCategory].quickReplies;
-                    }
-                } else {
-                    const defaults = knowledgeBase.default.responses;
-                    response = defaults[Math.floor(Math.random() * defaults.length)];
-                    quickReplies = knowledgeBase.default.quickReplies;
-                }
-                
-                // Special handling for specific service aspects
-                if (lowerMessage.includes('google ad') || lowerMessage.includes('search ad')) {
-                    response = knowledgeBase.googleAds.responses[0];
-                    quickReplies = knowledgeBase.googleAds.quickReplies;
-                }
-                else if (lowerMessage.includes('social ad') || lowerMessage.includes('facebook ad') || lowerMessage.includes('instagram ad')) {
-                    response = knowledgeBase.socialAds.responses[0];
-                    quickReplies = knowledgeBase.socialAds.quickReplies;
-                }
-                else if (lowerMessage.includes('remarketing') || lowerMessage.includes('retargeting')) {
-                    response = knowledgeBase.remarketing.responses[0];
-                    quickReplies = knowledgeBase.remarketing.quickReplies;
-                }
-                else if (lowerMessage.includes('seo') || lowerMessage.includes('search engine')) {
-                    response = knowledgeBase.seo.responses[0];
-                    quickReplies = knowledgeBase.seo.quickReplies;
-                }
-                else if (lowerMessage.includes('content market') || lowerMessage.includes('blog')) {
-                    response = knowledgeBase.contentMarketing.responses[0];
-                    quickReplies = knowledgeBase.contentMarketing.quickReplies;
-                }
-                
-                addMessage(response, 'bot-message');
-                if (quickReplies.length > 0) {
-                    addQuickReplies(quickReplies);
-                }
-            }, 800);
+                },
+                "retina_detect": true
+            });
         }
-        
-        // Send message on button click or enter key
-        chatSubmit.addEventListener('click', sendMessage);
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-        
-        // Mobile optimization
-        function optimizeForMobile() {
-            if (window.innerWidth <= 768 && typeof particlesJS !== 'undefined') {
-                pJS = particlesJS.get('particles-js');
-                if (pJS) {
-                    pJS.particles.array = [];
+    }
+    
+    // Handle window resize for particles
+    function handleResize() {
+        if (typeof particlesJS !== 'undefined') {
+            pJS = particlesJS.get('particles-js');
+            if (pJS) {
+                if (window.innerWidth <= 768) {
+                    // Mobile settings
                     pJS.particles.number.value = 30;
-                    pJS.fn.particlesRefresh();
+                    pJS.particles.size.value = 2;
+                    pJS.particles.opacity.value = 0.3;
+                    pJS.particles.line_linked.width = 0.5;
+                    pJS.particles.line_linked.opacity = 0.2;
+                    pJS.particles.move.speed = 2;
+                } else {
+                    // Desktop settings
+                    pJS.particles.number.value = 80;
+                    pJS.particles.size.value = 3;
+                    pJS.particles.opacity.value = 0.5;
+                    pJS.particles.line_linked.width = 1;
+                    pJS.particles.line_linked.opacity = 0.4;
+                    pJS.particles.move.speed = 3;
+                }
+                pJS.fn.particlesRefresh();
+            }
+        }
+    }
+    
+    // Initialize particles on load
+    document.addEventListener('DOMContentLoaded', function() {
+        initParticles();
+    });
+    
+    // Update particles on resize
+    window.addEventListener('resize', function() {
+        handleResize();
+    });
+    
+    // Chatbot functionality
+    const chatbotBtn = document.querySelector('.chatbot-btn');
+    const chatbotWindow = document.querySelector('.chatbot-window');
+    const chatbotClose = document.querySelector('.chatbot-close');
+    const chatInput = document.getElementById('chatInput');
+    const chatSubmit = document.querySelector('.chatbot-input button');
+    const chatMessages = document.querySelector('.chatbot-messages');
+    
+    // Toggle chatbot window
+    chatbotBtn.addEventListener('click', () => {
+        chatbotWindow.classList.toggle('show');
+    });
+    
+    // Close chatbot
+    chatbotClose.addEventListener('click', () => {
+        chatbotWindow.classList.remove('show');
+    });
+    
+    // Quick reply buttons
+    function quickReply(text) {
+        addMessage(text, 'user-message');
+        respondToMessage(text);
+    }
+    
+    // Send message
+    function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message) {
+            addMessage(message, 'user-message');
+            chatInput.value = '';
+            respondToMessage(message);
+        }
+    }
+    
+    // Add message to chat
+    function addMessage(text, className) {
+        const messageDiv = document.createElement('div');
+        messageDiv.classList.add('message', className);
+        messageDiv.textContent = text;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Add quick reply buttons
+    function addQuickReplies(replies) {
+        const container = document.createElement('div');
+        container.className = 'quick-reply-container';
+        
+        replies.forEach(reply => {
+            const btn = document.createElement('button');
+            btn.className = 'quick-reply-btn';
+            btn.textContent = reply;
+            btn.onclick = function() {
+                if (reply === "Call Now") {
+                    window.location.href = "tel:+918248992453";
+                } else {
+                    quickReply(reply);
+                }
+            };
+            container.appendChild(btn);
+        });
+        
+        const lastMessage = chatMessages.lastChild;
+        lastMessage.appendChild(container);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Comprehensive knowledge base for the chatbot
+    const knowledgeBase = {
+        greetings: {
+            patterns: ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"],
+            responses: [
+                "Hello there! Welcome to Fundamentals. How can I assist you today?",
+                "Hi! I'm your Fundamentals assistant. What would you like to know about our services?",
+                "Greetings! I'm here to help with information about our digital services and courses. What can I tell you about?"
+            ],
+            quickReplies: ["Services", "Courses", "About Us", "Contact"]
+        },
+        
+        // Services Categories
+        services: {
+            patterns: ["services", "offerings", "what do you offer", "what services"],
+            responses: [
+                "We specialize in these core services:\n\n1. Paid Advertising\n2. Digital Marketing\n3. Web Development\n4. Custom Software\n\nWhich service would you like detailed information about?",
+                "Our professional services include:\n• Strategic Paid Advertising\n• Comprehensive Digital Marketing\n• Custom Web Solutions\n• Business Software Development\n\nWhat would you like to know more about?"
+            ],
+            quickReplies: ["Paid Ads", "Digital Marketing", "Web Development", "Custom Software"]
+        },
+        
+        // Paid Advertising
+        paidAds: {
+            patterns: ["paid ads", "advertising", "ppc", "google ads", "facebook ads"],
+            responses: [
+                "Our Paid Advertising service includes:\n\n• Google Ads Management\n• Facebook/Instagram Ads\n• LinkedIn Advertising\n• Display Network Campaigns\n• Remarketing Strategies\n\nWe create targeted campaigns that maximize your ROI by reaching the right audience at the right time.",
+                "Fundamentals Paid Ads Services:\n\n1. Campaign Strategy Development\n2. Audience Targeting & Segmentation\n3. Ad Creative Development\n4. Landing Page Optimization\n5. Performance Monitoring & A/B Testing\n6. Conversion Rate Optimization\n\nWe manage all aspects of your paid advertising to ensure optimal results."
+            ],
+            quickReplies: ["Google Ads", "Social Ads", "Remarketing", "Ad Strategy"]
+        },
+        googleAds: {
+            patterns: ["google ads"],
+            responses: [
+                "Our Google Ads expertise includes:\n\n• Search Network Campaigns\n• Display Network Advertising\n• Shopping Ads for eCommerce\n• YouTube Video Ads\n• App Promotion Campaigns\n• Local Service Ads\n\nWe optimize for:\n- Keyword selection\n- Bid management\n- Quality score improvement\n- Conversion tracking\n\nOur strategies help you appear for high-intent searches while controlling costs."
+            ],
+            quickReplies: ["Search Ads", "Display Ads", "Shopping Ads", "YouTube Ads"]
+        },
+        socialAds: {
+            patterns: ["social ads", "facebook ads", "instagram ads"],
+            responses: [
+                "Social Media Advertising Services:\n\n• Facebook & Instagram Campaigns\n• Lead Generation Ads\n• Conversion Campaigns\n• Lookalike Audience Targeting\n• Carousel & Video Ads\n• Story Ads & Collection Ads\n\nWe create visually compelling ads tailored to each platform's unique audience and algorithms."
+            ],
+            quickReplies: ["Facebook Ads", "Instagram Ads", "Lead Generation", "Audience Targeting"]
+        },
+        remarketing: {
+            patterns: ["remarketing", "retargeting"],
+            responses: [
+                "Our Remarketing Solutions:\n\n• Website Visitor Retargeting\n• Customer List Remarketing\n• Dynamic Product Ads\n• Cross-platform Retargeting\n• Sequential Messaging\n• Frequency Capping\n\nWe help you re-engage visitors who didn't convert, dramatically improving conversion rates."
+            ],
+            quickReplies: ["Website Retargeting", "Social Retargeting", "Email Remarketing", "Ad Frequency"]
+        },
+        
+        // Digital Marketing
+        digitalMarketing: {
+            patterns: ["digital marketing", "online marketing"],
+            responses: [
+                "Our Comprehensive Digital Marketing Services:\n\n1. Search Engine Optimization (SEO)\n2. Content Marketing\n3. Social Media Management\n4. Email Marketing\n5. Conversion Rate Optimization\n6. Analytics & Reporting\n\nWe create integrated strategies that build your brand and drive qualified traffic.",
+                "Digital Marketing at Fundamentals includes:\n\n• Technical & Local SEO\n• Blog Content Creation\n• Social Media Strategy\n• Email Campaigns\n• Landing Page Optimization\n• Performance Tracking\n\nWe focus on data-driven strategies that deliver measurable results."
+            ],
+            quickReplies: ["SEO", "Content Marketing", "Social Media", "Email Marketing"]
+        },
+        seo: {
+            patterns: ["seo", "search engine optimization"],
+            responses: [
+                "Our SEO Services:\n\n• Keyword Research & Strategy\n• On-Page Optimization\n• Technical SEO Audits\n• Local SEO for Businesses\n• Backlink Building\n• Content Optimization\n• Performance Tracking\n\nWe improve your search visibility organically, driving qualified traffic without ongoing ad costs."
+            ],
+            quickReplies: ["Local SEO", "Technical SEO", "Content SEO", "SEO Results"]
+        },
+        contentMarketing: {
+            patterns: ["content marketing", "blog content"],
+            responses: [
+                "Content Marketing Solutions:\n\n• Blog Content Strategy\n• Article Writing (SEO-optimized)\n• Infographic Creation\n• Video Content Planning\n• Content Distribution\n• Performance Analysis\n\nWe create valuable content that attracts and engages your target audience while improving search rankings."
+            ],
+            quickReplies: ["Blog Strategy", "SEO Content", "Visual Content", "Content Calendar"]
+        },
+        socialMedia: {
+            patterns: ["social media", "smm"],
+            responses: [
+                "Social Media Management Services:\n\n• Platform-Specific Strategies\n• Content Calendar Development\n• Community Engagement\n• Influencer Collaborations\n• Performance Analytics\n• Ad Campaign Integration\n\nWe build authentic connections with your audience across all relevant social platforms."
+            ],
+            quickReplies: ["Facebook", "Instagram", "LinkedIn", "Twitter"]
+        },
+        
+        // Web Development
+        webDevelopment: {
+            patterns: ["web development", "website"],
+            responses: [
+                "Our Web Development Services:\n\n• Responsive Website Design\n• eCommerce Development\n• WordPress Solutions\n• Custom Web Applications\n• API Integrations\n• Performance Optimization\n\nWe build fast, secure websites that convert visitors into customers.",
+                "Website Services Include:\n\n1. Business Website Development\n2. Online Store Creation\n3. Web Portal Development\n4. CMS Implementation\n5. Website Maintenance\n6. Hosting & Security\n\nEvery site we build is mobile-friendly, SEO-optimized, and designed for results."
+            ],
+            quickReplies: ["Business Websites", "eCommerce", "Web Apps", "Website Maintenance"]
+        },
+        
+        // Custom Software
+        customSoftware: {
+            patterns: ["custom software", "business software"],
+            responses: [
+                "Our Custom Software Solutions:\n\n• Inventory Management Systems\n• CRM Development\n• Business Process Automation\n• Data Analysis Tools\n• Custom Database Solutions\n• Integration with Existing Systems\n\nWe create tailored software that streamlines your operations and boosts productivity.",
+                "Custom Software Development Services:\n\n1. Requirement Analysis\n2. UI/UX Design\n3. Database Architecture\n4. Application Development\n5. Quality Assurance\n6. Deployment & Training\n\nWe build solutions that grow with your business needs."
+            ],
+            quickReplies: ["Business Tools", "Automation", "CRM Systems", "Integration"]
+        },
+        
+        // Courses
+        courses: {
+            patterns: ["courses", "training", "learning"],
+            responses: [
+                "Our Educational Programs:\n\n1. Python Programming Course\n2. Full-Stack Development Program\n\nBoth courses include:\n• Hands-on projects\n• Industry-relevant curriculum\n• Career support\n• Certificate of completion\n\nWould you like details about a specific course?",
+                "Learning Opportunities at Fundamentals:\n\n• Python Programming (Comprehensive)\n• Full-Stack Web Development\n\nOur courses are designed to make you job-ready with practical skills and real-world projects."
+            ],
+            quickReplies: ["Python Course", "Full-Stack Course", "Syllabus", "Career Support"]
+        },
+        
+        // Contact Information
+        contact: {
+            patterns: ["contact", "reach", "phone", "email", "whatsapp"],
+            responses: [
+                "You can reach us through:\n\n📞 Phone: +91 8248992453\n📧 Email: fundamentals.official.py@gmail.com\n💬 WhatsApp: +91 8248992453\n\nOur team is available Mon-Fri 9AM-6PM and Sat 10AM-4PM.",
+                "Contact Options:\n\n• Call: +91 8248992453\n• Email: fundamentals.official.py@gmail.com\n• WhatsApp: +91 8248992453\n• Instagram: @__.fundamentals.__\n\nLet us know how we can help!"
+            ],
+            quickReplies: ["Call Now", "WhatsApp", "Email", "Business Hours"]
+        },
+        
+        // Default responses
+        default: {
+            responses: [
+                "I'd be happy to help with that. Could you tell me more about what you're looking for?",
+                "Let me connect you with the right information. Could you specify your question?",
+                "I can provide detailed information about our services and courses. What would you like to know?"
+            ],
+            quickReplies: ["Paid Ads", "Digital Marketing", "Web Development", "Contact"]
+        }
+    };
+
+    // Enhanced response function
+    function respondToMessage(message) {
+        setTimeout(() => {
+            const lowerMessage = message.toLowerCase();
+            let response = null;
+            let quickReplies = [];
+            let matchedCategory = null;
+            
+            // First check for service-specific questions
+            if (lowerMessage.includes('paid ad') || lowerMessage.includes('ppc') || 
+                lowerMessage.includes('google ad') || lowerMessage.includes('facebook ad')) {
+                matchedCategory = 'paidAds';
+            }
+            else if (lowerMessage.includes('digital market') || lowerMessage.includes('online market')) {
+                matchedCategory = 'digitalMarketing';
+            }
+            else if (lowerMessage.includes('web') || lowerMessage.includes('website')) {
+                matchedCategory = 'webDevelopment';
+            }
+            else if (lowerMessage.includes('software') || lowerMessage.includes('custom') || lowerMessage.includes('application')) {
+                matchedCategory = 'customSoftware';
+            }
+            else if (lowerMessage.includes('course') || lowerMessage.includes('train') || lowerMessage.includes('learn')) {
+                matchedCategory = 'courses';
+            }
+            else if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('call')) {
+                matchedCategory = 'contact';
+            }
+            else {
+                // Check knowledge base patterns
+                for (const category in knowledgeBase) {
+                    if (knowledgeBase[category].patterns) {
+                        for (const pattern of knowledgeBase[category].patterns) {
+                            if (lowerMessage.includes(pattern)) {
+                                matchedCategory = category;
+                                break;
+                            }
+                        }
+                        if (matchedCategory) break;
+                    }
                 }
             }
             
-            if ('ontouchstart' in window) {
-                document.body.classList.add('touch-device');
+            // Get response from matched category or default
+            if (matchedCategory && knowledgeBase[matchedCategory]) {
+                const responses = knowledgeBase[matchedCategory].responses;
+                response = responses[Math.floor(Math.random() * responses.length)];
+                if (knowledgeBase[matchedCategory].quickReplies) {
+                    quickReplies = knowledgeBase[matchedCategory].quickReplies;
+                }
+            } else {
+                const defaults = knowledgeBase.default.responses;
+                response = defaults[Math.floor(Math.random() * defaults.length)];
+                quickReplies = knowledgeBase.default.quickReplies;
+            }
+            
+            // Special handling for specific service aspects
+            if (lowerMessage.includes('google ad') || lowerMessage.includes('search ad')) {
+                response = knowledgeBase.googleAds.responses[0];
+                quickReplies = knowledgeBase.googleAds.quickReplies;
+            }
+            else if (lowerMessage.includes('social ad') || lowerMessage.includes('facebook ad') || lowerMessage.includes('instagram ad')) {
+                response = knowledgeBase.socialAds.responses[0];
+                quickReplies = knowledgeBase.socialAds.quickReplies;
+            }
+            else if (lowerMessage.includes('remarketing') || lowerMessage.includes('retargeting')) {
+                response = knowledgeBase.remarketing.responses[0];
+                quickReplies = knowledgeBase.remarketing.quickReplies;
+            }
+            else if (lowerMessage.includes('seo') || lowerMessage.includes('search engine')) {
+                response = knowledgeBase.seo.responses[0];
+                quickReplies = knowledgeBase.seo.quickReplies;
+            }
+            else if (lowerMessage.includes('content market') || lowerMessage.includes('blog')) {
+                response = knowledgeBase.contentMarketing.responses[0];
+                quickReplies = knowledgeBase.contentMarketing.quickReplies;
+            }
+            
+            addMessage(response, 'bot-message');
+            if (quickReplies.length > 0) {
+                addQuickReplies(quickReplies);
+            }
+        }, 800);
+    }
+    
+    // Send message on button click or enter key
+    chatSubmit.addEventListener('click', sendMessage);
+    chatInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage();
+        }
+    });
+    
+    // Mobile optimization
+    function optimizeForMobile() {
+        if (window.innerWidth <= 768 && typeof particlesJS !== 'undefined') {
+            pJS = particlesJS.get('particles-js');
+            if (pJS) {
+                pJS.particles.array = [];
+                pJS.particles.number.value = 30;
+                pJS.fn.particlesRefresh();
             }
         }
         
-        window.addEventListener('load', optimizeForMobile);
-        window.addEventListener('resize', optimizeForMobile);
-    </script>
+        if ('ontouchstart' in window) {
+            document.body.classList.add('touch-device');
+        }
+    }
+    
+    window.addEventListener('load', optimizeForMobile);
+    window.addEventListener('resize', optimizeForMobile);
+</script>
 </body>
 </html>
