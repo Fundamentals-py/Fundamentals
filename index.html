@@ -65,6 +65,7 @@
             color: var(--primary);
             display: flex;
             align-items: center;
+            text-decoration: none;
         }
         
         .logo-icon {
@@ -82,10 +83,26 @@
             color: var(--dark);
             font-weight: 500;
             transition: all 0.3s ease;
+            position: relative;
         }
         
         .nav-links a:hover {
             color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
         }
         
         .dropdown {
@@ -111,6 +128,7 @@
         .dropdown-content a {
             padding: 10px 20px;
             display: block;
+            text-decoration: none;
         }
         
         .mobile-menu {
@@ -128,16 +146,15 @@
             color: white;
             position: relative;
             overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
         }
         
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
+        .hero-content {
+            position: relative;
+            z-index: 2;
             width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
         }
         
         .hero h1 {
@@ -211,6 +228,95 @@
             background-color: #d946ef;
         }
         
+        /* Particle Background */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+        
+        /* Pricing Section */
+        .pricing-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(126, 34, 206, 0.1);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(126, 34, 206, 0.1);
+        }
+        
+        .pricing-card.popular {
+            border: 2px solid var(--primary);
+        }
+        
+        .popular-tag {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--gradient);
+            color: white;
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .pricing-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+        
+        .price span {
+            font-size: 16px;
+            font-weight: normal;
+            color: var(--gray);
+        }
+        
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .pricing-features li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .pricing-features li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+        }
+        
         /* Services Section */
         .section {
             padding: 100px 0;
@@ -228,6 +334,18 @@
             margin-bottom: 15px;
             position: relative;
             display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
         }
         
         .section-title p {
@@ -253,20 +371,51 @@
             z-index: 1;
         }
         
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: var(--gradient);
+            transition: height 0.3s ease;
+            z-index: -1;
+        }
+        
         .service-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 15px 30px rgba(126, 34, 206, 0.1);
+        }
+        
+        .service-card:hover::before {
+            height: 100%;
+        }
+        
+        .service-card:hover .service-icon {
+            color: white;
+        }
+        
+        .service-card:hover h3, 
+        .service-card:hover p {
+            color: white;
         }
         
         .service-icon {
             font-size: 40px;
             color: var(--primary);
             margin-bottom: 20px;
+            transition: all 0.3s ease;
         }
         
         .service-card h3 {
             font-size: 22px;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card p {
+            transition: all 0.3s ease;
         }
         
         /* Learning Hub */
@@ -282,6 +431,7 @@
             padding: 12px 25px;
             background: none;
             border: none;
+            border-bottom: 3px solid transparent;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -291,6 +441,7 @@
         .tab-btn.active {
             background: rgba(126, 34, 206, 0.1);
             color: var(--primary);
+            border-bottom: 3px solid var(--primary);
         }
         
         .tab-content {
@@ -356,12 +507,30 @@
             border-radius: 15px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
         }
         
         .about-img img {
             width: 100%;
             height: auto;
             display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .about-img:hover img {
+            transform: scale(1.05);
+        }
+        
+        .about-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient);
+            opacity: 0.1;
+            z-index: 1;
         }
         
         .mission-vision {
@@ -372,6 +541,20 @@
             font-size: 22px;
             margin-bottom: 15px;
             color: var(--primary);
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .mission-vision h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background: var(--gradient);
+            border-radius: 50%;
         }
         
         /* Contact Section */
@@ -385,6 +568,18 @@
             font-size: 24px;
             margin-bottom: 20px;
             color: var(--primary);
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .contact-info h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
         }
         
         .contact-details {
@@ -395,6 +590,14 @@
             display: flex;
             align-items: center;
             margin-bottom: 15px;
+            transition: all 0.3s ease;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        .contact-item:hover {
+            background: rgba(126, 34, 206, 0.05);
+            transform: translateX(5px);
         }
         
         .contact-icon {
@@ -407,6 +610,7 @@
             align-items: center;
             justify-content: center;
             margin-right: 15px;
+            flex-shrink: 0;
         }
         
         .contact-form input,
@@ -418,10 +622,214 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-form input:focus,
+        .contact-form textarea:focus,
+        .contact-form select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.1);
+            outline: none;
         }
         
         .contact-form textarea {
             height: 150px;
+            resize: vertical;
+        }
+        
+        /* Process Section */
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 50px;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            z-index: 1;
+        }
+        
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 23%;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 3px solid var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .process-step:hover .step-number {
+            background: var(--gradient);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .step-content h3 {
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        .tech-item {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(126, 34, 206, 0.1);
+        }
+        
+        .tech-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+        
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        
+        .testimonial-card::before {
+            content: '\201C';
+            font-family: Georgia, serif;
+            font-size: 60px;
+            color: rgba(126, 34, 206, 0.1);
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+        
+        .testimonial-content {
+            margin-bottom: 20px;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .author-info h4 {
+            margin: 0;
+            color: var(--primary);
+        }
+        
+        .author-info p {
+            margin: 5px 0 0;
+            font-size: 14px;
+            color: var(--gray);
+        }
+        
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .faq-question:hover {
+            color: var(--primary);
+        }
+        
+        .faq-question::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            transition: transform 0.3s ease;
+            color: var(--primary);
+        }
+        
+        .faq-item.active .faq-question::after {
+            transform: rotate(180deg);
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 20px 20px;
+            max-height: 500px;
         }
         
         /* Footer */
@@ -429,6 +837,17 @@
             background-color: var(--dark);
             color: white;
             padding: 60px 0 20px;
+            position: relative;
+        }
+        
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjAzKSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
         }
         
         .footer-content {
@@ -436,6 +855,8 @@
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 40px;
             margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
         }
         
         .footer-column h3 {
@@ -450,10 +871,12 @@
             margin-bottom: 10px;
             text-decoration: none;
             transition: all 0.3s ease;
+            padding: 5px 0;
         }
         
         .footer-links a:hover {
             color: white;
+            transform: translateX(5px);
         }
         
         .social-links {
@@ -471,6 +894,7 @@
             border-radius: 50%;
             color: white;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
         
         .social-links a:hover {
@@ -484,6 +908,8 @@
             border-top: 1px solid rgba(255,255,255,0.1);
             color: var(--gray);
             font-size: 14px;
+            position: relative;
+            z-index: 1;
         }
         
         /* Page Transition */
@@ -494,6 +920,188 @@
         
         .page.active {
             display: block;
+        }
+        
+        /* Chatbot */
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 999;
+        }
+        
+        .chatbot-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(126, 34, 206, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+        }
+        
+        .chatbot-btn:hover {
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 8px 25px rgba(126, 34, 206, 0.4);
+        }
+        
+        .chatbot-window {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-window.show {
+            display: flex;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .chatbot-header {
+            background: var(--gradient);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chatbot-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        
+        .chatbot-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+        
+        .chatbot-close:hover {
+            transform: rotate(90deg);
+        }
+        
+        .chatbot-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .message {
+            margin-bottom: 5px;
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .bot-message {
+            background: #f1f1f1;
+            border-top-left-radius: 5px;
+            align-self: flex-start;
+        }
+        
+        .user-message {
+            background: var(--primary);
+            color: white;
+            border-top-right-radius: 5px;
+            margin-left: auto;
+        }
+        
+        .quick-reply-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-top: 10px;
+        }
+        
+        .quick-reply-btn {
+            background: rgba(126, 34, 206, 0.1);
+            border: none;
+            border-radius: 15px;
+            padding: 5px 10px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-reply-btn:hover {
+            background: rgba(126, 34, 206, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .chatbot-input {
+            display: flex;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .chatbot-input input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-input input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.1);
+        }
+        
+        .chatbot-input button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            margin-left: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .chatbot-input button:hover {
+            background: var(--primary-dark);
+            transform: rotate(15deg);
+        }
+        
+        /* Pricing Options */
+        .pricing-option {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .pricing-option input[type="radio"] {
+            margin-right: 10px;
         }
         
         /* Animations */
@@ -513,6 +1121,12 @@
             }
         }
         
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .about-content,
@@ -523,6 +1137,25 @@
             .about-img {
                 max-width: 500px;
                 margin: 0 auto;
+                order: -1;
+            }
+            
+            .services-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 20px;
+            }
+            
+            .process-steps {
+                flex-wrap: wrap;
+            }
+            
+            .process-step {
+                width: 48%;
+                margin-bottom: 30px;
+            }
+            
+            .process-steps::before {
+                display: none;
             }
         }
         
@@ -570,6 +1203,31 @@
             .syllabus-level ul {
                 columns: 1;
             }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .service-card {
+                padding: 20px;
+            }
+            
+            .chatbot-window {
+                width: 300px;
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .process-step {
+                width: 100%;
+            }
+            
+            .chatbot-window {
+                width: 280px;
+                right: -20px;
+            }
         }
     </style>
 </head>
@@ -593,6 +1251,7 @@
                             <a href="#services" data-page="services">Custom Software</a>
                             <a href="#services" data-page="services">Web Development</a>
                             <a href="#services" data-page="services">Digital Marketing</a>
+                            <a href="#services" data-page="services">Paid Advertising</a>
                         </div>
                     </div>
                     <div class="dropdown">
@@ -609,17 +1268,22 @@
         </div>
     </header>
 
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
     <!-- Pages -->
     <div id="pages">
         <!-- Home Page -->
         <div class="page active" id="home-page">
             <!-- Hero Section -->
             <section class="hero">
-                <div class="container">
-                    <h1>Transform Your Digital Presence</h1>
-                    <p>We deliver cutting-edge software solutions and empower the next generation of developers through our comprehensive training programs.</p>
-                    <a href="#contact" class="btn" data-page="contact">Get a Free Consultation</a>
-                    <a href="#learning" class="btn btn-secondary" data-page="learning">Explore Our Courses</a>
+                <div class="hero-content">
+                    <div class="container">
+                        <h1>Transform Your Digital Presence</h1>
+                        <p>We deliver cutting-edge software solutions and empower the next generation of developers through our comprehensive training programs.</p>
+                        <a href="#contact" class="btn" data-page="contact">Get a Free Consultation</a>
+                        <a href="#learning" class="btn btn-secondary" data-page="learning">Explore Our Courses</a>
+                    </div>
                 </div>
             </section>
 
@@ -636,7 +1300,7 @@
                                 <i class="fas fa-code"></i>
                             </div>
                             <h3>Custom Software Development</h3>
-                            <p>Tailor-made applications designed to solve your specific business challenges and streamline operations.</p>
+                            <p>Tailor-made applications designed to solve your specific business challenges and streamline operations. We build solutions that grow with your business.</p>
                             <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
                         </div>
                         <div class="service-card">
@@ -644,7 +1308,7 @@
                                 <i class="fas fa-globe"></i>
                             </div>
                             <h3>Web Design & Development</h3>
-                            <p>Beautiful, responsive websites that don't just look good but drive conversions and business growth.</p>
+                            <p>Beautiful, responsive websites that don't just look good but drive conversions and business growth. Mobile-first designs that perform.</p>
                             <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
                         </div>
                         <div class="service-card">
@@ -652,15 +1316,153 @@
                                 <i class="fas fa-chart-line"></i>
                             </div>
                             <h3>Digital Marketing</h3>
-                            <p>End-to-end digital marketing strategies including SEO, content marketing, and social media management.</p>
+                            <p>End-to-end digital marketing strategies including SEO, content marketing, and social media management that deliver measurable results.</p>
                             <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Learning Hub Preview -->
+            <!-- Pricing Section -->
             <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Our Solutions</h2>
+                        <p>Tailored packages designed to meet your specific needs</p>
+                    </div>
+                    
+                    <div class="pricing-cards">
+                        <div class="pricing-card">
+                            <h3>Website Development</h3>
+                            <div class="price">Custom Pricing</div>
+                            <ul class="pricing-features">
+                                <li>Responsive Design</li>
+                                <li>Custom Page Count</li>
+                                <li>SEO Optimization</li>
+                                <li>Contact Form Integration</li>
+                                <li>Ongoing Support</li>
+                            </ul>
+                            <a href="#contact" class="btn" data-page="contact">Get Started</a>
+                        </div>
+                        
+                        <div class="pricing-card popular">
+                            <div class="popular-tag">Popular</div>
+                            <h3>Custom Software</h3>
+                            <div class="price">Tailored Solutions</div>
+                            <ul class="pricing-features">
+                                <li>Custom Application Development</li>
+                                <li>Database Integration</li>
+                                <li>User Authentication</li>
+                                <li>Admin Dashboard</li>
+                                <li>Extended Support</li>
+                            </ul>
+                            <a href="#contact" class="btn" data-page="contact">Get Started</a>
+                        </div>
+                        
+                        <div class="pricing-card">
+                            <h3>Digital Marketing</h3>
+                            <div class="price">Flexible Plans</div>
+                            <ul class="pricing-features">
+                                <li>SEO Optimization</li>
+                                <li>Social Media Management</li>
+                                <li>Content Creation</li>
+                                <li>Paid Ad Campaigns</li>
+                                <li>Monthly Analytics Report</li>
+                            </ul>
+                            <a href="#contact" class="btn" data-page="contact">Get Started</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Testimonials -->
+            <section class="section">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>What Our Clients Say</h2>
+                        <p>Hear from businesses and students who have worked with us</p>
+                    </div>
+                    
+                    <div class="testimonials">
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                "Fundamentals transformed our outdated website into a modern, high-performing platform that increased our leads by 120% in just three months."
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Rahul Sharma</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                "The Python course was comprehensive yet easy to follow. Within 2 months of completing it, I landed my first freelance project earning ₹8,000!"
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Priya Patel</h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="testimonial-card">
+                            <div class="testimonial-content">
+                                "Their custom inventory management system saved us 15 hours per week in manual work. The team was professional, responsive, and delivered ahead of schedule."
+                            </div>
+                            <div class="testimonial-author">
+                                <div class="author-info">
+                                    <h4>Vikram Joshi</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Our Process -->
+            <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Our Proven Process</h2>
+                        <p>How we ensure success for every project</p>
+                    </div>
+                    
+                    <div class="process-steps">
+                        <div class="process-step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h3>Discovery</h3>
+                                <p>We dive deep to understand your business goals, challenges, and technical requirements.</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h3>Planning</h3>
+                                <p>We create a detailed roadmap with milestones, deliverables, and success metrics.</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h3>Development</h3>
+                                <p>Our team builds your solution with agile methodology and regular progress updates.</p>
+                            </div>
+                        </div>
+                        <div class="process-step">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h3>Launch & Support</h3>
+                                <p>We deploy your solution and provide ongoing support to ensure long-term success.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Learning Hub Preview -->
+            <section class="section">
                 <div class="container">
                     <div class="section-title">
                         <h2>Learning Hub</h2>
@@ -673,7 +1475,7 @@
                                 <i class="fab fa-python"></i>
                             </div>
                             <h3>Python Programming</h3>
-                            <p>Master Python from basics to advanced concepts with our structured curriculum and hands-on projects.</p>
+                            <p>Master Python from basics to advanced concepts with our structured curriculum and hands-on projects. Perfect for beginners and intermediate learners.</p>
                             <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">View Syllabus</a>
                         </div>
                         <div class="service-card">
@@ -681,7 +1483,7 @@
                                 <i class="fas fa-layer-group"></i>
                             </div>
                             <h3>Full-Stack Development</h3>
-                            <p>Become a freelance-ready full-stack developer with our intensive 12-week program.</p>
+                            <p>Become a freelance-ready full-stack developer with our intensive 12-week program covering frontend and backend technologies.</p>
                             <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">View Syllabus</a>
                         </div>
                         <div class="service-card">
@@ -689,42 +1491,110 @@
                                 <i class="fas fa-briefcase"></i>
                             </div>
                             <h3>Freelance Support</h3>
-                            <p>Get your first paid project (₹3k-5k) after course completion with our guidance and mentorship.</p>
+                            <p>Get your first paid project (₹3k-5k) after course completion with our guidance and mentorship. We help you launch your freelance career.</p>
                             <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">Learn More</a>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Testimonials -->
+            <!-- FAQ Section -->
+            <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Frequently Asked Questions</h2>
+                        <p>Answers to common questions about our services and courses</p>
+                    </div>
+                    
+                    <div class="faq-container">
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How long does a typical website project take?
+                            </div>
+                            <div class="faq-answer">
+                                The timeline varies based on complexity, but most standard websites take 2-4 weeks from initial consultation to launch. More complex projects with custom functionality may take 6-8 weeks.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                Do I need any prior experience for your courses?
+                            </div>
+                            <div class="faq-answer">
+                                Our Python course is designed for absolute beginners, while our Full-Stack Development course assumes basic familiarity with HTML and CSS. We offer preparatory materials for students who need them.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                What ongoing support do you provide after project completion?
+                            </div>
+                            <div class="faq-answer">
+                                All our projects come with at least 1 month of free support. We offer various maintenance packages for ongoing needs, including updates, security monitoring, and performance optimization.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                How do you ensure the quality of your training programs?
+                            </div>
+                            <div class="faq-answer">
+                                Our curriculum is developed by industry professionals and updated quarterly. We maintain small class sizes, provide hands-on projects, and offer 1:1 mentorship sessions to ensure each student's success.
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="faq-question">
+                                What payment options do you accept?
+                            </div>
+                            <div class="faq-answer">
+                                We accept all major credit/debit cards, UPI payments, net banking, and PayPal. For courses, we offer installment plans to make payments more manageable.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tech Stack -->
             <section class="section">
                 <div class="container">
                     <div class="section-title">
-                        <h2>What Our Clients Say</h2>
-                        <p>Don't just take our word for it - hear from our satisfied clients and students</p>
+                        <h2>Our Technology Stack</h2>
+                        <p>We work with modern technologies to deliver cutting-edge solutions</p>
                     </div>
                     
-                    <div class="services-grid">
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-quote-left"></i>
-                            </div>
-                            <p>"Fundamentals built us a custom inventory management system that saved us 20 hours per week in manual work. Their attention to detail is unmatched."</p>
-                            <div style="margin-top: 20px; font-weight: 600;">- Rajesh Mehta, Retail Business Owner</div>
+                    <div class="tech-stack">
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="tech-icon" alt="Python">
+                            <span>Python</span>
                         </div>
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-quote-left"></i>
-                            </div>
-                            <p>"The Python course took me from complete beginner to landing my first developer job in just 6 months. The practical approach made all the difference."</p>
-                            <div style="margin-top: 20px; font-weight: 600;">- Priya Sharma, Junior Developer</div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="tech-icon" alt="JavaScript">
+                            <span>JavaScript</span>
                         </div>
-                        <div class="service-card">
-                            <div class="service-icon">
-                                <i class="fas fa-quote-left"></i>
-                            </div>
-                            <p>"Our website traffic increased by 300% after Fundamentals optimized our SEO and ran targeted ad campaigns. Their digital marketing expertise is top-notch."</p>
-                            <div style="margin-top: 20px; font-weight: 600;">- Amit Patel, Startup Founder</div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="tech-icon" alt="HTML5">
+                            <span>HTML5</span>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="tech-icon" alt="CSS3">
+                            <span>CSS3</span>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flask/flask-original.svg" class="tech-icon" alt="Flask">
+                            <span>Flask</span>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" class="tech-icon" alt="Node.js">
+                            <span>Node.js</span>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="tech-icon" alt="MySQL">
+                            <span>MySQL</span>
+                        </div>
+                        <div class="tech-item">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" class="tech-icon" alt="MongoDB">
+                            <span>MongoDB</span>
                         </div>
                     </div>
                 </div>
@@ -756,6 +1626,9 @@
                                 <li>Business process software</li>
                                 <li>Custom integrations</li>
                             </ul>
+                            <div style="margin-top: 20px;">
+                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                            </div>
                         </div>
                         <div class="service-card">
                             <div class="service-icon">
@@ -770,6 +1643,9 @@
                                 <li>CMS implementation</li>
                                 <li>Website maintenance</li>
                             </ul>
+                            <div style="margin-top: 20px;">
+                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                            </div>
                         </div>
                         <div class="service-card">
                             <div class="service-icon">
@@ -784,6 +1660,26 @@
                                 <li>Email marketing</li>
                                 <li>Conversion rate optimization</li>
                             </ul>
+                            <div style="margin-top: 20px;">
+                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                            </div>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-ad"></i>
+                            </div>
+                            <h3>Paid Advertising</h3>
+                            <p>Precision-targeted ad campaigns:</p>
+                            <ul style="margin-top: 15px; margin-left: 20px;">
+                                <li>Google Ads management</li>
+                                <li>Meta (Facebook/Instagram) Ads</li>
+                                <li>LinkedIn advertising</li>
+                                <li>Display advertising</li>
+                                <li>Remarketing campaigns</li>
+                            </ul>
+                            <div style="margin-top: 20px;">
+                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -848,7 +1744,7 @@
                     
                     <div class="tab-content active" id="python-tab">
                         <div class="syllabus-level">
-                            <h3><i class="fas fa-star"></i> Basic Level: Python Basics (4 Weeks)</h3>
+                            <h3><i class="fas fa-star"></i> Basic Level: Python Basics</h3>
                             <ul>
                                 <li>Introduction to Python</li>
                                 <li>Variables and Data Types</li>
@@ -866,7 +1762,7 @@
                         </div>
                         
                         <div class="syllabus-level">
-                            <h3><i class="fas fa-bolt"></i> Medium Level: Intermediate Python (6 Weeks)</h3>
+                            <h3><i class="fas fa-bolt"></i> Medium Level: Intermediate Python</h3>
                             <ul>
                                 <li>Modules and Packages</li>
                                 <li>File Handling (read/write)</li>
@@ -881,7 +1777,7 @@
                         </div>
                         
                         <div class="syllabus-level">
-                            <h3><i class="fas fa-rocket"></i> Advanced Python (8 Weeks)</h3>
+                            <h3><i class="fas fa-rocket"></i> Advanced Python</h3>
                             <ul>
                                 <li>Metaclasses</li>
                                 <li>Descriptors and the __get__ Protocol</li>
@@ -929,6 +1825,7 @@
                                     <li>Real client project experience</li>
                                     <li>Guidance through the entire process</li>
                                     <li>Portfolio review and optimization</li>
+                                    <li>Client communication coaching</li>
                                 </ul>
                             </div>
                         </div>
@@ -1000,6 +1897,39 @@
                     </div>
                 </div>
             </section>
+
+            <section class="section" style="background-color: #f9f0ff;">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Our Team</h2>
+                        <p>The talented professionals behind Fundamentals</p>
+                    </div>
+                    
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <h3>Experienced Developers</h3>
+                            <p>Our development team has 10+ years of experience building custom solutions across industries like healthcare, finance, e-commerce, and education.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-chalkboard-user"></i>
+                            </div>
+                            <h3>Skilled Instructors</h3>
+                            <p>Our instructors are active professionals who bring real-world experience into the classroom, ensuring students learn relevant, up-to-date skills.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <h3>Dedicated Support</h3>
+                            <p>From project managers to student success coordinators, our support team ensures smooth experiences for clients and students alike.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <!-- Contact Page -->
@@ -1032,7 +1962,7 @@
                                     </div>
                                     <div>
                                         <h4>Email</h4>
-                                        <p>info@fundamentals.com</p>
+                                        <p>fundamentals.official.py@gmail.com</p>
                                     </div>
                                 </div>
                                 <div class="contact-item">
@@ -1042,15 +1972,6 @@
                                     <div>
                                         <h4>WhatsApp</h4>
                                         <p>+91 8248992453</p>
-                                    </div>
-                                </div>
-                                <div class="contact-item">
-                                    <div class="contact-icon">
-                                        <i class="fab fa-instagram"></i>
-                                    </div>
-                                    <div>
-                                        <h4>Instagram</h4>
-                                        <p>@fundamentals_tech</p>
                                     </div>
                                 </div>
                             </div>
@@ -1063,19 +1984,20 @@
                         
                         <div class="contact-form">
                             <form id="inquiryForm">
-                                <input type="text" placeholder="Your Name" required>
-                                <input type="email" placeholder="Your Email" required>
-                                <input type="tel" placeholder="Your Phone">
-                                <select required>
+                                <input type="text" id="name" placeholder="Your Name" required>
+                                <input type="email" id="email" placeholder="Your Email" required>
+                                <input type="tel" id="phone" placeholder="Your Phone">
+                                <select id="interest" required>
                                     <option value="">I'm interested in...</option>
                                     <option value="software">Custom Software Development</option>
                                     <option value="web">Web Development</option>
                                     <option value="marketing">Digital Marketing</option>
+                                    <option value="ads">Paid Advertising</option>
                                     <option value="python">Python Course</option>
                                     <option value="fullstack">Full-Stack Course</option>
                                     <option value="other">Other</option>
                                 </select>
-                                <textarea placeholder="Your Message" required></textarea>
+                                <textarea id="message" placeholder="Your Message" required></textarea>
                                 <button type="submit" class="btn">Send Message</button>
                             </form>
                         </div>
@@ -1093,8 +2015,8 @@
                     <h3>Fundamentals</h3>
                     <p>Your partner in digital transformation and tech education. We build solutions that work and teach skills that matter.</p>
                     <div class="social-links" style="margin-top: 20px;">
+                        <a href="https://instagram.com/__.fundamentals.__" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="https://wa.me/918248992453" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                        <a href="https://instagram.com/fundamentals_tech" target="_blank"><i class="fab fa-instagram"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -1103,6 +2025,7 @@
                         <a href="#services" data-page="services">Custom Software</a>
                         <a href="#services" data-page="services">Web Development</a>
                         <a href="#services" data-page="services">Digital Marketing</a>
+                        <a href="#services" data-page="services">Paid Advertising</a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -1111,6 +2034,7 @@
                         <a href="#learning" data-page="learning">Python Programming</a>
                         <a href="#learning" data-page="learning">Full-Stack Development</a>
                         <a href="#learning" data-page="learning">Course Syllabus</a>
+                        <a href="#learning" data-page="learning">Student Projects</a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -1119,6 +2043,7 @@
                         <a href="#about" data-page="about">About Us</a>
                         <a href="#contact" data-page="contact">Contact</a>
                         <a href="#">Privacy Policy</a>
+                        <a href="#">Terms of Service</a>
                     </div>
                 </div>
             </div>
@@ -1128,6 +2053,39 @@
         </div>
     </footer>
 
+    <!-- Chatbot -->
+    <div class="chatbot-container">
+        <button class="chatbot-btn">
+            <i class="fas fa-robot"></i>
+        </button>
+        <div class="chatbot-window">
+            <div class="chatbot-header">
+                <h3>Fundamentals Assistant</h3>
+                <button class="chatbot-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chatbot-messages">
+                <div class="message bot-message">
+                    Hello! I'm your Fundamentals assistant. How can I help you today?
+                    <div class="quick-reply-container">
+                        <button class="quick-reply-btn" onclick="quickReply('Website development')">Website Development</button>
+                        <button class="quick-reply-btn" onclick="quickReply('Software pricing')">Software Pricing</button>
+                        <button class="quick-reply-btn" onclick="quickReply('Course details')">Course Details</button>
+                        <button class="quick-reply-btn" onclick="quickReply('Contact support')">Contact Support</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" placeholder="Type your message..." id="chatInput">
+                <button onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Particles.js -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
     <script>
         // Mobile Menu Toggle
         document.querySelector('.mobile-menu').addEventListener('click', function() {
@@ -1153,16 +2111,49 @@
             });
         });
         
-        // Form Submission
+        // FAQ Toggle
+        const faqItems = document.querySelectorAll('.faq-item');
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+            question.addEventListener('click', () => {
+                item.classList.toggle('active');
+            });
+        });
+        
+        // Form Submission with WhatsApp
         document.getElementById('inquiryForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const interest = document.getElementById('interest').value;
+            const message = document.getElementById('message').value;
+            
+            // Create WhatsApp message
+            const whatsappMessage = `New Inquiry from Fundamentals Website:
+            
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Interest: ${interest}
+Message: ${message}`;
+            
+            // Encode for WhatsApp URL
+            const encodedMessage = encodeURIComponent(whatsappMessage);
+            
+            // Open WhatsApp with the message
+            window.open(`https://wa.me/918248992453?text=${encodedMessage}`, '_blank');
+            
+            // Show confirmation
             alert('Thank you for your inquiry! We will contact you shortly.');
             this.reset();
         });
         
         // Page Switching
         const pages = document.querySelectorAll('.page');
-        const navLinks = document.querySelectorAll('[data-page]');
+        const navLinks = document.querySelectorAll('.nav-links a, .footer-links a, .btn[data-page]');
         
         function showPage(pageId) {
             pages.forEach(page => {
@@ -1205,6 +2196,314 @@
                 header.classList.add('scrolled');
             } else {
                 header.classList.remove('scrolled');
+            }
+        });
+        
+        // Initialize Particles.js with interactive settings
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle",
+                    "stroke": {
+                        "width": 0,
+                        "color": "#000000"
+                    },
+                    "polygon": {
+                        "nb_sides": 5
+                    }
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false,
+                    "anim": {
+                        "enable": false,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 3,
+                    "random": true,
+                    "anim": {
+                        "enable": false,
+                        "speed": 40,
+                        "size_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 3,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "bounce",
+                    "bounce": false,
+                    "attract": {
+                        "enable": false,
+                        "rotateX": 600,
+                        "rotateY": 1200
+                    }
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 140,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+        
+        // Chatbot functionality
+        const chatbotBtn = document.querySelector('.chatbot-btn');
+        const chatbotWindow = document.querySelector('.chatbot-window');
+        const chatbotClose = document.querySelector('.chatbot-close');
+        const chatInput = document.getElementById('chatInput');
+        const chatSubmit = document.querySelector('.chatbot-input button');
+        const chatMessages = document.querySelector('.chatbot-messages');
+        
+        // Toggle chatbot window
+        chatbotBtn.addEventListener('click', () => {
+            chatbotWindow.classList.toggle('show');
+        });
+        
+        // Close chatbot
+        chatbotClose.addEventListener('click', () => {
+            chatbotWindow.classList.remove('show');
+        });
+        
+        // Quick reply buttons
+        function quickReply(text) {
+            addMessage(text, 'user-message');
+            respondToMessage(text);
+        }
+        
+        // Send message
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (message) {
+                addMessage(message, 'user-message');
+                chatInput.value = '';
+                respondToMessage(message);
+            }
+        }
+        
+        // Add message to chat
+        function addMessage(text, className) {
+            const messageDiv = document.createElement('div');
+            messageDiv.classList.add('message', className);
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Add quick reply buttons
+        function addQuickReplies(replies) {
+            const container = document.createElement('div');
+            container.className = 'quick-reply-container';
+            
+            replies.forEach(reply => {
+                const btn = document.createElement('button');
+                btn.className = 'quick-reply-btn';
+                btn.textContent = reply;
+                btn.onclick = function() {
+                    quickReply(reply);
+                };
+                container.appendChild(btn);
+            });
+            
+            const lastMessage = chatMessages.lastChild;
+            lastMessage.appendChild(container);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        // Bot responses
+        function respondToMessage(message) {
+            setTimeout(() => {
+                const lowerMessage = message.toLowerCase();
+                
+                if (lowerMessage.includes('website') || lowerMessage.includes('web')) {
+                    addMessage("Our website development packages start at ₹5,000 for basic sites and go up based on complexity. Here are our typical packages:\n\n" +
+                               "1. Basic Website (5 pages): ₹5,000-₹10,000\n" +
+                               "2. E-commerce Site: ₹15,000-₹50,000\n" +
+                               "3. Custom Web Application: ₹25,000+\n\n" +
+                               "Would you like me to connect you with our web team for a custom quote?", 'bot-message');
+                    addQuickReplies(['Get a quote', 'View portfolio', 'Main features']);
+                } 
+                else if (lowerMessage.includes('software') || lowerMessage.includes('custom') || lowerMessage.includes('app')) {
+                    addMessage("Custom software development pricing depends on complexity and features. Here are our typical ranges:\n\n" +
+                               "1. Simple Business Tool: ₹10,000-₹25,000\n" +
+                               "2. Medium Complexity System: ₹25,000-₹75,000\n" +
+                               "3. Enterprise Solution: ₹75,000+\n\n" +
+                               "We offer free initial consultations to assess your needs and provide accurate estimates.", 'bot-message');
+                    addQuickReplies(['Schedule consultation', 'View case studies', 'Development timeline']);
+                }
+                else if (lowerMessage.includes('digital') || lowerMessage.includes('marketing') || lowerMessage.includes('seo')) {
+                    addMessage("Our digital marketing services are offered as monthly retainers:\n\n" +
+                               "1. Basic SEO Package: ₹10,000/month\n" +
+                               "2. Comprehensive Marketing: ₹20,000/month\n" +
+                               "3. Premium Growth Package: ₹35,000/month\n\n" +
+                               "All packages include monthly reporting and strategy adjustments.", 'bot-message');
+                    addQuickReplies(['See results', 'Package details', 'Get started']);
+                }
+                else if (lowerMessage.includes('course') || lowerMessage.includes('learn') || lowerMessage.includes('python') || lowerMessage.includes('fullstack')) {
+                    addMessage("Our course pricing and duration:\n\n" +
+                               "1. Python Programming (18 weeks)\n" +
+                               "2. Full-Stack Development (12 weeks)\n\n" +
+                               "We offer installment plans and discounts for early registration. Both courses include:\n" +
+                               "- Live instruction\n" +
+                               "- Hands-on projects\n" +
+                               "- Career support\n" +
+                               "- Freelance opportunities", 'bot-message');
+                    addQuickReplies(['Syllabus', 'Payment options', 'Upcoming batches']);
+                }
+                else if (lowerMessage.includes('contact') || lowerMessage.includes('support') || lowerMessage.includes('connect')) {
+                    addMessage("You can reach us through these channels:\n\n" +
+                               "📞 Phone: +91 8248992453\n" +
+                               "📧 Email: fundamentals.official.py@gmail.com\n" +
+                               "💬 WhatsApp: +91 8248992453\n\n" +
+                               "Our team is available Monday-Friday 9AM-6PM and Saturdays 10AM-4PM.", 'bot-message');
+                    
+                    // Create a clickable WhatsApp link
+                    const whatsappLink = document.createElement('a');
+                    whatsappLink.href = "https://wa.me/918248992453";
+                    whatsappLink.target = "_blank";
+                    whatsappLink.textContent = "Click here to chat with us on WhatsApp";
+                    whatsappLink.style.color = "var(--primary)";
+                    whatsappLink.style.textDecoration = "underline";
+                    whatsappLink.style.display = "block";
+                    whatsappLink.style.marginTop = "10px";
+                    
+                    const botMessage = document.createElement('div');
+                    botMessage.classList.add('message', 'bot-message');
+                    botMessage.textContent = "Would you like to connect with us now?";
+                    
+                    const quickReplies = document.createElement('div');
+                    quickReplies.className = 'quick-reply-container';
+                    
+                    const whatsappBtn = document.createElement('button');
+                    whatsappBtn.className = 'quick-reply-btn';
+                    whatsappBtn.textContent = 'Chat on WhatsApp';
+                    whatsappBtn.onclick = function() {
+                        window.open("https://wa.me/918248992453", "_blank");
+                    };
+                    
+                    const callBtn = document.createElement('button');
+                    callBtn.className = 'quick-reply-btn';
+                    callBtn.textContent = 'Call Us';
+                    callBtn.onclick = function() {
+                        window.location.href = "tel:+918248992453";
+                    };
+                    
+                    const emailBtn = document.createElement('button');
+                    emailBtn.className = 'quick-reply-btn';
+                    emailBtn.textContent = 'Send Email';
+                    emailBtn.onclick = function() {
+                        window.location.href = "mailto:fundamentals.official.py@gmail.com";
+                    };
+                    
+                    quickReplies.appendChild(whatsappBtn);
+                    quickReplies.appendChild(callBtn);
+                    quickReplies.appendChild(emailBtn);
+                    
+                    botMessage.appendChild(quickReplies);
+                    chatMessages.appendChild(botMessage);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+                else if (lowerMessage.includes('hi') || lowerMessage.includes('hello') || lowerMessage.includes('hey')) {
+                    addMessage("Hello there! How can I assist you today? Here are some quick options:", 'bot-message');
+                    addQuickReplies(['Services pricing', 'Course details', 'Contact support']);
+                }
+                else if (lowerMessage.includes('quote') || lowerMessage.includes('pricing') || lowerMessage.includes('cost')) {
+                    addMessage("Our pricing varies based on project requirements. Here's an overview:\n\n" +
+                              "1. Websites: ₹5,000-20,000+\n" +
+                              "2. Custom Software: ₹10,000-₹75,000+\n" +
+                              "3. Digital Marketing: ₹10,000-₹35,000/month\n" +
+                              "4. Courses: ₹15,000-₹20,000\n\n" +
+                              "For an accurate quote, we'd need to understand your specific needs.", 'bot-message');
+                    addQuickReplies(['Get a custom quote', 'See portfolio', 'Contact sales']);
+                }
+                else if (lowerMessage.includes('portfolio') || lowerMessage.includes('examples') || lowerMessage.includes('work')) {
+                    addMessage("Here are some examples of our work:\n\n" +
+                              "1. E-commerce platform for fashion retailer\n" +
+                              "2. Inventory management system for manufacturing\n" +
+                              "3. Student learning portal for online courses\n" +
+                              "4. Marketing website for healthcare startup\n\n" +
+                              "Would you like to see case studies for any particular industry?", 'bot-message');
+                    addQuickReplies(['Retail', 'Education', 'Healthcare', 'Manufacturing']);
+                }
+                else {
+                    const responses = [
+                        "I'd be happy to help with that! Could you provide more details about what you're looking for?",
+                        "Our team can assist you with this. Would you like me to connect you with the right person?",
+                        "That's a great question! Let me find the most accurate information for you.",
+                        "We offer several solutions for that. Would you like me to go into more detail about our offerings?",
+                        "Thanks for your message! Someone from our team will get back to you shortly with more information."
+                    ];
+                    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                    addMessage(randomResponse, 'bot-message');
+                    addQuickReplies(['Yes, please', 'More options', 'Contact me']);
+                }
+            }, 1000);
+        }
+        
+        // Send message on button click or enter key
+        chatSubmit.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
             }
         });
     </script>
