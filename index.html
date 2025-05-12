@@ -15,13 +15,18 @@
             --light: #f8fafc;
             --gray: #94a3b8;
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+            --shadow-xl: 0 20px 50px rgba(0,0,0,0.15);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
         
@@ -36,31 +41,33 @@
         
         .container {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
         
         /* Header */
         header {
             background-color: white;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-sm);
             position: fixed;
             width: 100%;
             z-index: 100;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             will-change: transform, box-shadow;
         }
         
         header.scrolled {
-            box-shadow: 0 5px 20px rgba(126, 34, 206, 0.1);
+            box-shadow: var(--shadow-lg);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
         }
         
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 15px 0;
+            padding: 16px 0;
         }
         
         .logo {
@@ -70,12 +77,22 @@
             display: flex;
             align-items: center;
             text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .logo:hover {
+            transform: translateY(-2px);
         }
         
         .logo-icon {
             margin-right: 8px;
             color: var(--secondary);
             font-size: clamp(18px, 4vw, 24px);
+            transition: var(--transition);
+        }
+        
+        .logo:hover .logo-icon {
+            transform: rotate(15deg);
         }
         
         .nav-links {
@@ -87,24 +104,26 @@
             text-decoration: none;
             color: var(--dark);
             font-weight: 500;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             position: relative;
             font-size: clamp(14px, 3vw, 16px);
+            padding: 8px 0;
         }
         
         .nav-links a:hover {
             color: var(--primary);
+            transform: translateY(-2px);
         }
         
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
             width: 0;
             height: 2px;
             background-color: var(--primary);
-            transition: width 0.3s ease;
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
         .nav-links a:hover::after {
@@ -120,21 +139,33 @@
             position: absolute;
             background-color: white;
             min-width: 200px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-            border-radius: 5px;
+            box-shadow: var(--shadow-xl);
+            border-radius: 8px;
             z-index: 1;
-            padding: 10px 0;
+            padding: 8px 0;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: var(--transition);
         }
         
         .dropdown:hover .dropdown-content {
             display: block;
-            animation: fadeIn 0.3s ease;
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .dropdown-content a {
             padding: 10px 20px;
             display: block;
             text-decoration: none;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+        
+        .dropdown-content a:hover {
+            background-color: rgba(126, 34, 206, 0.05);
+            color: var(--primary);
+            transform: translateX(5px);
         }
         
         .mobile-menu {
@@ -144,11 +175,16 @@
             color: var(--primary);
             background: none;
             border: none;
+            transition: var(--transition);
+        }
+        
+        .mobile-menu:hover {
+            transform: rotate(90deg);
         }
         
         /* Hero Section */
         .hero {
-            padding: 150px 0 80px;
+            padding: 160px 0 80px;
             background: var(--gradient);
             text-align: center;
             color: white;
@@ -166,31 +202,36 @@
         }
         
         .hero h1 {
-            font-size: clamp(32px, 6vw, 48px);
-            margin-bottom: 20px;
+            font-size: clamp(36px, 6vw, 56px);
+            margin-bottom: 24px;
             position: relative;
             animation: fadeInUp 1s ease;
+            line-height: 1.2;
+            font-weight: 800;
         }
         
         .hero p {
-            font-size: clamp(16px, 3vw, 20px);
+            font-size: clamp(16px, 3vw, 22px);
             max-width: 800px;
-            margin: 0 auto 30px;
+            margin: 0 auto 40px;
             position: relative;
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
             padding: 0 15px;
+            font-weight: 300;
         }
         
         .btn {
-            display: inline-block;
-            padding: 12px 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
             background-color: white;
             color: var(--primary);
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             border: none;
             cursor: pointer;
             position: relative;
@@ -200,6 +241,7 @@
             opacity: 0;
             font-size: clamp(14px, 3vw, 16px);
             will-change: transform;
+            box-shadow: var(--shadow-md);
         }
         
         .btn::before {
@@ -207,27 +249,39 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 0;
+            width: 100%;
             height: 100%;
-            background: var(--primary);
+            background: var(--gradient);
             z-index: -1;
-            transition: width 0.3s ease;
+            transition: var(--transition);
+            transform: scaleX(0);
+            transform-origin: right;
         }
         
         .btn:hover {
             color: white;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
         
         .btn:hover::before {
-            width: 100%;
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+        
+        .btn i {
+            margin-left: 8px;
+            transition: var(--transition);
+        }
+        
+        .btn:hover i {
+            transform: translateX(3px);
         }
         
         .btn-secondary {
             background-color: var(--secondary);
             color: white;
-            margin-left: 15px;
+            margin-left: 16px;
         }
         
         .btn-secondary:hover {
@@ -253,17 +307,17 @@
         /* Pricing Section */
         .pricing-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 48px;
         }
         
         .pricing-card {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
             border: 1px solid rgba(126, 34, 206, 0.1);
@@ -271,12 +325,18 @@
         }
         
         .pricing-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(126, 34, 206, 0.1);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
+            border-color: rgba(126, 34, 206, 0.3);
         }
         
         .pricing-card.popular {
             border: 2px solid var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        .pricing-card.popular:hover {
+            transform: translateY(-15px) scale(1.02);
         }
         
         .popular-tag {
@@ -289,37 +349,57 @@
             transform: rotate(45deg);
             font-size: 12px;
             font-weight: 600;
+            box-shadow: var(--shadow-sm);
         }
         
         .pricing-card h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
+            font-size: 22px;
+            margin-bottom: 16px;
             color: var(--primary);
         }
         
         .price {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 15px;
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 20px;
             color: var(--dark);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .price::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 3px;
         }
         
         .price span {
-            font-size: 14px;
+            font-size: 16px;
             font-weight: normal;
             color: var(--gray);
         }
         
         .pricing-features {
             list-style: none;
-            margin-bottom: 25px;
+            margin-bottom: 32px;
         }
         
         .pricing-features li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             position: relative;
-            padding-left: 22px;
-            font-size: 14px;
+            padding-left: 28px;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+        
+        .pricing-features li:hover {
+            color: var(--primary);
+            transform: translateX(5px);
         }
         
         .pricing-features li::before {
@@ -329,64 +409,82 @@
             position: absolute;
             left: 0;
             color: var(--secondary);
-            font-size: 12px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .pricing-features li:hover::before {
+            transform: scale(1.2);
         }
         
         /* Services Section */
         .section {
-            padding: 80px 0;
+            padding: 100px 0;
             position: relative;
         }
         
         .section-title {
             text-align: center;
-            margin-bottom: 50px;
+            margin-bottom: 60px;
         }
         
         .section-title h2 {
-            font-size: clamp(28px, 5vw, 36px);
+            text-align: center;
+            font-size: clamp(32px, 5vw, 42px);
             color: var(--dark);
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             position: relative;
             display: inline-block;
+            font-weight: 800;
         }
         
         .section-title h2::after {
             content: '';
             position: absolute;
-            bottom: -8px;
+            bottom: -12px;
             left: 50%;
             transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
+            width: 80px;
+            height: 4px;
             background: var(--gradient);
-            border-radius: 3px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .section-title:hover h2::after {
+            width: 120px;
         }
         
         .section-title p {
             color: var(--gray);
             max-width: 700px;
             margin: 0 auto;
-            font-size: clamp(14px, 3vw, 16px);
+            font-size: clamp(14px, 3vw, 18px);
             padding: 0 15px;
         }
         
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
         
         .service-card {
             background-color: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
             position: relative;
             overflow: hidden;
             z-index: 1;
             will-change: transform;
+            border: 1px solid rgba(126, 34, 206, 0.05);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-xl);
         }
         
         .service-card::before {
@@ -397,21 +495,18 @@
             width: 100%;
             height: 5px;
             background: var(--gradient);
-            transition: height 0.3s ease;
+            transition: var(--transition);
             z-index: -1;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 25px rgba(126, 34, 206, 0.1);
         }
         
         .service-card:hover::before {
             height: 100%;
+            opacity: 0.9;
         }
         
         .service-card:hover .service-icon {
             color: white;
+            transform: translateY(-5px) rotate(10deg);
         }
         
         .service-card:hover h3, 
@@ -420,48 +515,86 @@
         }
         
         .service-icon {
-            font-size: 36px;
+            font-size: 48px;
             color: var(--primary);
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
+            margin-bottom: 24px;
+            transition: var(--transition);
         }
         
         .service-card h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
+            font-size: 22px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .service-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .service-card:hover h3::after {
+            width: 80px;
+            background: white;
         }
         
         .service-card p {
-            transition: all 0.3s ease;
-            font-size: 14px;
+            transition: var(--transition);
+            font-size: 16px;
+            margin-bottom: 24px;
         }
         
         /* Learning Hub */
         .learning-tabs {
             display: flex;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             flex-wrap: wrap;
-            gap: 8px;
+            gap: 12px;
         }
         
         .tab-btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             background: none;
             border: none;
             border-bottom: 3px solid transparent;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 5px;
-            font-size: 14px;
+            transition: var(--transition);
+            border-radius: 8px;
+            font-size: 16px;
+            position: relative;
+        }
+        
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--primary);
+            transition: var(--transition);
         }
         
         .tab-btn.active {
             background: rgba(126, 34, 206, 0.1);
             color: var(--primary);
-            border-bottom: 3px solid var(--primary);
+        }
+        
+        .tab-btn.active::after {
+            width: 100%;
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: rgba(126, 34, 206, 0.05);
         }
         
         .tab-content {
@@ -475,37 +608,54 @@
         
         .syllabus-level {
             background-color: white;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
             border-left: 5px solid var(--primary);
+            transition: var(--transition);
+        }
+        
+        .syllabus-level:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
         
         .syllabus-level h3 {
             color: var(--primary);
-            margin-bottom: 15px;
-            font-size: 20px;
+            margin-bottom: 20px;
+            font-size: 22px;
             display: flex;
             align-items: center;
         }
         
         .syllabus-level h3 i {
-            margin-right: 8px;
-            font-size: 18px;
+            margin-right: 12px;
+            font-size: 20px;
+            transition: var(--transition);
+        }
+        
+        .syllabus-level:hover h3 i {
+            transform: rotate(15deg);
         }
         
         .syllabus-level ul {
             columns: 2;
             list-style-type: none;
-            font-size: 14px;
+            font-size: 16px;
         }
         
         .syllabus-level li {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             position: relative;
-            padding-left: 22px;
+            padding-left: 28px;
             break-inside: avoid;
+            transition: var(--transition);
+        }
+        
+        .syllabus-level li:hover {
+            color: var(--primary);
+            transform: translateX(5px);
         }
         
         .syllabus-level li::before {
@@ -515,31 +665,42 @@
             position: absolute;
             left: 0;
             color: var(--secondary);
-            font-size: 12px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .syllabus-level li:hover::before {
+            transform: scale(1.2);
         }
         
         /* About Section */
         .about-content {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 48px;
             align-items: center;
         }
         
         .about-img {
-            border-radius: 12px;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: var(--shadow-xl);
             position: relative;
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
+            transition: var(--transition);
+        }
+        
+        .about-img:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(126, 34, 206, 0.2);
         }
         
         .about-img img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.5s ease;
+            transition: transform 0.8s ease;
         }
         
         .about-img:hover img {
@@ -559,15 +720,15 @@
         }
         
         .mission-vision {
-            margin-top: 30px;
+            margin-top: 40px;
         }
         
         .mission-vision h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
+            font-size: 22px;
+            margin-bottom: 16px;
             color: var(--primary);
             position: relative;
-            padding-left: 18px;
+            padding-left: 24px;
         }
         
         .mission-vision h3::before {
@@ -576,25 +737,30 @@
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
             background: var(--gradient);
             border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .mission-vision h3:hover::before {
+            transform: translateY(-50%) scale(1.2);
         }
         
         /* Contact Section */
         .contact-container {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 40px;
+            gap: 48px;
         }
         
         .contact-info h3 {
-            font-size: 22px;
-            margin-bottom: 15px;
+            font-size: 24px;
+            margin-bottom: 20px;
             color: var(--primary);
             position: relative;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
         }
         
         .contact-info h3::after {
@@ -602,53 +768,64 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 40px;
+            width: 50px;
             height: 3px;
             background: var(--gradient);
+            transition: var(--transition);
+        }
+        
+        .contact-info h3:hover::after {
+            width: 80px;
         }
         
         .contact-details {
-            margin-bottom: 25px;
+            margin-bottom: 32px;
         }
         
         .contact-item {
             display: flex;
             align-items: center;
-            margin-bottom: 12px;
-            transition: all 0.3s ease;
-            padding: 8px;
-            border-radius: 5px;
+            margin-bottom: 16px;
+            transition: var(--transition);
+            padding: 12px;
+            border-radius: 8px;
         }
         
         .contact-item:hover {
             background: rgba(126, 34, 206, 0.05);
-            transform: translateX(5px);
+            transform: translateX(8px);
+            box-shadow: var(--shadow-sm);
         }
         
         .contact-icon {
-            width: 36px;
-            height: 36px;
+            width: 48px;
+            height: 48px;
             background: var(--gradient);
             color: white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
+            margin-right: 16px;
             flex-shrink: 0;
-            font-size: 14px;
+            font-size: 18px;
+            transition: var(--transition);
+        }
+        
+        .contact-item:hover .contact-icon {
+            transform: rotate(15deg) scale(1.1);
         }
         
         .contact-form input,
         .contact-form textarea,
         .contact-form select {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 16px;
+            margin-bottom: 20px;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
         }
         
         .contact-form input:focus,
@@ -657,10 +834,11 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(126, 34, 206, 0.1);
             outline: none;
+            transform: translateY(-2px);
         }
         
         .contact-form textarea {
-            height: 120px;
+            height: 150px;
             resize: vertical;
         }
         
@@ -669,8 +847,9 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            margin-top: 40px;
+            gap: 24px;
+            margin-top: 60px;
+            position: relative;
         }
         
         .process-steps::before {
@@ -683,38 +862,63 @@
             z-index: 2;
             width: 100%;
             max-width: 280px;
+            transition: var(--transition);
+        }
+        
+        .process-step:hover {
+            transform: translateY(-10px);
         }
         
         .step-number {
-            width: 50px;
-            height: 50px;
+            width: 60px;
+            height: 60px;
             background: white;
             border: 3px solid var(--primary);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 20px;
+            margin: 0 auto 20px;
+            font-size: 24px;
             font-weight: bold;
             color: var(--primary);
-            transition: all 0.3s ease;
+            transition: var(--transition);
+            box-shadow: var(--shadow-md);
         }
         
         .process-step:hover .step-number {
             background: var(--gradient);
             color: white;
-            transform: scale(1.1);
+            transform: scale(1.1) rotate(15deg);
+            border-color: white;
         }
         
         .step-content h3 {
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             color: var(--primary);
-            font-size: 18px;
+            font-size: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .step-content h3::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: var(--secondary);
+            transition: var(--transition);
+        }
+        
+        .process-step:hover .step-content h3::after {
+            width: 80px;
         }
         
         .step-content p {
-            font-size: 14px;
+            font-size: 16px;
         }
         
         /* Tech Stack */
@@ -722,65 +926,81 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin-top: 30px;
+            gap: 16px;
+            margin-top: 40px;
         }
         
         .tech-item {
             background: white;
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 50px;
             display: flex;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-            font-size: 14px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            font-size: 16px;
+            border: 1px solid rgba(126, 34, 206, 0.1);
         }
         
         .tech-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(126, 34, 206, 0.1);
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: var(--shadow-lg);
+            border-color: rgba(126, 34, 206, 0.3);
+            color: var(--primary);
         }
         
         .tech-icon {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
             object-fit: contain;
+            transition: var(--transition);
+        }
+        
+        .tech-item:hover .tech-icon {
+            transform: rotate(15deg) scale(1.2);
         }
         
         /* Testimonials */
         .testimonials {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-top: 60px;
         }
         
         .testimonial-card {
             background: white;
-            border-radius: 12px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: var(--shadow-md);
             position: relative;
+            transition: var(--transition);
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-xl);
         }
         
         .testimonial-card::before {
             content: '\201C';
             font-family: Georgia, serif;
-            font-size: 50px;
+            font-size: 80px;
             color: rgba(126, 34, 206, 0.1);
             position: absolute;
-            top: 10px;
-            left: 10px;
+            top: 20px;
+            left: 20px;
+            line-height: 1;
+            z-index: 0;
         }
         
         .testimonial-content {
-            margin-bottom: 15px;
+            margin-bottom: 24px;
             font-style: italic;
             position: relative;
             z-index: 1;
-            font-size: 14px;
+            font-size: 16px;
         }
         
         .testimonial-author {
@@ -789,22 +1009,29 @@
         }
         
         .author-avatar {
-            width: 45px;
-            height: 45px;
+            width: 56px;
+            height: 56px;
             border-radius: 50%;
-            margin-right: 12px;
+            margin-right: 16px;
             object-fit: cover;
+            border: 3px solid var(--primary-light);
+            transition: var(--transition);
+        }
+        
+        .testimonial-card:hover .author-avatar {
+            transform: scale(1.1);
+            border-color: var(--secondary);
         }
         
         .author-info h4 {
             margin: 0;
             color: var(--primary);
-            font-size: 16px;
+            font-size: 18px;
         }
         
         .author-info p {
-            margin: 3px 0 0;
-            font-size: 13px;
+            margin: 4px 0 0;
+            font-size: 14px;
             color: var(--gray);
         }
         
@@ -816,22 +1043,27 @@
         
         .faq-item {
             background: white;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            border-radius: 12px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-md);
             overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .faq-item:hover {
+            box-shadow: var(--shadow-lg);
         }
         
         .faq-question {
-            padding: 15px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             cursor: pointer;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             position: relative;
-            font-size: 15px;
+            font-size: 18px;
         }
         
         .faq-question:hover {
@@ -842,9 +1074,9 @@
             content: '\f078';
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
-            transition: transform 0.3s ease;
+            transition: var(--transition);
             color: var(--primary);
-            font-size: 14px;
+            font-size: 16px;
         }
         
         .faq-item.active .faq-question::after {
@@ -852,15 +1084,15 @@
         }
         
         .faq-answer {
-            padding: 0 15px;
+            padding: 0 20px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-            font-size: 14px;
+            transition: var(--transition);
+            font-size: 16px;
         }
         
         .faq-item.active .faq-answer {
-            padding: 0 15px 15px;
+            padding: 0 20px 20px;
             max-height: 500px;
         }
         
@@ -868,7 +1100,7 @@
         footer {
             background-color: var(--dark);
             color: white;
-            padding: 50px 0 20px;
+            padding: 80px 0 30px;
             position: relative;
         }
         
@@ -884,65 +1116,82 @@
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 30px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
             position: relative;
             z-index: 1;
         }
         
         .footer-column h3 {
-            font-size: 18px;
-            margin-bottom: 15px;
+            font-size: 20px;
+            margin-bottom: 20px;
             color: var(--secondary);
+            position: relative;
+            padding-bottom: 12px;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--gradient);
+            transition: var(--transition);
+        }
+        
+        .footer-column:hover h3::after {
+            width: 80px;
         }
         
         .footer-links a {
             display: block;
             color: var(--gray);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 4px 0;
-            font-size: 14px;
+            transition: var(--transition);
+            padding: 6px 0;
+            font-size: 16px;
         }
         
         .footer-links a:hover {
             color: white;
-            transform: translateX(5px);
+            transform: translateX(8px);
         }
         
         .social-links {
             display: flex;
-            gap: 12px;
-            margin-top: 15px;
+            gap: 16px;
+            margin-top: 24px;
         }
         
         .social-links a {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 36px;
+            width: 44px;
+            height: 44px;
             background-color: rgba(255,255,255,0.1);
             border-radius: 50%;
             color: white;
-            transition: all 0.3s ease;
+            transition: var(--transition);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 18px;
         }
         
         .social-links a:hover {
             background: var(--gradient);
-            transform: translateY(-3px);
+            transform: translateY(-5px) rotate(10deg);
         }
         
         .copyright {
             text-align: center;
-            padding-top: 20px;
+            padding-top: 30px;
             border-top: 1px solid rgba(255,255,255,0.1);
             color: var(--gray);
-            font-size: 13px;
+            font-size: 14px;
             position: relative;
             z-index: 1;
         }
@@ -960,48 +1209,50 @@
         /* Chatbot */
         .chatbot-container {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 999;
         }
         
         .chatbot-btn {
-            width: 50px;
-            height: 50px;
+            width: 70px;
+            height: 70px;
             background: var(--gradient);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 28px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(126, 34, 206, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(126, 34, 206, 0.3);
+            transition: var(--transition);
             border: none;
             will-change: transform;
         }
         
         .chatbot-btn:hover {
-            transform: scale(1.1) rotate(10deg);
-            box-shadow: 0 8px 20px rgba(126, 34, 206, 0.4);
+            transform: scale(1.1) rotate(15deg);
+            box-shadow: 0 15px 30px rgba(126, 34, 206, 0.4);
         }
         
         .chatbot-window {
             position: absolute;
-            bottom: 65px;
+            bottom: 85px;
             right: 0;
-            width: 300px;
-            height: 400px;
+            width: 380px;
+            max-width: 90vw;
+            height: 500px;
+            max-height: 70vh;
             background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
             overflow: hidden;
             display: none;
             flex-direction: column;
             transform: translateY(20px);
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: var(--transition);
         }
         
         .chatbot-window.show {
@@ -1013,7 +1264,7 @@
         .chatbot-header {
             background: var(--gradient);
             color: white;
-            padding: 12px;
+            padding: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1021,16 +1272,16 @@
         
         .chatbot-header h3 {
             margin: 0;
-            font-size: 16px;
+            font-size: 18px;
         }
         
         .chatbot-close {
             background: none;
             border: none;
             color: white;
-            font-size: 18px;
+            font-size: 20px;
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: var(--transition);
         }
         
         .chatbot-close:hover {
@@ -1039,19 +1290,19 @@
         
         .chatbot-messages {
             flex: 1;
-            padding: 12px;
+            padding: 20px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
         }
         
         .message {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             max-width: 80%;
-            padding: 8px 12px;
+            padding: 12px 16px;
             border-radius: 12px;
-            font-size: 13px;
+            font-size: 15px;
             line-height: 1.4;
             word-wrap: break-word;
             animation: fadeIn 0.3s ease;
@@ -1073,39 +1324,40 @@
         .quick-reply-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 8px;
+            gap: 10px;
+            margin-top: 12px;
         }
         
         .quick-reply-btn {
             background: rgba(126, 34, 206, 0.1);
             border: none;
-            border-radius: 12px;
-            padding: 4px 8px;
-            font-size: 11px;
+            border-radius: 18px;
+            padding: 8px 16px;
+            font-size: 13px;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
         
         .quick-reply-btn:hover {
             background: rgba(126, 34, 206, 0.2);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
         
         .chatbot-input {
             display: flex;
-            padding: 8px;
+            padding: 12px;
             border-top: 1px solid #eee;
+            background: #f9f9f9;
         }
         
         .chatbot-input input {
             flex: 1;
-            padding: 8px;
+            padding: 12px 16px;
             border: 1px solid #ddd;
-            border-radius: 20px;
+            border-radius: 25px;
             outline: none;
-            transition: all 0.3s ease;
-            font-size: 13px;
+            transition: var(--transition);
+            font-size: 15px;
         }
         
         .chatbot-input input:focus {
@@ -1119,17 +1371,17 @@
             color: white;
             border: none;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
-            margin-left: 8px;
+            width: 48px;
+            height: 48px;
+            margin-left: 12px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 14px;
+            transition: var(--transition);
+            font-size: 18px;
         }
         
         .chatbot-input button:hover {
             background: var(--primary-dark);
-            transform: rotate(15deg);
+            transform: rotate(15deg) scale(1.1);
         }
         
         /* Animations */
@@ -1149,6 +1401,148 @@
             }
         }
         
+        /* Loading animation */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .loading-dots {
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .loading-dots span {
+            width: 8px;
+            height: 8px;
+            margin: 0 2px;
+            background-color: currentColor;
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulse 1.4s infinite ease-in-out;
+        }
+        
+        .loading-dots span:nth-child(1) {
+            animation-delay: 0s;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        /* Mobile-specific animations */
+        @media (max-width: 768px) {
+            /* Slide-in animation for mobile menu */
+            .nav-links {
+                transition: transform 0.4s ease, opacity 0.4s ease;
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            
+            .nav-links.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            /* Card animations */
+            .service-card, .pricing-card, .testimonial-card {
+                transform: translateY(30px);
+                opacity: 0;
+                transition: transform 0.6s ease, opacity 0.6s ease;
+            }
+            
+            .service-card.animate, 
+            .pricing-card.animate, 
+            .testimonial-card.animate {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            /* Section title animation */
+            .section-title h2 {
+                transform: translateY(20px);
+                opacity: 0;
+                transition: transform 0.6s ease, opacity 0.6s ease;
+            }
+            
+            .section-title.animate h2 {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            /* Hero text animation */
+            .hero h1, .hero p, .btn-container {
+                transition: transform 0.6s ease, opacity 0.6s ease;
+            }
+            
+            /* Process step animation */
+            .process-step {
+                transform: translateY(30px);
+                opacity: 0;
+                transition: transform 0.6s ease, opacity 0.6s ease;
+            }
+            
+            .process-step.animate {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            /* Tech stack item animation */
+            .tech-item {
+                transform: scale(0.9);
+                opacity: 0;
+                transition: transform 0.4s ease, opacity 0.4s ease;
+            }
+            
+            .tech-item.animate {
+                transform: scale(1);
+                opacity: 1;
+            }
+            
+            /* FAQ item animation */
+            .faq-item {
+                transform: translateX(-20px);
+                opacity: 0;
+                transition: transform 0.4s ease, opacity 0.4s ease;
+            }
+            
+            .faq-item.animate {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            
+            /* Chatbot adjustments */
+            .chatbot-btn {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .chatbot-window {
+                bottom: 75px;
+                right: 15px;
+                width: calc(100% - 30px);
+                max-width: none;
+                height: 450px;
+                max-height: 65vh;
+            }
+            
+            .message {
+                max-width: 85%;
+                padding: 10px 14px;
+                font-size: 14px;
+            }
+            
+            .quick-reply-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
+        }
+        
         /* Responsive */
         @media (min-width: 768px) {
             .hero {
@@ -1156,7 +1550,7 @@
             }
             
             .nav-links {
-                gap: 25px;
+                gap: 28px;
             }
             
             .about-content {
@@ -1200,27 +1594,22 @@
         
         @media (min-width: 992px) {
             .container {
-                padding: 0 30px;
+                padding: 0 40px;
             }
             
             .pricing-cards {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 25px;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 32px;
             }
             
             .services-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 25px;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 32px;
             }
             
             .testimonials {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 25px;
-            }
-            
-            .chatbot-window {
-                width: 350px;
-                height: 450px;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 32px;
             }
         }
         
@@ -1229,25 +1618,24 @@
             .nav-links {
                 display: none;
                 position: fixed;
-                top: 70px;
+                top: 80px;
                 left: 0;
                 width: 100%;
                 background-color: white;
                 flex-direction: column;
                 align-items: center;
-                padding: 15px 0;
-                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-                max-height: calc(100vh - 70px);
+                padding: 20px 0;
+                box-shadow: var(--shadow-lg);
+                max-height: calc(100vh - 80px);
                 overflow-y: auto;
             }
             
             .nav-links.show {
                 display: flex;
-                animation: fadeIn 0.3s ease;
             }
             
             .nav-links a {
-                padding: 10px;
+                padding: 12px;
             }
             
             .dropdown-content {
@@ -1256,6 +1644,7 @@
                 display: none;
                 width: 100%;
                 text-align: center;
+                padding: 0;
             }
             
             .dropdown:hover .dropdown-content {
@@ -1264,7 +1653,8 @@
             
             .dropdown.active .dropdown-content {
                 display: block;
-                animation: fadeIn 0.3s ease;
+                opacity: 1;
+                transform: translateY(0);
             }
             
             .mobile-menu {
@@ -1273,7 +1663,7 @@
             
             .btn {
                 width: 100%;
-                margin-bottom: 12px;
+                margin-bottom: 16px;
             }
             
             .btn-secondary {
@@ -1285,7 +1675,15 @@
             }
             
             .process-step {
-                margin-bottom: 25px;
+                margin-bottom: 32px;
+            }
+            
+            .section {
+                padding: 70px 0;
+            }
+            
+            .section-title {
+                margin-bottom: 40px;
             }
         }
         
@@ -1300,16 +1698,21 @@
             }
             
             .section-title {
-                margin-bottom: 40px;
+                margin-bottom: 30px;
             }
             
             .footer-content {
                 grid-template-columns: 1fr;
-                gap: 25px;
+                gap: 30px;
             }
             
             .footer-column {
                 text-align: center;
+            }
+            
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
             }
             
             .social-links {
@@ -1320,9 +1723,20 @@
                 text-align: center;
             }
             
+            .footer-links a:hover {
+                transform: none;
+            }
+            
+            .chatbot-btn {
+                width: 56px;
+                height: 56px;
+                font-size: 22px;
+            }
+            
             .chatbot-window {
-                width: 280px;
-                right: -10px;
+                bottom: 70px;
+                right: 10px;
+                width: calc(100% - 20px);
             }
         }
     </style>
@@ -1377,9 +1791,9 @@
                     <div class="container">
                         <h1>Transform Your Digital Presence</h1>
                         <p>We deliver cutting-edge software solutions and empower the next generation of developers through our comprehensive training programs.</p>
-                        <div class="btn-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-                            <a href="#contact" class="btn" data-page="contact">Get a Free Consultation</a>
-                            <a href="#learning" class="btn btn-secondary" data-page="learning">Explore Our Courses</a>
+                        <div class="btn-container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;">
+                            <a href="#contact" class="btn" data-page="contact">Get a Free Consultation <i class="fas fa-arrow-right"></i></a>
+                            <a href="#learning" class="btn btn-secondary" data-page="learning">Explore Our Courses <i class="fas fa-book-open"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1399,7 +1813,7 @@
                             </div>
                             <h3>Custom Software Development</h3>
                             <p>Tailor-made applications designed to solve your specific business challenges and streamline operations. We build solutions that grow with your business.</p>
-                            <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
+                            <a href="#services" class="btn" style="margin-top: 15px; padding: 12px 24px; display: inline-block;" data-page="services">Learn More <i class="fas fa-arrow-right"></i></a>
                         </div>
                         <div class="service-card">
                             <div class="service-icon">
@@ -1407,7 +1821,7 @@
                             </div>
                             <h3>Web Design & Development</h3>
                             <p>Beautiful, responsive websites that don't just look good but drive conversions and business growth. Mobile-first designs that perform.</p>
-                            <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
+                            <a href="#services" class="btn" style="margin-top: 15px; padding: 12px 24px; display: inline-block;" data-page="services">Learn More <i class="fas fa-arrow-right"></i></a>
                         </div>
                         <div class="service-card">
                             <div class="service-icon">
@@ -1415,7 +1829,7 @@
                             </div>
                             <h3>Digital Marketing</h3>
                             <p>End-to-end digital marketing strategies including SEO, content marketing, and social media management that deliver measurable results.</p>
-                            <a href="#services" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="services">Learn More</a>
+                            <a href="#services" class="btn" style="margin-top: 15px; padding: 12px 24px; display: inline-block;" data-page="services">Learn More <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1440,7 +1854,7 @@
                                 <li>Contact Form Integration</li>
                                 <li>Ongoing Support</li>
                             </ul>
-                            <a href="#contact" class="btn" data-page="contact">Get Started</a>
+                            <a href="#contact" class="btn" data-page="contact">Get Started <i class="fas fa-arrow-right"></i></a>
                         </div>
                         
                         <div class="pricing-card popular">
@@ -1454,7 +1868,7 @@
                                 <li>Admin Dashboard</li>
                                 <li>Extended Support</li>
                             </ul>
-                            <a href="#contact" class="btn" data-page="contact">Get Started</a>
+                            <a href="#contact" class="btn" data-page="contact">Get Started <i class="fas fa-arrow-right"></i></a>
                         </div>
                         
                         <div class="pricing-card">
@@ -1467,7 +1881,7 @@
                                 <li>Paid Ad Campaigns</li>
                                 <li>Monthly Analytics Report</li>
                             </ul>
-                            <a href="#contact" class="btn" data-page="contact">Get Started</a>
+                            <a href="#contact" class="btn" data-page="contact">Get Started <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1487,8 +1901,10 @@
                                 "Fundamentals transformed our outdated website into a modern, high-performing platform that increased our leads by 120% in just three months."
                             </div>
                             <div class="testimonial-author">
+                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Rahul Sharma" class="author-avatar">
                                 <div class="author-info">
                                     <h4>Rahul Sharma</h4>
+                                    <p>Business Owner</p>
                                 </div>
                             </div>
                         </div>
@@ -1498,8 +1914,10 @@
                                 "The Python course was comprehensive yet easy to follow. Within 2 months of completing it, I landed my first freelance project earning ₹8,000!"
                             </div>
                             <div class="testimonial-author">
+                                <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Priya Patel" class="author-avatar">
                                 <div class="author-info">
                                     <h4>Priya Patel</h4>
+                                    <p>Student</p>
                                 </div>
                             </div>
                         </div>
@@ -1509,8 +1927,10 @@
                                 "Their custom inventory management system saved us 15 hours per week in manual work. The team was professional, responsive, and delivered ahead of schedule."
                             </div>
                             <div class="testimonial-author">
+                                <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Vikram Joshi" class="author-avatar">
                                 <div class="author-info">
                                     <h4>Vikram Joshi</h4>
+                                    <p>Operations Manager</p>
                                 </div>
                             </div>
                         </div>
@@ -1574,7 +1994,7 @@
                             </div>
                             <h3>Python Programming</h3>
                             <p>Master Python from basics to advanced concepts with our structured curriculum and hands-on projects. Perfect for beginners and intermediate learners.</p>
-                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">View Syllabus</a>
+                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 12px 24px; display: inline-block;" data-page="learning">View Syllabus <i class="fas fa-arrow-right"></i></a>
                         </div>
                         <div class="service-card">
                             <div class="service-icon">
@@ -1582,7 +2002,7 @@
                             </div>
                             <h3>Full-Stack Development</h3>
                             <p>Become a freelance-ready full-stack developer with our intensive 12-week program covering frontend and backend technologies.</p>
-                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">View Syllabus</a>
+                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 12px 24px; display: inline-block;" data-page="learning">View Syllabus <i class="fas fa-arrow-right"></i></a>
                         </div>
                         <div class="service-card">
                             <div class="service-icon">
@@ -1590,7 +2010,7 @@
                             </div>
                             <h3>Freelance Support</h3>
                             <p>Get your first paid project (₹3k-5k) after course completion with our guidance and mentorship. We help you launch your freelance career.</p>
-                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 8px 20px; display: inline-block;" data-page="learning">Learn More</a>
+                            <a href="#learning" class="btn" style="margin-top: 15px; padding: 12px 24px; display: inline-block;" data-page="learning">Learn More <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -1725,7 +2145,7 @@
                                 <li>Custom integrations</li>
                             </ul>
                             <div style="margin-top: 20px;">
-                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                                <a href="#contact" class="btn" style="padding: 12px 24px; display: inline-block;" data-page="contact">Get a Quote <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="service-card">
@@ -1742,7 +2162,7 @@
                                 <li>Website maintenance</li>
                             </ul>
                             <div style="margin-top: 20px;">
-                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                                <a href="#contact" class="btn" style="padding: 12px 24px; display: inline-block;" data-page="contact">Get a Quote <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="service-card">
@@ -1759,7 +2179,7 @@
                                 <li>Conversion rate optimization</li>
                             </ul>
                             <div style="margin-top: 20px;">
-                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                                <a href="#contact" class="btn" style="padding: 12px 24px; display: inline-block;" data-page="contact">Get a Quote <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                         <div class="service-card">
@@ -1776,7 +2196,7 @@
                                 <li>Remarketing campaigns</li>
                             </ul>
                             <div style="margin-top: 20px;">
-                                <a href="#contact" class="btn" style="padding: 8px 20px; display: inline-block;" data-page="contact">Get a Quote</a>
+                                <a href="#contact" class="btn" style="padding: 12px 24px; display: inline-block;" data-page="contact">Get a Quote <i class="fas fa-arrow-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -1898,7 +2318,7 @@
                     
                     <div class="tab-content" id="fullstack-tab">
                         <div class="syllabus-level">
-                            <h3><i class="fas fa-laptop-code"></i> Full Stack Freelancer Course</h3>
+                            <h3><i class="fas fa-laptop-code"></i> Full Stack Freelancer Course (12 Weeks)</h3>
                             <ul>
                                 <li>HTML Fundamentals</li>
                                 <li>CSS Basics and Advanced</li>
@@ -1915,10 +2335,10 @@
                                 <li>Deploying Flask Apps (Heroku)</li>
                                 <li>Final Project: Full Stack Application</li>
                             </ul>
-                            <div style="margin-top: 30px; background: rgba(232, 121, 249, 0.1); padding: 20px; border-radius: 10px; border-left: 4px solid var(--secondary);">
-                                <h4 style="color: var(--secondary); margin-bottom: 10px;"><i class="fas fa-gift"></i> Freelance Launch Package</h4>
+                            <div style="margin-top: 30px; background: rgba(232, 121, 249, 0.1); padding: 24px; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                                <h4 style="color: var(--secondary); margin-bottom: 12px;"><i class="fas fa-gift"></i> Freelance Launch Package</h4>
                                 <p>After successful completion, we provide:</p>
-                                <ul style="margin-top: 10px; margin-left: 20px;">
+                                <ul style="margin-top: 12px; margin-left: 20px;">
                                     <li>Your first freelancer bid worth ₹3k-5k</li>
                                     <li>Real client project experience</li>
                                     <li>Guidance through the entire process</li>
@@ -1981,14 +2401,14 @@
                             <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Our Team" loading="lazy">
                         </div>
                         <div>
-                            <h3 style="font-size: clamp(24px, 5vw, 28px); margin-bottom: 20px; color: var(--primary);">The Fundamentals Difference</h3>
-                            <p>At Fundamentals, we bridge the gap between cutting-edge technology solutions and accessible tech education. Our dual focus allows us to stay at the forefront of industry trends while empowering the next generation of developers.</p>
+                            <h3 style="font-size: clamp(24px, 5vw, 28px); margin-bottom: 24px; color: var(--primary);">The Fundamentals Difference</h3>
+                            <p style="margin-bottom: 20px;">At Fundamentals, we bridge the gap between cutting-edge technology solutions and accessible tech education. Our dual focus allows us to stay at the forefront of industry trends while empowering the next generation of developers.</p>
                             
                             <div class="mission-vision">
                                 <h3>Our Vision</h3>
                                 <p>To democratize technology excellence - empowering businesses with custom digital solutions while equipping learners with future-proof skills that transform careers.</p>
                                 
-                                <h3 style="margin-top: 20px;">Our Mission</h3>
+                                <h3 style="margin-top: 24px;">Our Mission</h3>
                                 <p>We deliver bulletproof software solutions tailored to your exact needs, marketing strategies that actually work, and world-class tech education that's accessible to all. Our practical approach ensures both our clients and students achieve tangible results.</p>
                             </div>
                         </div>
@@ -2078,6 +2498,12 @@
                             <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
                             <p>Saturday: 10:00 AM - 4:00 PM</p>
                             <p>Sunday: Closed</p>
+                            
+                            <div class="social-links" style="margin-top: 32px;">
+                                <a href="https://instagram.com/__.fundamentals.__" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://wa.me/918248992453" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                                <a href="mailto:fundamentals.official.py@gmail.com"><i class="fas fa-envelope"></i></a>
+                            </div>
                         </div>
                         
                         <div class="contact-form">
@@ -2096,7 +2522,7 @@
                                     <option value="other">Other</option>
                                 </select>
                                 <textarea id="message" placeholder="Your Message" required></textarea>
-                                <button type="submit" class="btn">Send Message</button>
+                                <button type="submit" class="btn">Send Message <i class="fas fa-paper-plane"></i></button>
                             </form>
                         </div>
                     </div>
@@ -2115,6 +2541,7 @@
                     <div class="social-links" style="margin-top: 20px;">
                         <a href="https://instagram.com/__.fundamentals.__" target="_blank"><i class="fab fa-instagram"></i></a>
                         <a href="https://wa.me/918248992453" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                        <a href="mailto:fundamentals.official.py@gmail.com"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
                 <div class="footer-column">
@@ -2184,7 +2611,7 @@
     <!-- Particles.js -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
- <script>
+    <script>
         // Mobile Menu Toggle
         document.querySelector('.mobile-menu').addEventListener('click', function() {
             document.querySelector('.nav-links').classList.toggle('show');
@@ -2315,137 +2742,114 @@ Message: ${message}`;
             }
         });
         
-        // Initialize Particles.js with optimized settings
-        function initParticles() {
-            const isMobile = window.innerWidth <= 768;
-            
-            particlesJS('particles-js', {
-                particles: {
-                    number: { 
-                        value: isMobile ? 30 : 80,
-                        density: { 
-                            enable: true, 
-                            value_area: isMobile ? 400 : 800 
-                        }
-                    },
-                    color: {
-                        value: "#ffffff"
-                    },
-                    shape: {
-                        type: "circle",
-                        stroke: {
-                            width: 0,
-                            color: "#000000"
-                        }
-                    },
-                    opacity: {
-                        value: isMobile ? 0.3 : 0.5,
-                        random: false,
-                        anim: {
-                            enable: false,
-                            speed: 1,
-                            opacity_min: 0.1,
-                            sync: false
-                        }
-                    },
-                    size: {
-                        value: isMobile ? 2 : 3,
-                        random: true,
-                        anim: {
-                            enable: false,
-                            speed: 40,
-                            size_min: 0.1,
-                            sync: false
-                        }
-                    },
-                    line_linked: {
-                        enable: true,
-                        distance: isMobile ? 100 : 150,
-                        color: "#ffffff",
-                        opacity: isMobile ? 0.2 : 0.4,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: isMobile ? 1.5 : 3,
-                        direction: "none",
-                        random: false,
-                        straight: false,
-                        out_mode: "bounce",
-                        bounce: false,
-                        attract: {
-                            enable: false,
-                            rotateX: 600,
-                            rotateY: 1200
-                        }
-                    }
-                },
-                interactivity: {
-                    detect_on: "canvas",
-                    events: {
-                        onhover: {
-                            enable: !isMobile,
-                            mode: "grab"
-                        },
-                        onclick: {
-                            enable: !isMobile,
-                            mode: "push"
-                        },
-                        resize: true
-                    },
-                    modes: {
-                        grab: {
-                            distance: isMobile ? 100 : 140,
-                            line_linked: {
-                                opacity: 1
-                            }
-                        },
-                        bubble: {
-                            distance: 400,
-                            size: 40,
-                            duration: 2,
-                            opacity: 8,
-                            speed: 3
-                        },
-                        repulse: {
-                            distance: 200,
-                            duration: 0.4
-                        },
-                        push: {
-                            particles_nb: 4
-                        },
-                        remove: {
-                            particles_nb: 2
-                        }
-                    }
-                },
-                retina_detect: true
-            });
-        }
-
-        // Initialize particles when DOM is loaded
+        // Initialize Particles.js
         document.addEventListener('DOMContentLoaded', function() {
-            if (document.getElementById('particles-js') && typeof particlesJS !== 'undefined') {
-                initParticles();
+            if (typeof particlesJS !== 'undefined') {
+                particlesJS('particles-js', {
+                    particles: {
+                        number: { 
+                            value: window.innerWidth <= 768 ? 30 : 80,
+                            density: { 
+                                enable: true, 
+                                value_area: window.innerWidth <= 768 ? 400 : 800 
+                            } 
+                        },
+                        color: { value: "#ffffff" },
+                        shape: { type: "circle" },
+                        opacity: { value: 0.5, random: false },
+                        size: { value: 3, random: true },
+                        line_linked: { 
+                            enable: true, 
+                            distance: window.innerWidth <= 768 ? 150 : 150,
+                            color: "#ffffff", 
+                            opacity: 0.4, 
+                            width: 1 
+                        },
+                        move: { 
+                            enable: true, 
+                            speed: window.innerWidth <= 768 ? 2 : 3,
+                            direction: "none", 
+                            random: false, 
+                            straight: false, 
+                            out_mode: "bounce" 
+                        }
+                    },
+                    interactivity: {
+                        detect_on: "window",
+                        events: {
+                            onhover: { 
+                                enable: window.innerWidth <= 768 ? false : true,
+                                mode: "grab"
+                            },
+                            onclick: { 
+                                enable: window.innerWidth <= 768 ? false : true,
+                                mode: "push" 
+                            }
+                        }
+                    }
+                });
             }
         });
-
-        // Reinitialize particles on window resize
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                if (document.getElementById('particles-js') && typeof particlesJS !== 'undefined') {
-                    // Destroy existing particles
-                    pJS = particlesJS.get('particles-js');
-                    if (pJS) {
-                        pJS.fn.vendors.destroy();
+        
+        // Mobile-specific scroll animations
+        function initMobileAnimations() {
+            if (window.innerWidth > 768) return;
+            
+            // Elements to animate
+            const animateElements = [
+                ...document.querySelectorAll('.service-card'),
+                ...document.querySelectorAll('.pricing-card'),
+                ...document.querySelectorAll('.testimonial-card'),
+                ...document.querySelectorAll('.section-title'),
+                ...document.querySelectorAll('.process-step'),
+                ...document.querySelectorAll('.tech-item'),
+                ...document.querySelectorAll('.faq-item')
+            ];
+            
+            // Intersection Observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
                     }
-                    // Reinitialize with new settings
-                    initParticles();
-                }
-            }, 250);
-        });
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            // Observe all elements
+            animateElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Hero text animation
+            const hero = document.querySelector('.hero');
+            if (hero) {
+                const h1 = hero.querySelector('h1');
+                const p = hero.querySelector('p');
+                const btns = hero.querySelector('.btn-container');
+                
+                setTimeout(() => {
+                    h1.style.transform = 'translateY(0)';
+                    h1.style.opacity = '1';
+                }, 300);
+                
+                setTimeout(() => {
+                    p.style.transform = 'translateY(0)';
+                    p.style.opacity = '1';
+                }, 600);
+                
+                setTimeout(() => {
+                    btns.style.transform = 'translateY(0)';
+                    btns.style.opacity = '1';
+                }, 900);
+            }
+        }
+        
+        // Initialize mobile animations when page loads
+        window.addEventListener('load', initMobileAnimations);
         
         // Chatbot functionality
         const chatbotBtn = document.querySelector('.chatbot-btn');
@@ -2454,23 +2858,23 @@ Message: ${message}`;
         const chatInput = document.getElementById('chatInput');
         const chatSubmit = document.querySelector('.chatbot-input button');
         const chatMessages = document.querySelector('.chatbot-messages');
-        
+
         // Toggle chatbot window
         chatbotBtn.addEventListener('click', () => {
             chatbotWindow.classList.toggle('show');
         });
-        
+
         // Close chatbot
         chatbotClose.addEventListener('click', () => {
             chatbotWindow.classList.remove('show');
         });
-        
+
         // Quick reply buttons
         function quickReply(text) {
             addMessage(text, 'user-message');
             respondToMessage(text);
         }
-        
+
         // Send message
         function sendMessage() {
             const message = chatInput.value.trim();
@@ -2480,16 +2884,20 @@ Message: ${message}`;
                 respondToMessage(message);
             }
         }
-        
+
         // Add message to chat
         function addMessage(text, className) {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', className);
-            messageDiv.textContent = text;
+            
+            // Format newlines in the text
+            const formattedText = text.replace(/\n/g, '<br>');
+            messageDiv.innerHTML = formattedText;
+            
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
+
         // Add quick reply buttons
         function addQuickReplies(replies) {
             const container = document.createElement('div');
@@ -2502,6 +2910,14 @@ Message: ${message}`;
                 btn.onclick = function() {
                     if (reply === "Call Now") {
                         window.location.href = "tel:+918248992453";
+                    } else if (reply === "Email Us") {
+                        window.location.href = "mailto:fundamentals.official.py@gmail.com";
+                    } else if (reply === "WhatsApp") {
+                        window.open("https://wa.me/918248992453", '_blank');
+                    } else if (reply === "View Portfolio") {
+                        document.querySelector('a[data-page="portfolio"]').click();
+                    } else if (reply === "Get Quote") {
+                        document.querySelector('a[data-page="contact"]').click();
                     } else {
                         quickReply(reply);
                     }
@@ -2513,139 +2929,193 @@ Message: ${message}`;
             lastMessage.appendChild(container);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
-        
+
         // Comprehensive knowledge base for the chatbot
         const knowledgeBase = {
+            // ========== GREETINGS ==========
             greetings: {
                 patterns: ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"],
                 responses: [
-                    "Hello there! Welcome to Fundamentals. How can I assist you today?",
-                    "Hi! I'm your Fundamentals assistant. What would you like to know about our services?",
-                    "Greetings! I'm here to help with information about our digital services and courses. What can I tell you about?"
+                    "Hello there! Welcome to Fundamentals. I'm your virtual assistant here to help with any questions about our services, courses, or business.",
+                    "Hi! I'm the Fundamentals assistant. I can tell you about our digital services, training programs, pricing, and more. What would you like to know?"
                 ],
-                quickReplies: ["Services", "Courses", "About Us", "Contact"]
+                quickReplies: ["Services", "Courses", "Pricing", "Contact"]
             },
             
-            // Services Categories
+            // ========== ABOUT FUNDAMENTALS ==========
+            about: {
+                patterns: ["about", "who are you", "what is fundamentals", "company"],
+                responses: [
+                    "🌟 <strong>About Fundamentals</strong>\n\nWe're a full-service digital solutions provider offering:\n\n• Custom Software Development\n• Web Design & Development\n• Digital Marketing Services\n• Technical Education & Training\n\nFounded with the mission to bridge the gap between cutting-edge technology and businesses/learners.",
+                    "🏢 <strong>Fundamentals</strong>\n\nA technology company specializing in:\n\n- Building custom digital solutions\n- Creating high-performance websites\n- Running result-driven marketing campaigns\n- Training the next generation of developers\n\nWe serve clients across industries with tailored solutions."
+                ],
+                quickReplies: ["Services", "Team", "Portfolio", "Mission"]
+            },
+            mission: {
+                patterns: ["mission", "vision", "values"],
+                responses: [
+                    "🚀 <strong>Our Mission</strong>\n\nTo democratize technology excellence by:\n1. Providing affordable digital solutions to businesses\n2. Delivering practical tech education\n3. Bridging the gap between ideas and implementation\n4. Empowering clients through technology",
+                    "✨ <strong>Vision & Values</strong>\n\nWe believe in:\n• Quality over quantity\n• Practical, results-focused solutions\n• Continuous learning and improvement\n• Transparent communication\n• Building long-term partnerships"
+                ],
+                quickReplies: ["Services", "Courses", "Contact", "Back"]
+            },
+            team: {
+                patterns: ["team", "founder", "who runs"],
+                responses: [
+                    "👨‍💻 <strong>Our Team</strong>\n\nWe're a team of:\n• Experienced software developers\n• Creative designers\n• Digital marketing specialists\n• Industry-expert instructors\n\nTogether we deliver comprehensive solutions blending technical expertise with business understanding.",
+                    "🤝 <strong>Leadership</strong>\n\nFounded by technology professionals with:\n• 10+ years industry experience\n• Background in software development\n• Passion for education\n• Track record of successful projects"
+                ],
+                quickReplies: ["Services", "Portfolio", "Contact", "Back"]
+            },
+            
+            // ========== SERVICES ==========
             services: {
                 patterns: ["services", "offerings", "what do you offer", "what services"],
                 responses: [
-                    "We specialize in these core services:\n\n1. Paid Advertising\n2. Digital Marketing\n3. Web Development\n4. Custom Software\n\nWhich service would you like detailed information about?",
-                    "Our professional services include:\n• Strategic Paid Advertising\n• Comprehensive Digital Marketing\n• Custom Web Solutions\n• Business Software Development\n\nWhat would you like to know more about?"
+                    "🛠️ <strong>Our Services</strong>\n\n1. <strong>Paid Advertising</strong> (₹10,000+/month)\n2. <strong>Digital Marketing</strong> (₹10,000+/month)\n3. <strong>Web Development</strong> (₹5,000+)\n4. <strong>Custom Software</strong> (₹10,000+)\n\nWhich service would you like detailed information about?",
+                    "💼 <strong>Professional Services</strong>\n\n• Strategic Paid Advertising\n• Comprehensive Digital Marketing\n• Custom Web Solutions\n• Business Software Development\n\nWhat would you like to know more about?"
                 ],
-                quickReplies: ["Paid Ads", "Digital Marketing", "Web Development", "Custom Software"]
+                quickReplies: ["Paid Ads", "Digital Marketing", "Web Dev", "Custom Software"]
             },
             
-            // Paid Advertising
+            // --- Paid Advertising ---
             paidAds: {
                 patterns: ["paid ads", "advertising", "ppc", "google ads", "facebook ads"],
                 responses: [
-                    "Our Paid Advertising service includes:\n\n• Google Ads Management\n• Facebook/Instagram Ads\n• LinkedIn Advertising\n• Display Network Campaigns\n• Remarketing Strategies\n\nWe create targeted campaigns that maximize your ROI by reaching the right audience at the right time.",
-                    "Fundamentals Paid Ads Services:\n\n1. Campaign Strategy Development\n2. Audience Targeting & Segmentation\n3. Ad Creative Development\n4. Landing Page Optimization\n5. Performance Monitoring & A/B Testing\n6. Conversion Rate Optimization\n\nWe manage all aspects of your paid advertising to ensure optimal results."
+                    "📢 <strong>Paid Advertising (₹10,000+/month)</strong>\n\nWe manage:\n• Google Ads (Search, Display, YouTube)\n• Facebook/Instagram Ads\n• LinkedIn Advertising\n• Remarketing Campaigns\n\nOur data-driven approach ensures you get maximum ROI from your ad spend.",
+                    "💰 <strong>Ad Management</strong>\n\nWhat we deliver:\n1. Campaign Strategy\n2. Audience Targeting\n3. Ad Creative Development\n4. Landing Page Optimization\n5. Performance Monitoring\n6. Regular Reporting"
                 ],
-                quickReplies: ["Google Ads", "Social Ads", "Remarketing", "Ad Strategy"]
+                quickReplies: ["Google Ads", "Social Ads", "Remarketing", "Get Quote"]
             },
             googleAds: {
                 patterns: ["google ads"],
                 responses: [
-                    "Our Google Ads expertise includes:\n\n• Search Network Campaigns\n• Display Network Advertising\n• Shopping Ads for eCommerce\n• YouTube Video Ads\n• App Promotion Campaigns\n• Local Service Ads\n\nWe optimize for:\n- Keyword selection\n- Bid management\n- Quality score improvement\n- Conversion tracking\n\nOur strategies help you appear for high-intent searches while controlling costs."
+                    "🔍 <strong>Google Ads Management</strong>\n\nServices include:\n• Search Network Campaigns\n• Display Network Ads\n• Shopping Ads\n• YouTube Video Ads\n• App Promotion\n• Local Service Ads\n\nWe optimize for maximum conversions while controlling costs."
                 ],
                 quickReplies: ["Search Ads", "Display Ads", "Shopping Ads", "YouTube Ads"]
             },
             socialAds: {
                 patterns: ["social ads", "facebook ads", "instagram ads"],
                 responses: [
-                    "Social Media Advertising Services:\n\n• Facebook & Instagram Campaigns\n• Lead Generation Ads\n• Conversion Campaigns\n• Lookalike Audience Targeting\n• Carousel & Video Ads\n• Story Ads & Collection Ads\n\nWe create visually compelling ads tailored to each platform's unique audience and algorithms."
+                    "📱 <strong>Social Media Advertising</strong>\n\nWe run campaigns on:\n• Facebook & Instagram\n• LinkedIn\n• Twitter\n\nServices include:\n• Lead Generation Ads\n• Conversion Campaigns\n• Lookalike Audiences\n• Video/Carousel Ads\n• Detailed Analytics"
                 ],
-                quickReplies: ["Facebook Ads", "Instagram Ads", "Lead Generation", "Audience Targeting"]
-            },
-            remarketing: {
-                patterns: ["remarketing", "retargeting"],
-                responses: [
-                    "Our Remarketing Solutions:\n\n• Website Visitor Retargeting\n• Customer List Remarketing\n• Dynamic Product Ads\n• Cross-platform Retargeting\n• Sequential Messaging\n• Frequency Capping\n\nWe help you re-engage visitors who didn't convert, dramatically improving conversion rates."
-                ],
-                quickReplies: ["Website Retargeting", "Social Retargeting", "Email Remarketing", "Ad Frequency"]
+                quickReplies: ["Facebook Ads", "Instagram Ads", "Lead Gen", "Audience Target"]
             },
             
-            // Digital Marketing
+            // --- Digital Marketing ---
             digitalMarketing: {
                 patterns: ["digital marketing", "online marketing"],
                 responses: [
-                    "Our Comprehensive Digital Marketing Services:\n\n1. Search Engine Optimization (SEO)\n2. Content Marketing\n3. Social Media Management\n4. Email Marketing\n5. Conversion Rate Optimization\n6. Analytics & Reporting\n\nWe create integrated strategies that build your brand and drive qualified traffic.",
-                    "Digital Marketing at Fundamentals includes:\n\n• Technical & Local SEO\n• Blog Content Creation\n• Social Media Strategy\n• Email Campaigns\n• Landing Page Optimization\n• Performance Tracking\n\nWe focus on data-driven strategies that deliver measurable results."
+                    "📈 <strong>Digital Marketing (₹10,000+/month)</strong>\n\nOur full-service offering includes:\n1. SEO (Technical, Local, Content)\n2. Content Marketing\n3. Social Media Management\n4. Email Marketing\n5. Conversion Optimization\n6. Analytics & Reporting",
+                    "🌐 <strong>Marketing Services</strong>\n\nWe help businesses:\n• Increase online visibility\n• Generate qualified leads\n• Build brand authority\n• Convert visitors to customers\n• Track marketing performance"
                 ],
                 quickReplies: ["SEO", "Content Marketing", "Social Media", "Email Marketing"]
             },
             seo: {
                 patterns: ["seo", "search engine optimization"],
                 responses: [
-                    "Our SEO Services:\n\n• Keyword Research & Strategy\n• On-Page Optimization\n• Technical SEO Audits\n• Local SEO for Businesses\n• Backlink Building\n• Content Optimization\n• Performance Tracking\n\nWe improve your search visibility organically, driving qualified traffic without ongoing ad costs."
+                    "🔎 <strong>SEO Services</strong>\n\nWe improve your search rankings through:\n• Keyword Research & Strategy\n• On-Page Optimization\n• Technical SEO Audits\n• Local SEO\n• Backlink Building\n• Content Optimization\n• Performance Tracking",
+                    "📊 <strong>Search Engine Optimization</strong>\n\nOur SEO process:\n1. Comprehensive Audit\n2. Competitor Analysis\n3. Technical Fixes\n4. Content Strategy\n5. Link Building\n6. Monthly Reporting\n\nResults typically visible in 3-6 months."
                 ],
-                quickReplies: ["Local SEO", "Technical SEO", "Content SEO", "SEO Results"]
-            },
-            contentMarketing: {
-                patterns: ["content marketing", "blog content"],
-                responses: [
-                    "Content Marketing Solutions:\n\n• Blog Content Strategy\n• Article Writing (SEO-optimized)\n• Infographic Creation\n• Video Content Planning\n• Content Distribution\n• Performance Analysis\n\nWe create valuable content that attracts and engages your target audience while improving search rankings."
-                ],
-                quickReplies: ["Blog Strategy", "SEO Content", "Visual Content", "Content Calendar"]
-            },
-            socialMedia: {
-                patterns: ["social media", "smm"],
-                responses: [
-                    "Social Media Management Services:\n\n• Platform-Specific Strategies\n• Content Calendar Development\n• Community Engagement\n• Influencer Collaborations\n• Performance Analytics\n• Ad Campaign Integration\n\nWe build authentic connections with your audience across all relevant social platforms."
-                ],
-                quickReplies: ["Facebook", "Instagram", "LinkedIn", "Twitter"]
+                quickReplies: ["Local SEO", "Technical SEO", "Content SEO", "SEO Timeline"]
             },
             
-            // Web Development
+            // --- Web Development ---
             webDevelopment: {
                 patterns: ["web development", "website"],
                 responses: [
-                    "Our Web Development Services:\n\n• Responsive Website Design\n• eCommerce Development\n• WordPress Solutions\n• Custom Web Applications\n• API Integrations\n• Performance Optimization\n\nWe build fast, secure websites that convert visitors into customers.",
-                    "Website Services Include:\n\n1. Business Website Development\n2. Online Store Creation\n3. Web Portal Development\n4. CMS Implementation\n5. Website Maintenance\n6. Hosting & Security\n\nEvery site we build is mobile-friendly, SEO-optimized, and designed for results."
+                    "💻 <strong>Web Development (₹5,000+)</strong>\n\nWe build:\n• Business Websites\n• eCommerce Stores\n• Web Applications\n• CMS Solutions\n\nAll our websites are:\n• Mobile-responsive\n• SEO-friendly\n• Fast-loading\n• Secure\n• Easy to manage",
+                    "🌐 <strong>Website Services</strong>\n\n1. Custom Design & Development\n2. WordPress Solutions\n3. Online Store Creation\n4. Web Portal Development\n5. Website Maintenance\n6. Hosting & Security\n\nPrices start at ₹5,000 for basic sites."
                 ],
-                quickReplies: ["Business Websites", "eCommerce", "Web Apps", "Website Maintenance"]
+                quickReplies: ["Business Sites", "eCommerce", "Web Apps", "View Portfolio"]
+            },
+            businessWebsites: {
+                patterns: ["business website", "company website"],
+                responses: [
+                    "🏢 <strong>Business Website Development</strong>\n\nWhat we deliver:\n• Custom design reflecting your brand\n• Mobile-optimized layout\n• Contact forms/lead capture\n• Basic SEO setup\n• CMS for easy updates\n• Fast hosting setup\n\n<strong>Pricing:</strong> ₹5,000-₹50,000 depending on complexity"
+                ],
+                quickReplies: ["Basic Website", "Premium Website", "SEO Setup", "Get Quote"]
+            },
+            ecommerce: {
+                patterns: ["ecommerce", "online store", "shopify", "woocommerce"],
+                responses: [
+                    "🛒 <strong>eCommerce Development</strong>\n\nWe build online stores with:\n• Product catalog management\n• Secure payment gateways (Razorpay, PayPal)\n• Mobile-responsive design\n• Inventory tracking\n• Order management\n• SEO optimization\n\n<strong>Platforms:</strong> Shopify, WooCommerce, Magento, Custom\n<strong>Pricing:</strong> ₹15,000+"
+                ],
+                quickReplies: ["Shopify", "WooCommerce", "Payment Options", "View Examples"]
             },
             
-            // Custom Software
+            // --- Custom Software ---
             customSoftware: {
                 patterns: ["custom software", "business software"],
                 responses: [
-                    "Our Custom Software Solutions:\n\n• Inventory Management Systems\n• CRM Development\n• Business Process Automation\n• Data Analysis Tools\n• Custom Database Solutions\n• Integration with Existing Systems\n\nWe create tailored software that streamlines your operations and boosts productivity.",
-                    "Custom Software Development Services:\n\n1. Requirement Analysis\n2. UI/UX Design\n3. Database Architecture\n4. Application Development\n5. Quality Assurance\n6. Deployment & Training\n\nWe build solutions that grow with your business needs."
+                    "🖥️ <strong>Custom Software (₹10,000+)</strong>\n\nWe develop tailored solutions including:\n• Inventory Management Systems\n• CRM Software\n• Business Process Automation\n• Data Analysis Tools\n• Custom Database Solutions\n• API Integrations",
+                    "💾 <strong>Software Development</strong>\n\nOur process:\n1. Requirements Analysis\n2. UI/UX Design\n3. Development\n4. Testing\n5. Deployment\n6. Training & Support\n\n<strong>Technologies:</strong> Python, JavaScript, Flask, Node.js, MySQL, MongoDB"
                 ],
-                quickReplies: ["Business Tools", "Automation", "CRM Systems", "Integration"]
+                quickReplies: ["Business Tools", "Automation", "CRM Systems", "Get Quote"]
             },
             
-            // Courses
+            // ========== COURSES ==========
             courses: {
                 patterns: ["courses", "training", "learning"],
                 responses: [
-                    "Our Educational Programs:\n\n1. Python Programming Course\n2. Full-Stack Development Program\n\nBoth courses include:\n• Hands-on projects\n• Industry-relevant curriculum\n• Career support\n• Certificate of completion\n\nWould you like details about a specific course?",
-                    "Learning Opportunities at Fundamentals:\n\n• Python Programming (Comprehensive)\n• Full-Stack Web Development\n\nOur courses are designed to make you job-ready with practical skills and real-world projects."
+                    "🎓 <strong>Our Courses</strong>\n\n1. <strong>Python Programming</strong>\n2. <strong>Full-Stack Development</strong>\n\nBoth include:\n• Hands-on projects\n• Industry-relevant curriculum\n• Career support\n• Certificate of completion\n\nWhich course interests you?",
+                    "📚 <strong>Learning Programs</strong>\n\n• Python Programming (Beginner to Advanced)\n• Full-Stack Web Development\n\nOur courses are designed to make you job-ready with practical skills and real-world projects."
                 ],
                 quickReplies: ["Python Course", "Full-Stack Course", "Syllabus", "Career Support"]
             },
+            pythonCourse: {
+                patterns: ["python course"],
+                responses: [
+                    "🐍 <strong>Python Programming Course</strong>\n\n<strong>Duration:</strong> 18 weeks\n\n<strong>Covers:</strong>\n• Python fundamentals\n• OOP concepts\n• Web scraping\n• Data analysis\n• Automation\n• Basic web frameworks\n\nPerfect for beginners looking to start a career in programming or automation."
+                ],
+                quickReplies: ["Curriculum", "Duration", "Projects", "Enroll"]
+            },
+            fullstackCourse: {
+                patterns: ["full stack", "full-stack"],
+                responses: [
+                    "🖥️ <strong>Full-Stack Development</strong>\n\n<strong>Duration:</strong> 12 weeks\n\n<strong>Covers:</strong>\n• Frontend (HTML, CSS, JavaScript)\n• Backend (Python, Node.js)\n• Databases (SQL, MongoDB)\n• API development\n• Deployment\n• Freelance preparation\n\nGraduates complete with portfolio-ready projects."
+                ],
+                quickReplies: ["Frontend", "Backend", "Projects", "Freelance Support"]
+            },
             
-            // Contact Information
+            // ========== CONTACT ==========
             contact: {
                 patterns: ["contact", "reach", "phone", "email", "whatsapp"],
                 responses: [
-                    "You can reach us through:\n\n📞 Phone: +91 8248992453\n📧 Email: fundamentals.official.py@gmail.com\n💬 WhatsApp: +91 8248992453\n\nOur team is available Mon-Fri 9AM-6PM and Sat 10AM-4PM.",
-                    "Contact Options:\n\n• Call: +91 8248992453\n• Email: fundamentals.official.py@gmail.com\n• WhatsApp: +91 8248992453\n• Instagram: @__.fundamentals.__\n\nLet us know how we can help!"
+                    "📞 <strong>Contact Us</strong>\n\n• Phone: +91 8248992453\n• Email: fundamentals.official.py@gmail.com\n• WhatsApp: +91 8248992453\n• Instagram: @__.fundamentals.__\n\n<strong>Hours:</strong> Mon-Fri 9AM-6PM, Sat 10AM-4PM",
+                    "📩 <strong>Get in Touch</strong>\n\nReach us via:\n• Call/WhatsApp: +91 8248992453\n• Email: fundamentals.official.py@gmail.com\n• Contact form on our website\n\nWe typically respond within 1 business day."
                 ],
-                quickReplies: ["Call Now", "WhatsApp", "Email", "Business Hours"]
+                quickReplies: ["Call Now", "WhatsApp", "Email Us", "Business Hours"]
             },
             
-            // Default responses
+            // ========== PRICING ==========
+            pricing: {
+                patterns: ["price", "cost", "how much", "pricing"],
+                responses: [
+                    "💰 <strong>Our Pricing</strong>\n\n• <strong>Website Development:</strong> ₹5,000+\n• <strong>Custom Software:</strong> ₹10,000+\n• <strong>Digital Marketing:</strong> ₹10,000+/month\n• <strong>Paid Advertising:</strong> ₹10,000+/month\n\nPrices vary based on project scope. Would you like a detailed quote?",
+                    "📊 <strong>Service Costs</strong>\n\nStarting prices:\n1. Basic Website: ₹5,000\n2. eCommerce Store: ₹15,000\n3. Business Software: ₹10,000\n4. Marketing: ₹10,000/month\n\nExact pricing depends on your specific requirements."
+                ],
+                quickReplies: ["Website Pricing", "Software Pricing", "Marketing Pricing", "Get Quote"]
+            },
+            
+            // ========== PORTFOLIO ==========
+            portfolio: {
+                patterns: ["portfolio", "examples", "show me", "work"],
+                responses: [
+                    "🎨 <strong>Our Portfolio</strong>\n\nWe've worked with clients across industries to deliver:\n• Business websites\n• eCommerce stores\n• Custom business software\n• Marketing campaigns\n\nView our work samples on the portfolio section of our website.",
+                    "🖼️ <strong>Project Examples</strong>\n\nRecent work includes:\n• Inventory management systems\n• Corporate websites\n• Online stores\n• Marketing automation tools\n\nCheck our portfolio for detailed case studies."
+                ],
+                quickReplies: ["View Portfolio", "Websites", "Software", "Back"]
+            },
+            
+            // ========== DEFAULT ==========
             default: {
                 responses: [
-                    "I'd be happy to help with that. Could you tell me more about what you're looking for?",
-                    "Let me connect you with the right information. Could you specify your question?",
-                    "I can provide detailed information about our services and courses. What would you like to know?"
+                    "I'm not sure I understand. Could you rephrase your question?",
+                    "I'd be happy to help with that. Could you provide more details?",
+                    "Let me connect you with the right information. Could you specify what you're looking for?"
                 ],
-                quickReplies: ["Paid Ads", "Digital Marketing", "Web Development", "Contact"]
+                quickReplies: ["Services", "Courses", "Contact", "Help"]
             }
         };
 
@@ -2657,24 +3127,51 @@ Message: ${message}`;
                 let quickReplies = [];
                 let matchedCategory = null;
                 
-                // First check for service-specific questions
-                if (lowerMessage.includes('paid ad') || lowerMessage.includes('ppc') || 
-                    lowerMessage.includes('google ad') || lowerMessage.includes('facebook ad')) {
+                // First check for exact matches (phone, email, etc)
+                if (/phone|number|call|mobile/.test(lowerMessage)) {
+                    matchedCategory = 'phone';
+                }
+                else if (/email|mail/.test(lowerMessage)) {
+                    matchedCategory = 'email';
+                }
+                else if (/price|cost|how much|pricing/.test(lowerMessage)) {
+                    matchedCategory = 'pricing';
+                }
+                else if (/portfolio|examples|show me|work/.test(lowerMessage)) {
+                    matchedCategory = 'portfolio';
+                }
+                else if (/about|who are you|what is fundamentals/.test(lowerMessage)) {
+                    matchedCategory = 'about';
+                }
+                else if (/mission|vision|values/.test(lowerMessage)) {
+                    matchedCategory = 'mission';
+                }
+                else if (/team|founder|who runs/.test(lowerMessage)) {
+                    matchedCategory = 'team';
+                }
+                // Then check for service-specific questions
+                else if (/paid ad|ppc|google ad|facebook ad/.test(lowerMessage)) {
                     matchedCategory = 'paidAds';
                 }
-                else if (lowerMessage.includes('digital market') || lowerMessage.includes('online market')) {
+                else if (/digital market|online market/.test(lowerMessage)) {
                     matchedCategory = 'digitalMarketing';
                 }
-                else if (lowerMessage.includes('web') || lowerMessage.includes('website')) {
+                else if (/web|website/.test(lowerMessage)) {
                     matchedCategory = 'webDevelopment';
                 }
-                else if (lowerMessage.includes('software') || lowerMessage.includes('custom') || lowerMessage.includes('application')) {
+                else if (/software|custom|application/.test(lowerMessage)) {
                     matchedCategory = 'customSoftware';
                 }
-                else if (lowerMessage.includes('course') || lowerMessage.includes('train') || lowerMessage.includes('learn')) {
+                else if (/course|train|learn/.test(lowerMessage)) {
                     matchedCategory = 'courses';
                 }
-                else if (lowerMessage.includes('contact') || lowerMessage.includes('reach') || lowerMessage.includes('call')) {
+                else if (/python/.test(lowerMessage)) {
+                    matchedCategory = 'pythonCourse';
+                }
+                else if (/full stack|full-stack/.test(lowerMessage)) {
+                    matchedCategory = 'fullstackCourse';
+                }
+                else if (/contact|reach|call/.test(lowerMessage)) {
                     matchedCategory = 'contact';
                 }
                 else {
@@ -2705,35 +3202,30 @@ Message: ${message}`;
                     quickReplies = knowledgeBase.default.quickReplies;
                 }
                 
-                // Special handling for specific service aspects
-                if (lowerMessage.includes('google ad') || lowerMessage.includes('search ad')) {
-                    response = knowledgeBase.googleAds.responses[0];
-                    quickReplies = knowledgeBase.googleAds.quickReplies;
-                }
-                else if (lowerMessage.includes('social ad') || lowerMessage.includes('facebook ad') || lowerMessage.includes('instagram ad')) {
-                    response = knowledgeBase.socialAds.responses[0];
-                    quickReplies = knowledgeBase.socialAds.quickReplies;
-                }
-                else if (lowerMessage.includes('remarketing') || lowerMessage.includes('retargeting')) {
-                    response = knowledgeBase.remarketing.responses[0];
-                    quickReplies = knowledgeBase.remarketing.quickReplies;
-                }
-                else if (lowerMessage.includes('seo') || lowerMessage.includes('search engine')) {
-                    response = knowledgeBase.seo.responses[0];
-                    quickReplies = knowledgeBase.seo.quickReplies;
-                }
-                else if (lowerMessage.includes('content market') || lowerMessage.includes('blog')) {
-                    response = knowledgeBase.contentMarketing.responses[0];
-                    quickReplies = knowledgeBase.contentMarketing.quickReplies;
-                }
-                
                 addMessage(response, 'bot-message');
                 if (quickReplies.length > 0) {
                     addQuickReplies(quickReplies);
                 }
+                
+                // Auto-action for contact information
+                if (matchedCategory === 'phone') {
+                    setTimeout(() => {
+                        window.location.href = "tel:+918248992453";
+                    }, 1000);
+                }
+                else if (matchedCategory === 'email') {
+                    setTimeout(() => {
+                        window.location.href = "mailto:fundamentals.official.py@gmail.com";
+                    }, 1000);
+                }
+                else if (matchedCategory === 'portfolio') {
+                    setTimeout(() => {
+                        document.querySelector('a[data-page="portfolio"]').click();
+                    }, 1000);
+                }
             }, 800);
         }
-        
+
         // Send message on button click or enter key
         chatSubmit.addEventListener('click', sendMessage);
         chatInput.addEventListener('keypress', (e) => {
@@ -2741,14 +3233,50 @@ Message: ${message}`;
                 sendMessage();
             }
         });
-        
+
+        // Initial greeting
+        setTimeout(() => {
+            addMessage("👋 Hello! I'm the Fundamentals assistant. I can help with:", 'bot-message');
+            addQuickReplies(["Services", "Courses", "Pricing", "Contact Us"]);
+        }, 500);
+
         // Mobile optimization
         function optimizeForMobile() {
+            if (window.innerWidth <= 768) {
+                // Adjust chat window size for mobile
+                chatbotWindow.style.width = 'calc(100% - 30px)';
+                chatbotWindow.style.right = '15px';
+                
+                // Reduce particles on mobile
+                if (typeof particlesJS !== 'undefined') {
+                    // Reinitialize particles with mobile settings
+                    particlesJS('particles-js', {
+                        particles: {
+                            number: { value: 30, density: { enable: true, value_area: 400 } },
+                            color: { value: "#ffffff" },
+                            shape: { type: "circle" },
+                            opacity: { value: 0.5, random: false },
+                            size: { value: 3, random: true },
+                            line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                            move: { enable: true, speed: 2, direction: "none", random: false, straight: false, out_mode: "bounce" }
+                        },
+                        interactivity: {
+                            detect_on: "window",
+                            events: {
+                                onhover: { enable: false },
+                                onclick: { enable: false }
+                            }
+                        }
+                    });
+                }
+            }
+            
+            // Add touch device class if needed
             if ('ontouchstart' in window) {
                 document.body.classList.add('touch-device');
             }
         }
-        
+
         window.addEventListener('load', optimizeForMobile);
         window.addEventListener('resize', optimizeForMobile);
     </script>
