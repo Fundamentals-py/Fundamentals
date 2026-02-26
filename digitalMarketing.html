@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Marketing | Fundamentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #a855f7; --bg: #000; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        
+        .step-container {
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .reveal-text {
+            font-family: 'League Spartan';
+            font-size: clamp(2.2rem, 9vw, 8.5rem);
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .detail-card {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 850px;
+            width: 90%;
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(10px);
+        }
+
+        .is-active .detail-card {
+            opacity: 1;
+            bottom: 12%;
+            filter: blur(0px);
+        }
+
+        .nav-ring {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-ring { right: 40px; gap: 15px; }
+            .is-active .detail-card { bottom: 15%; }
+        }
+
+        .dot {
+            width: 4px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 50%; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dot.active {
+            background: var(--accent);
+            transform: scale(3.5);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .bg-number {
+            position: absolute;
+            font-family: 'League Spartan';
+            font-size: 40vh;
+            color: rgba(168, 85, 247, 0.03);
+            z-index: -1;
+            font-weight: 900;
+            user-select: none;
+        }
+
+        .outcome-pill {
+            display: inline-block;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .feature-list {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 p-6 md:p-10 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-black text-xl md:text-2xl lowercase tracking-tighter" style="font-family: 'League Spartan'">fundamentals<span class="text-purple-500">.</span></a>
+        <div class="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] opacity-40">Growth Protocol v2.0</div>
+    </nav>
+
+    <div class="nav-ring" id="progress-dots"></div>
+
+    <section class="step-container">
+        <div class="bg-number">01</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">MARKET<br>GENESIS.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    We audit your digital footprint. By identifying high-intent audience segments and competitor vulnerabilities, we uncover the <span class="text-white font-medium">revenue gaps</span> your brand is built to fill.
+                </p>
+                <div class="feature-list">
+                    <span>Audience Mining</span> • <span>Gap Analysis</span> • <span>Market Sentiment</span>
+                </div>
+                <div class="outcome-pill">Outcome: Growth Intelligence Blueprint</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">02</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">FUNNEL<br>ARCHITECTURE.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Engineering the journey to conversion. We map <span class="text-white font-medium">multi-touchpoint flows</span> that turn cold traffic into warm leads, ensuring no prospect falls through the cracks.
+                </p>
+                <div class="feature-list">
+                    <span>Lead Flow Mapping</span> • <span>Attribution Logic</span> • <span>Channel Selection</span>
+                </div>
+                <div class="outcome-pill">Outcome: Strategic Campaign Roadmap</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">03</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">CONVERSION<br>UX.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Traffic is useless without conversion. We optimize your landing experiences and site speed to ensure every click has a <span class="text-white font-medium">zero-friction path</span> to checkout.
+                </p>
+                <div class="feature-list">
+                    <span>A/B Wireframing</span> • <span>Friction Audit</span> • <span>Interaction Design</span>
+                </div>
+                <div class="outcome-pill">Outcome: High-Velocity Landing Strategy</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">04</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">CREATIVE<br>STORYTELLING.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Data-backed visual impact. We design <span class="text-white font-medium">brand-aligned assets</span> engineered to stop the scroll and trigger emotional action across all digital platforms.
+                </p>
+                <div class="feature-list">
+                    <span>Performance Design</span> • <span>Copywriting</span> • <span>Motion Graphics</span>
+                </div>
+                <div class="outcome-pill">Outcome: Multi-Platform Creative Suite</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">05</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">ADS<br>ENGINEERING.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Where the machine goes live. We deploy server-side tracking and <span class="text-white font-medium">deep-level attribution</span> to ensure every dollar spent is fully accountable.
+                </p>
+                <div class="feature-list">
+                    <span>Media Buying</span> • <span>Pixel Integration</span> • <span>Bid Optimization</span>
+                </div>
+                <div class="outcome-pill">Outcome: Active Revenue Infrastructure</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">06</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">VELOCITY<br>TESTING.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Data over opinions. We run multivariate tests on headlines, audiences, and offers to isolate the <span class="text-white font-medium">winning variables</span> at scale.
+                </p>
+                <div class="feature-list">
+                    <span>Split Testing</span> • <span>Offer Validation</span> • <span>Audience Tuning</span>
+                </div>
+                <div class="outcome-pill">Outcome: Verified Growth Levers</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">07</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">AGGRESSIVE<br>SCALING.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Market capture. Once unit economics are proven, we scale budgets to <span class="text-white font-medium">dominate your niche</span> while maintaining strict CPA targets.
+                </p>
+                <div class="feature-list">
+                    <span>Budget Scaling</span> • <span>Broad Targeting</span> • <span>Market Penetration</span>
+                </div>
+                <div class="outcome-pill">Outcome: Accelerated Market Dominance</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">08</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">LTV<br>MAXIMIZATION.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Retention is the ultimate growth hack. We implement <span class="text-white font-medium">lifecycle marketing</span> to increase customer lifetime value and long-term brand equity.
+                </p>
+                <div class="feature-list">
+                    <span>Email Automation</span> • <span>Remarketing</span> • <span>Loyalty Logic</span>
+                </div>
+                <div class="outcome-pill">Outcome: Compounding Growth Asset</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container bg-white">
+        <div class="content-wrapper text-center">
+            <h1 class="reveal-text" style="background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">DOMINATE<br>NOW.</h1>
+            <div class="detail-card opacity-100 relative bottom-0 transform-none">
+                <button onclick="window.location.href='mailto:hello@fundamentals.com'" class="mt-8 px-10 py-5 bg-black text-white rounded-full font-black tracking-[0.2em] uppercase text-[9px] hover:scale-105 transition-all">
+                    Initiate Growth Protocol
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const sections = document.querySelectorAll('.step-container');
+        const dotsContainer = document.getElementById('progress-dots');
+        sections.forEach(() => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dotsContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.dot');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                    const index = Array.from(sections).indexOf(entry.target);
+                    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+                } else {
+                    entry.target.classList.remove('is-active');
+                }
+            });
+        }, { threshold: 0.5 });
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
