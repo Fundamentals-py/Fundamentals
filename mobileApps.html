@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Apps | Fundamentals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #a855f7; --bg: #000; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        
+        .step-container {
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .reveal-text {
+            font-family: 'League Spartan';
+            font-size: clamp(2.2rem, 9vw, 8.5rem);
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .detail-card {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 850px;
+            width: 90%;
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(10px);
+        }
+
+        .is-active .detail-card {
+            opacity: 1;
+            bottom: 12%;
+            filter: blur(0px);
+        }
+
+        .nav-ring {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-ring { right: 40px; gap: 15px; }
+            .is-active .detail-card { bottom: 15%; }
+        }
+
+        .dot {
+            width: 4px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 50%; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dot.active {
+            background: var(--accent);
+            transform: scale(3.5);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .bg-number {
+            position: absolute;
+            font-family: 'League Spartan';
+            font-size: 40vh;
+            color: rgba(168, 85, 247, 0.03);
+            z-index: -1;
+            font-weight: 900;
+            user-select: none;
+        }
+
+        .outcome-pill {
+            display: inline-block;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .feature-list {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        ::-webkit-scrollbar { width: 0px; }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 p-6 md:p-10 flex justify-between items-center mix-blend-difference">
+        <a href="index.html" class="font-black text-xl md:text-2xl lowercase tracking-tighter" style="font-family: 'League Spartan'">fundamentals<span class="text-purple-500">.</span></a>
+        <div class="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] opacity-40">Mobile Protocol v2.0</div>
+    </nav>
+
+    <div class="nav-ring" id="progress-dots"></div>
+
+    <section class="step-container">
+        <div class="bg-number">01</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">APP<br>STRATEGY.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    We define the mobile roadmap. By analyzing user behavior on the go, we determine the <span class="text-white font-medium">core feature set</span> needed for a high-retention mobile experience.
+                </p>
+                <div class="feature-list">
+                    <span>iOS vs Android</span> • <span>Market Fit</span> • <span>Monetization Logic</span>
+                </div>
+                <div class="outcome-pill">Outcome: Mobile App Blueprint</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">02</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">NATIVE<br>LOGIC.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Engineering for performance. We design the technical architecture to support <span class="text-white font-medium">offline modes, background tasks</span>, and cross-platform synchronization.
+                </p>
+                <div class="feature-list">
+                    <span>Flutter/React Native</span> • <span>Push Notifications</span> • <span>API Sync</span>
+                </div>
+                <div class="outcome-pill">Outcome: Technical App Roadmap</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">03</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">GESTURE<br>UX.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Mobile is about feel. We engineer user journeys focused on <span class="text-white font-medium">thumb-friendly navigation</span> and natural gestures that keep users coming back.
+                </p>
+                <div class="feature-list">
+                    <span>Touch Points</span> • <span>Motion Design</span> • <span>User Flow</span>
+                </div>
+                <div class="outcome-pill">Outcome: Interaction Prototypes</div>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <section class="step-container">
+        <div class="bg-number">04</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">VISUAL<br>IMPACT.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Premium mobile aesthetics. We design interfaces that leverage <span class="text-white font-medium">Dark Mode, adaptive layouts</span>, and high-fidelity icons for a native feel.
+                </p>
+                <div class="feature-list">
+                    <span>Adaptive UI</span> • <span>Micro-animations</span> • <span>Design Systems</span>
+                </div>
+                <div class="outcome-pill">Outcome: Pixel-Perfect Screens</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">05</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">MOBILE<br>BUILD.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Agile mobile engineering. We build the <span class="text-white font-medium">frontend and secure cloud backends</span> in parallel, ensuring fast load times and smooth transitions.
+                </p>
+                <div class="feature-list">
+                    <span>State Management</span> • <span>Security</span> • <span>Device Integration</span>
+                </div>
+                <div class="outcome-pill">Outcome: Functional App Alpha</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">06</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">DEVICE<br>QA.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Testing on real hardware. We validate performance across <span class="text-white font-medium">multiple screen sizes and OS versions</span> to eliminate bugs and battery drain.
+                </p>
+                <div class="feature-list">
+                    <span>Battery Benchmarks</span> • <span>Stress Testing</span> • <span>Beta Feedback</span>
+                </div>
+                <div class="outcome-pill">Outcome: App Store Ready Build</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">07</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">STORE<br>LAUNCH.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Navigating the submission maze. We handle <span class="text-white font-medium">App Store & Google Play submission</span>, including screenshots, meta-data, and compliance.
+                </p>
+                <div class="feature-list">
+                    <span>ASO Strategy</span> • <span>Store Guidelines</span> • <span>Release Management</span>
+                </div>
+                <div class="outcome-pill">Outcome: Live App Listing</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container">
+        <div class="bg-number">08</div>
+        <div class="content-wrapper">
+            <h1 class="reveal-text">USER<br>TUNING.</h1>
+            <div class="detail-card">
+                <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                    Scaling the user base. We use <span class="text-white font-medium">real-world analytics</span> to tune performance, add new features, and boost app store ratings over time.
+                </p>
+                <div class="feature-list">
+                    <span>Retention Analysis</span> • <span>Feature Updates</span> • <span>Bug Fixes</span>
+                </div>
+                <div class="outcome-pill">Outcome: High-Rating Growth Asset</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-container bg-white">
+        <div class="content-wrapper text-center">
+            <h1 class="reveal-text" style="background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">READY TO<br>LAUNCH.</h1>
+            <div class="detail-card opacity-100 relative bottom-0 transform-none">
+                <button onclick="window.location.href='mailto:hello@fundamentals.com'" class="mt-8 px-10 py-5 bg-black text-white rounded-full font-black tracking-[0.2em] uppercase text-[9px] hover:scale-105 transition-all">
+                    Initiate App Genesis
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const sections = document.querySelectorAll('.step-container');
+        const dotsContainer = document.getElementById('progress-dots');
+        sections.forEach(() => {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            dotsContainer.appendChild(dot);
+        });
+        const dots = document.querySelectorAll('.dot');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-active');
+                    const index = Array.from(sections).indexOf(entry.target);
+                    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+                } else {
+                    entry.target.classList.remove('is-active');
+                }
+            });
+        }, { threshold: 0.5 });
+        sections.forEach(section => observer.observe(section));
+    </script>
+</body>
+</html>
