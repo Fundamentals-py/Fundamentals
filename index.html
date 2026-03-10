@@ -648,22 +648,22 @@
         @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
     </style>
     <script>
-
+        
         let software_development = document.getElementById("software_development")
         let mobile_app = document.getElementById("mobile_app")
         let marketing = document.getElementById("marketing")
         let technology_training = document.getElementById("technology_training")
 
-        software_development.addEventListener('click',()=>{
-            location.replace("softwareDevelopment.htm")
+        software_development.addEventListener('click', () => {
+            window.location.href = "softwareDevelopment.htm"
         })
 
-        mobile_app.addEventListener('click',()=>{
-            location.replace("mobileApps.html")
+        mobile_app.addEventListener('click', () => {
+            window.location.href = "mobileApps.html"
         })
 
-        marketing.addEventListener('click',()=>{
-            location.replace("digitalMarketing.html")
+        marketing.addEventListener('click', () => {
+            window.location.href = "digitalMarketing.html"
         })
 
     </script>
