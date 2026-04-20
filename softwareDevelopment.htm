@@ -3,263 +3,486 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fundamentals | Intelligent Digital Solutions</title>
+    
+    <!-- SEO Meta -->
+    <title>Custom Software Development | Strategy, Architecture & Secure Deployment | Fundamentals</title>
+    <meta name="description" content="Fundamentals crafts custom enterprise software. From strategy and secure architecture to backend logic and live deployment. Build with precision.">
+    <meta name="keywords" content="custom software development, software strategy, system architecture, secure backend, API development, admin dashboard, software deployment, enterprise software, Fundamentals">
+    <meta name="author" content="Fundamentals">
+    <link rel="canonical" href="https://fundamentals.com/custom-software">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Custom Software | Precision Engineering | Fundamentals">
+    <meta property="og:description" content="Strategy, architecture, security, and deployment. We build custom software that scales.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://fundamentals.com/og-image.jpg">
+    <meta property="og:url" content="https://fundamentals.com/custom-software">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Custom Software | Fundamentals">
+    <meta name="twitter:description" content="End-to-end custom software development for modern enterprises.">
+
+    <!-- Tailwind & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     
     <style>
-        :root { --purple: #a855f7; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #000; 
-            color: #fff; 
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-        .logo-font { font-family: 'League Spartan', sans-serif; font-weight: 700; }
+        :root { --accent: #a855f7; --bg: #000; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
         
-        /* Premium Blur effect */
-        .glass-nav { 
-            background: rgba(0, 0, 0, 0.7); 
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
+        .step-container {
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg);
         }
 
-        /* Floating Glow Cursor */
-        #glow-cursor {
-            position: fixed;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
-        }
-
-        /* Reveal Animation for Text */
         .reveal-text {
-            background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, rgba(255,255,255,0.1) 50%);
-            background-size: 200% 100%;
-            background-position: 100% 0;
+            font-family: 'League Spartan';
+            font-size: clamp(2.2rem, 9vw, 8.5rem);
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.2) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            transition: background-position 1s ease-out;
-        }
-        .reveal-text.active { background-position: 0% 0; }
-
-        /* Apple-style Gradient Button */
-        .btn-premium {
-            position: relative;
-            overflow: hidden;
-            background: #fff;
-            color: #000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .btn-premium:hover {
-            background: var(--purple);
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -5px rgba(168, 85, 247, 0.5);
+            font-weight: 900;
+            text-align: center;
+            padding: 0 1rem;
         }
 
-        /* Custom Bento Grid style cards */
-        .bento-card {
-            background: linear-gradient(145deg, #0f0f0f, #050505);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: border 0.3s ease, transform 0.3s ease;
-        }
-        .bento-card:hover {
-            border-color: rgba(168, 85, 247, 0.3);
-            transform: scale(1.02);
+        .detail-card {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 850px;
+            width: 90%;
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(10px);
         }
 
-        /* Hide scrollbar */
+        .is-active .detail-card {
+            opacity: 1;
+            bottom: 12%;
+            filter: blur(0px);
+        }
+
+        .nav-ring {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-ring { right: 40px; gap: 15px; }
+            .is-active .detail-card { bottom: 15%; }
+        }
+
+        .dot {
+            width: 4px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 50%; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dot.active {
+            background: var(--accent);
+            transform: scale(3.5);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .bg-number {
+            position: absolute;
+            font-family: 'League Spartan';
+            font-size: 40vh;
+            color: rgba(168, 85, 247, 0.03);
+            z-index: -1;
+            font-weight: 900;
+            user-select: none;
+        }
+
+        .outcome-pill {
+            display: inline-block;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .feature-list {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
         ::-webkit-scrollbar { width: 0px; }
+        
+        /* SEO-friendly skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent);
+            color: #fff;
+            padding: 8px;
+            z-index: 200;
+            transition: top 0.2s;
+        }
+        .skip-link:focus { top: 0; }
     </style>
 </head>
 <body>
 
-    <div id="glow-cursor"></div>
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
 
-    <nav class="fixed w-full z-50 glass-nav border-b border-white/5">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="logo-font text-2xl lowercase tracking-tighter">fundamentals<span class="text-purple-500">.</span></div>
-            <div class="hidden md:flex space-x-10 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
-                <a href="#services" class="hover:text-white transition-colors">Services</a>
-                <a href="#about" class="hover:text-white transition-colors">Vision</a>
-                <a href="#contact" class="hover:text-white transition-colors">Project</a>
-            </div>
-            <a href="#contact" class="text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2.5 rounded-full btn-premium">Get Started</a>
-        </div>
-    </nav>
+    <!-- Main navigation with semantic header -->
+    <header>
+        <nav class="fixed top-0 w-full z-50 p-6 md:p-10 flex justify-between items-center mix-blend-difference" aria-label="Main navigation">
+            <a href="index.html" class="font-black text-xl md:text-2xl lowercase tracking-tighter" style="font-family: 'League Spartan'" aria-label="Fundamentals home">
+                fundamentals<span class="text-purple-500">.</span>
+            </a>
+            <div class="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] opacity-40" aria-label="Custom protocol version">Custom Protocol v1.0</div>
+        </nav>
+    </header>
 
-    <section class="min-h-screen flex flex-col items-center justify-center relative pt-20">
-        <div class="text-center z-10 px-6 max-w-6xl">
-            <h1 class="text-[12vw] md:text-[8vw] font-black tracking-tighter leading-[0.85] mb-8" data-aos="zoom-out-up">
-                PURE<br><span class="reveal-text" id="hero-reveal">POTENTIAL.</span>
-            </h1>
-            <p class="text-gray-500 text-lg md:text-2xl max-w-3xl mx-auto mb-12 font-medium leading-tight" data-aos="fade-up" data-aos-delay="400">
-                We don't just build websites. We engineer digital foundations for the world's most ambitious brands.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="600">
-                <button class="btn-premium px-12 py-5 rounded-full font-bold text-lg">Work with us</button>
-                <button class="px-12 py-5 rounded-full border border-white/20 font-bold text-lg hover:bg-white/5 transition flex items-center gap-3">
-                    Our Process <span class="text-purple-500">→</span>
-                </button>
-            </div>
-        </div>
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-20">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-        </div>
-    </section>
+    <!-- Progress Navigation (interactive dots) -->
+    <nav class="nav-ring" id="progress-dots" aria-label="Section progress"></nav>
 
-    <section id="services" class="py-32 relative z-10 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-20">
-                <h2 class="text-purple-500 font-bold tracking-widest uppercase text-xs mb-4">What we do</h2>
-                <h3 class="text-5xl md:text-7xl font-bold tracking-tighter">Everything to scale.</h3>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <div class="md:col-span-8 bento-card p-12 rounded-[40px] flex flex-col justify-between group" data-aos="fade-right">
-                    <div>
-                        <div class="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-8 text-purple-500">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-width="2"/></svg>
-                        </div>
-                        <h4 class="text-3xl font-bold mb-4">Custom Software</h4>
-                        <p class="text-gray-500 text-lg max-w-md">Proprietary ERPs, CRMs, and automation engines built from the ground up for zero-friction scaling.</p>
+    <main id="main-content">
+        <!-- Step 1: Custom Strategy -->
+        <section class="step-container" aria-labelledby="heading-strategy">
+            <div class="bg-number" aria-hidden="true">01</div>
+            <div class="content-wrapper">
+                <h1 id="heading-strategy" class="reveal-text">CUSTOM<br>STRATEGY.</h1>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        We architect the foundation. Deep-dive into your <span class="text-white font-medium">business logic, workflows & integrations</span> to define a scalable, future-proof software blueprint.
+                    </p>
+                    <div class="feature-list">
+                        <span>Stakeholder interviews</span> • <span>Legacy analysis</span> • <span>Scalability planning</span>
                     </div>
-                    <div class="mt-12 overflow-hidden rounded-2xl bg-black/50 border border-white/5 p-4">
-                        <div class="flex gap-2">
-                            <div class="h-2 w-2 rounded-full bg-red-500"></div>
-                            <div class="h-2 w-2 rounded-full bg-yellow-500"></div>
-                            <div class="h-2 w-2 rounded-full bg-green-500"></div>
-                        </div>
-                        <div class="mt-4 h-32 bg-gradient-to-t from-purple-500/10 to-transparent rounded-lg border border-purple-500/5"></div>
-                    </div>
+                    <div class="outcome-pill">Outcome: Technical Blueprint & SOW</div>
                 </div>
+            </div>
+        </section>
 
-                <div class="md:col-span-4 bento-card p-12 rounded-[40px] relative overflow-hidden group" data-aos="fade-left">
-                    <h4 class="text-3xl font-bold mb-4">Mobile Apps</h4>
-                    <p class="text-gray-500">iOS & Android experiences that feel native, fast, and weightless.</p>
-                    <div class="mt-20 flex justify-center transform group-hover:scale-110 transition duration-500">
-                         <div class="w-40 h-80 bg-gray-900 rounded-[3rem] border-4 border-gray-800 relative">
-                             <div class="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-4 bg-gray-800 rounded-full"></div>
-                         </div>
+        <!-- Step 2: System Architecture -->
+        <section class="step-container" aria-labelledby="heading-arch">
+            <div class="bg-number" aria-hidden="true">02</div>
+            <div class="content-wrapper">
+                <h2 id="heading-arch" class="reveal-text">SYSTEM<br>ARCH.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Engineering precision. We design the <span class="text-white font-medium">data models, API contracts, and cloud infrastructure</span> tailored to your performance and compliance needs.
+                    </p>
+                    <div class="feature-list">
+                        <span>Microservices / Monolith</span> • <span>Database design</span> • <span>Cloud (AWS/Azure/GCP)</span>
                     </div>
+                    <div class="outcome-pill">Outcome: Scalable System Design</div>
                 </div>
+            </div>
+        </section>
 
-                <div class="md:col-span-4 bento-card p-12 rounded-[40px]" data-aos="fade-up" data-aos-delay="100">
-                    <h4 class="text-2xl font-bold mb-4">Marketing</h4>
-                    <p class="text-gray-500">Data-driven reach that turns visibility into actual revenue.</p>
-                </div>
-                <div class="md:col-span-8 bento-card p-12 rounded-[40px] purple-gradient bg-purple-600/5 flex items-center justify-between" data-aos="fade-up" data-aos-delay="200">
-                    <div>
-                        <h4 class="text-2xl font-bold mb-4">Technology Training</h4>
-                        <p class="text-gray-500">Bridging the gap between theory and industry-grade engineering.</p>
+        <!-- Step 3: Secure Core -->
+        <section class="step-container" aria-labelledby="heading-secure">
+            <div class="bg-number" aria-hidden="true">03</div>
+            <div class="content-wrapper">
+                <h2 id="heading-secure" class="reveal-text">SECURE<br>CORE.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Enterprise-grade protection. We embed <span class="text-white font-medium">role-based access, encryption at rest/transit, and audit trails</span> from day one.
+                    </p>
+                    <div class="feature-list">
+                        <span>SOC2 / HIPAA ready</span> • <span>Zero-trust model</span> • <span>Penetration testing</span>
                     </div>
-                    <button class="w-16 h-16 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 transition">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2"/></svg>
+                    <div class="outcome-pill">Outcome: Hardened Security Posture</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4: Backend Logic -->
+        <section class="step-container" aria-labelledby="heading-backend">
+            <div class="bg-number" aria-hidden="true">04</div>
+            <div class="content-wrapper">
+                <h2 id="heading-backend" class="reveal-text">BACKEND<br>LOGIC.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        The engine room. We build robust, <span class="text-white font-medium">event-driven backends and clean REST/GraphQL APIs</span> that power seamless integrations.
+                    </p>
+                    <div class="feature-list">
+                        <span>Node.js / Python / .NET</span> • <span>Message queues</span> • <span>Webhooks</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: High-Performance API Suite</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Admin Control -->
+        <section class="step-container" aria-labelledby="heading-admin">
+            <div class="bg-number" aria-hidden="true">05</div>
+            <div class="content-wrapper">
+                <h2 id="heading-admin" class="reveal-text">ADMIN<br>CONTROL.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Operational visibility. We craft <span class="text-white font-medium">intuitive admin panels and reporting dashboards</span> that give you complete control over your ecosystem.
+                    </p>
+                    <div class="feature-list">
+                        <span>Real-time analytics</span> • <span>User management</span> • <span>Custom reporting</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Centralized Command Center</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6: Client Interface -->
+        <section class="step-container" aria-labelledby="heading-client">
+            <div class="bg-number" aria-hidden="true">06</div>
+            <div class="content-wrapper">
+                <h2 id="heading-client" class="reveal-text">CLIENT<br>INTERFACE.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Seamless user experiences. Whether web portal or internal tool, we build <span class="text-white font-medium">responsive, reactive interfaces</span> that connect flawlessly to your backend.
+                    </p>
+                    <div class="feature-list">
+                        <span>React / Vue / Svelte</span> • <span>WebSocket live data</span> • <span>WCAG accessibility</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Polished Web Application</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7: System QA -->
+        <section class="step-container" aria-labelledby="heading-qa">
+            <div class="bg-number" aria-hidden="true">07</div>
+            <div class="content-wrapper">
+                <h2 id="heading-qa" class="reveal-text">SYSTEM<br>QA.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Rigorous validation. We execute <span class="text-white font-medium">automated test suites, load testing, and UAT cycles</span> to ensure rock-solid stability under any load.
+                    </p>
+                    <div class="feature-list">
+                        <span>Unit / E2E testing</span> • <span>10k+ concurrent users</span> • <span>Disaster recovery drills</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Production-Ready Release</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8: Live Deploy -->
+        <section class="step-container" aria-labelledby="heading-deploy">
+            <div class="bg-number" aria-hidden="true">08</div>
+            <div class="content-wrapper">
+                <h2 id="heading-deploy" class="reveal-text">LIVE<br>DEPLOY.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Smooth transition. We manage the <span class="text-white font-medium">CI/CD pipelines, data migration, and zero-downtime cutover</span> to launch your custom software.
+                    </p>
+                    <div class="feature-list">
+                        <span>Kubernetes / Docker</span> • <span>Blue-green deploys</span> • <span>Legacy data import</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Live Production Environment</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="step-container bg-white" aria-labelledby="heading-cta">
+            <div class="content-wrapper text-center">
+                <h2 id="heading-cta" class="reveal-text" style="background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">BUILD WITH<br>PRECISION.</h2>
+                <div class="detail-card opacity-100 relative bottom-0 transform-none">
+                    <button onclick="window.location.href='mailto:hello@fundamentals.com'" class="mt-8 px-10 py-5 bg-black text-white rounded-full font-black tracking-[0.2em] uppercase text-[9px] hover:scale-105 transition-all" aria-label="Contact us to engineer your custom solution">
+                        Engineer Your Solution
                     </button>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <div class="py-20 overflow-hidden opacity-10 select-none">
-        <div class="flex whitespace-nowrap text-[15vw] font-black uppercase tracking-tighter leading-none gap-20 animate-marquee">
-            <span>Development</span>
-            <span>Design</span>
-            <span>Strategy</span>
-            <span>Intelligence</span>
-        </div>
-    </div>
-
-    <section id="contact" class="py-32 bg-[#050505] relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-            <div data-aos="fade-right">
-                <h2 class="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-none">LET'S<br><span class="text-purple-500">BEGIN.</span></h2>
-                <p class="text-gray-400 text-xl mb-12">Fundamentals isn't a vendor. We're your technical co-founders.</p>
-                <div class="space-y-4">
-                    <p class="text-2xl font-bold tracking-tight">mailus.fundamentals@gmail.com</p>
-                    <p class="text-2xl font-bold tracking-tight">+91 82489 92453</p>
-                </div>
-            </div>
-            
-            <div class="bg-black p-1 rounded-[40px] border border-white/10" data-aos="zoom-in">
-                <div class="bg-[#0a0a0a] p-12 rounded-[38px] space-y-8">
-                    <div class="grid grid-cols-2 gap-8">
-                        <div>
-                            <p class="text-purple-500 font-black text-4xl mb-2">99%</p>
-                            <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Uptime Guaranteed</p>
-                        </div>
-                        <div>
-                            <p class="text-purple-500 font-black text-4xl mb-2">2x</p>
-                            <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Growth Velocity</p>
-                        </div>
-                    </div>
-                    <button class="w-full bg-white text-black py-6 rounded-[20px] font-black text-xl hover:bg-purple-500 hover:text-white transition-all duration-500 uppercase tracking-widest">Start Consultation</button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="py-12 px-6 border-t border-white/5 text-center">
-        <div class="logo-font text-2xl lowercase mb-4">fundamentals<span class="text-purple-500">.</span></div>
-        <p class="text-gray-600 text-[10px] uppercase tracking-[0.5em]">Scalable Performance • Future-Proof Intelligence</p>
+    <footer class="sr-only">
+        <!-- Hidden for SEO crawl, but visible to screen readers -->
+        <p>© Fundamentals. Custom software development & enterprise solutions.</p>
+        <nav aria-label="Footer navigation">
+            <a href="/privacy">Privacy</a> | <a href="/terms">Terms</a> | <a href="/contact">Contact</a>
+        </nav>
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true, easing: 'ease-out-quint' });
-
-        // Smooth Cursor Follow
-        const glow = document.getElementById('glow-cursor');
-        let cursorX = 0, cursorY = 0;
-        let glowX = 0, glowY = 0;
-
-        window.addEventListener('mousemove', (e) => {
-            cursorX = e.clientX;
-            cursorY = e.clientY;
-        });
-
-        function animateGlow() {
-            glowX += (cursorX - glowX) * 0.1;
-            glowY += (cursorY - glowY) * 0.1;
-            glow.style.left = glowX + 'px';
-            glow.style.top = glowY + 'px';
-            requestAnimationFrame(animateGlow);
-        }
-        animateGlow();
-
-        // Text Reveal on Scroll
-        window.addEventListener('scroll', () => {
-            const reveal = document.getElementById('hero-reveal');
-            const pos = reveal.getBoundingClientRect().top;
-            if(pos < window.innerHeight * 0.8) {
-                reveal.classList.add('active');
+        (function() {
+            const sections = document.querySelectorAll('.step-container');
+            const dotsContainer = document.getElementById('progress-dots');
+            
+            // Clear and create dots based on sections count
+            dotsContainer.innerHTML = '';
+            sections.forEach((section, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.setAttribute('role', 'button');
+                dot.setAttribute('tabindex', '0');
+                dot.setAttribute('aria-label', `Go to step ${index+1}: ${section.querySelector('h1, h2')?.innerText.replace('<br>', ' ') || 'section'}`);
+                dot.setAttribute('title', `Step ${index+1}`);
+                dot.dataset.index = index;
+                
+                // Click navigation
+                dot.addEventListener('click', () => {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+                dot.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+                
+                dotsContainer.appendChild(dot);
+            });
+            
+            const dots = document.querySelectorAll('.dot');
+            
+            // Intersection Observer
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-active');
+                        const index = Array.from(sections).indexOf(entry.target);
+                        dots.forEach((dot, i) => {
+                            const isActive = i === index;
+                            dot.classList.toggle('active', isActive);
+                            dot.setAttribute('aria-current', isActive ? 'step' : 'false');
+                        });
+                    } else {
+                        entry.target.classList.remove('is-active');
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => observer.observe(section));
+            
+            // Pre-select first dot if visible (in case of initial state)
+            if (sections.length > 0 && dots.length > 0) {
+                // Force check on load
+                setTimeout(() => {
+                    const visibleSection = Array.from(sections).find(s => s.getBoundingClientRect().top >= -100 && s.getBoundingClientRect().top <= window.innerHeight/2);
+                    if (visibleSection) {
+                        const idx = Array.from(sections).indexOf(visibleSection);
+                        dots.forEach((d, i) => {
+                            d.classList.toggle('active', i === idx);
+                            d.setAttribute('aria-current', i === idx ? 'step' : 'false');
+                        });
+                    }
+                }, 100);
             }
-        });
-
-        // Trigger marquee animation manually for perfect loop
-        const marquee = document.querySelector('.animate-marquee');
-        if (marquee) {
-            const clone = marquee.innerHTML;
-            marquee.innerHTML += clone;
-        }
+        })();
     </script>
-
-    <style>
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+    
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Custom Software Development",
+      "provider": {
+        "@type": "Organization",
+        "name": "Fundamentals",
+        "url": "https://fundamentals.com",
+        "logo": "https://fundamentals.com/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "hello@fundamentals.com",
+          "contactType": "customer service"
         }
-        .animate-marquee {
-            animation: marquee 30s linear infinite;
-        }
-    </style>
+      },
+      "description": "End-to-end custom software development: strategy, system architecture, secure backend, admin dashboards, and live deployment.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Development Process",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Custom Strategy",
+              "description": "Technical blueprint, stakeholder interviews, scalability planning"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "System Architecture",
+              "description": "Data models, API contracts, cloud infrastructure (AWS/Azure/GCP)"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Secure Core",
+              "description": "Role-based access, encryption, audit trails, SOC2/HIPAA ready"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Backend Logic",
+              "description": "Event-driven backends, REST/GraphQL APIs, message queues"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Admin Control",
+              "description": "Admin panels, real-time analytics, custom reporting"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Client Interface",
+              "description": "React/Vue/Svelte, WebSocket, WCAG accessibility"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "System QA",
+              "description": "Automated testing, load testing, disaster recovery drills"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Live Deploy",
+              "description": "CI/CD pipelines, zero-downtime cutover, Kubernetes/Docker"
+            }
+          }
+        ]
+      }
+    }
+    </script>
 </body>
 </html>
