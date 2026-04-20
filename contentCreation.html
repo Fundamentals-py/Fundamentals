@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta -->
+    <title>Content Creation Services | Strategy, Production & Distribution | Fundamentals</title>
+    <meta name="description" content="Fundamentals creates high-impact content. From strategy and creative direction to production and multi-channel distribution. Build your brand narrative with precision.">
+    <meta name="keywords" content="content creation, content strategy, video production, copywriting, social media content, brand storytelling, content marketing, creative agency, Fundamentals">
+    <meta name="author" content="Fundamentals">
+    <link rel="canonical" href="https://fundamentals.com/content-creation">
+    
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Content Creation | Brand Storytelling | Fundamentals">
+    <meta property="og:description" content="Strategy, production, and distribution. We create content that resonates and converts.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://fundamentals.com/og-image-content.jpg">
+    <meta property="og:url" content="https://fundamentals.com/content-creation">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Content Creation | Fundamentals">
+    <meta name="twitter:description" content="End-to-end content creation for modern brands.">
+
+    <!-- Tailwind & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --accent: #a855f7; --bg: #000; }
+        body { background-color: var(--bg); color: #fff; font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; }
+        
+        .step-container {
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: var(--bg);
+        }
+
+        .reveal-text {
+            font-family: 'League Spartan';
+            font-size: clamp(2.2rem, 9vw, 8.5rem);
+            line-height: 0.85;
+            letter-spacing: -0.05em;
+            background: linear-gradient(180deg, #fff 0%, rgba(255,255,255,0.2) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .detail-card {
+            position: absolute;
+            bottom: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 850px;
+            width: 90%;
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(10px);
+        }
+
+        .is-active .detail-card {
+            opacity: 1;
+            bottom: 12%;
+            filter: blur(0px);
+        }
+
+        .nav-ring {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-ring { right: 40px; gap: 15px; }
+            .is-active .detail-card { bottom: 15%; }
+        }
+
+        .dot {
+            width: 4px; height: 4px; background: rgba(255,255,255,0.2);
+            border-radius: 50%; transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .dot.active {
+            background: var(--accent);
+            transform: scale(3.5);
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        .bg-number {
+            position: absolute;
+            font-family: 'League Spartan';
+            font-size: 40vh;
+            color: rgba(168, 85, 247, 0.03);
+            z-index: -1;
+            font-weight: 900;
+            user-select: none;
+        }
+
+        .outcome-pill {
+            display: inline-block;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: var(--accent);
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 9px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-top: 15px;
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .feature-list {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            margin-top: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        ::-webkit-scrollbar { width: 0px; }
+        
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--accent);
+            color: #fff;
+            padding: 8px;
+            z-index: 200;
+            transition: top 0.2s;
+            font-weight: 600;
+        }
+        .skip-link:focus { top: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- Accessibility Skip Link -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Main navigation -->
+    <header>
+        <nav class="fixed top-0 w-full z-50 p-6 md:p-10 flex justify-between items-center mix-blend-difference" aria-label="Main navigation">
+            <a href="index.html" class="font-black text-xl md:text-2xl lowercase tracking-tighter" style="font-family: 'League Spartan'" aria-label="Fundamentals home">
+                fundamentals<span class="text-purple-500">.</span>
+            </a>
+            <div class="text-[8px] md:text-[9px] font-bold uppercase tracking-[0.4em] opacity-40" aria-label="Creative protocol version">Creative Protocol v2.0</div>
+        </nav>
+    </header>
+
+    <!-- Progress Navigation -->
+    <nav class="nav-ring" id="progress-dots" aria-label="Section progress"></nav>
+
+    <main id="main-content">
+        <!-- Step 1: Content Strategy -->
+        <section class="step-container" aria-labelledby="heading-strategy">
+            <div class="bg-number" aria-hidden="true">01</div>
+            <div class="content-wrapper">
+                <h1 id="heading-strategy" class="reveal-text">CONTENT<br>STRATEGY.</h1>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        We decode your brand DNA. Deep research into your <span class="text-white font-medium">audience personas, competitive landscape & content gaps</span> to build a narrative framework that drives engagement.
+                    </p>
+                    <div class="feature-list">
+                        <span>Audience research</span> • <span>Competitive audit</span> • <span>Content pillars</span> • <span>Editorial calendar</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Comprehensive Content Strategy Doc</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 2: Creative Direction -->
+        <section class="step-container" aria-labelledby="heading-creative">
+            <div class="bg-number" aria-hidden="true">02</div>
+            <div class="content-wrapper">
+                <h2 id="heading-creative" class="reveal-text">CREATIVE<br>DIRECTION.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Visual and tonal cohesion. We define your <span class="text-white font-medium">brand voice, visual identity systems, and creative guidelines</span> that ensure consistency across every touchpoint.
+                    </p>
+                    <div class="feature-list">
+                        <span>Brand voice development</span> • <span>Mood boards</span> • <span>Art direction</span> • <span>Style guides</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Unified Brand Identity System</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 3: Copywriting -->
+        <section class="step-container" aria-labelledby="heading-copy">
+            <div class="bg-number" aria-hidden="true">03</div>
+            <div class="content-wrapper">
+                <h2 id="heading-copy" class="reveal-text">COPY<br>WRITING.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Words that work. We craft <span class="text-white font-medium">compelling headlines, SEO-optimized long-form, email sequences, and conversion copy</span> that turns readers into customers.
+                    </p>
+                    <div class="feature-list">
+                        <span>Website copy</span> • <span>Blog posts</span> • <span>Email nurture</span> • <span>Ad copy</span> • <span>Technical writing</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Conversion-Focused Copy Library</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 4: Video Production -->
+        <section class="step-container" aria-labelledby="heading-video">
+            <div class="bg-number" aria-hidden="true">04</div>
+            <div class="content-wrapper">
+                <h2 id="heading-video" class="reveal-text">VIDEO<br>PRODUCTION.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Visual storytelling at scale. From <span class="text-white font-medium">concept and storyboarding to filming and post-production</span>, we create video assets that stop the scroll.
+                    </p>
+                    <div class="feature-list">
+                        <span>4K / 8K filming</span> • <span>Motion graphics</span> • <span>Animation</span> • <span>Sound design</span> • <span>Color grading</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Platform-Optimized Video Suite</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 5: Design & Visuals -->
+        <section class="step-container" aria-labelledby="heading-design">
+            <div class="bg-number" aria-hidden="true">05</div>
+            <div class="content-wrapper">
+                <h2 id="heading-design" class="reveal-text">DESIGN &<br>VISUALS.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Assets that elevate. We design <span class="text-white font-medium">social graphics, infographics, ebooks, presentations, and custom illustrations</span> that make your brand unmistakable.
+                    </p>
+                    <div class="feature-list">
+                        <span>Social media assets</span> • <span>Infographics</span> • <span>White papers</span> • <span>Pitch decks</span> • <span>UI/UX imagery</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Complete Visual Asset Kit</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 6: Social Media Management -->
+        <section class="step-container" aria-labelledby="heading-social">
+            <div class="bg-number" aria-hidden="true">06</div>
+            <div class="content-wrapper">
+                <h2 id="heading-social" class="reveal-text">SOCIAL<br>MANAGEMENT.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Community and conversation. We handle <span class="text-white font-medium">content scheduling, community engagement, influencer coordination, and real-time trend response</span>.
+                    </p>
+                    <div class="feature-list">
+                        <span>LinkedIn / X / IG / TikTok</span> • <span>Community replies</span> • <span>Hashtag strategy</span> • <span>Live coverage</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Engaged & Growing Social Presence</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 7: SEO & Distribution -->
+        <section class="step-container" aria-labelledby="heading-seo">
+            <div class="bg-number" aria-hidden="true">07</div>
+            <div class="content-wrapper">
+                <h2 id="heading-seo" class="reveal-text">SEO &<br>DISTRIBUTION.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Content that gets found. We optimize for <span class="text-white font-medium">search intent, build backlink strategies, and syndicate content across email and partner channels</span>.
+                    </p>
+                    <div class="feature-list">
+                        <span>Keyword research</span> • <span>On-page SEO</span> • <span>Link building</span> • <span>Email distribution</span> • <span>PR outreach</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Increased Organic Reach & Traffic</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Step 8: Performance Analytics -->
+        <section class="step-container" aria-labelledby="heading-analytics">
+            <div class="bg-number" aria-hidden="true">08</div>
+            <div class="content-wrapper">
+                <h2 id="heading-analytics" class="reveal-text">PERFORMANCE<br>ANALYTICS.</h2>
+                <div class="detail-card">
+                    <p class="text-gray-400 text-sm md:text-lg font-light leading-relaxed">
+                        Data-driven iteration. We track <span class="text-white font-medium">engagement metrics, conversion funnels, and audience sentiment</span> to continuously refine the content engine.
+                    </p>
+                    <div class="feature-list">
+                        <span>Dashboard reporting</span> • <span>A/B testing headlines</span> • <span>Attribution modeling</span> • <span>Sentiment analysis</span>
+                    </div>
+                    <div class="outcome-pill">Outcome: Actionable Insights & ROI Reporting</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Final CTA -->
+        <section class="step-container bg-white" aria-labelledby="heading-cta">
+            <div class="content-wrapper text-center">
+                <h2 id="heading-cta" class="reveal-text" style="background: linear-gradient(180deg, #000 0%, rgba(0,0,0,0.3) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">CREATE WITH<br>IMPACT.</h2>
+                <div class="detail-card opacity-100 relative bottom-0 transform-none">
+                    <button onclick="window.location.href='mailto:hello@fundamentals.com'" class="mt-8 px-10 py-5 bg-black text-white rounded-full font-black tracking-[0.2em] uppercase text-[9px] hover:scale-105 transition-all" aria-label="Contact us to start your content journey">
+                        Start Creating
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="sr-only">
+        <p>© Fundamentals. Content creation & brand storytelling agency.</p>
+        <nav aria-label="Footer navigation">
+            <a href="/privacy">Privacy</a> | <a href="/terms">Terms</a> | <a href="/contact">Contact</a>
+        </nav>
+    </footer>
+
+    <script>
+        (function() {
+            const sections = document.querySelectorAll('.step-container');
+            const dotsContainer = document.getElementById('progress-dots');
+            
+            dotsContainer.innerHTML = '';
+            sections.forEach((section, index) => {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.setAttribute('role', 'button');
+                dot.setAttribute('tabindex', '0');
+                dot.setAttribute('aria-label', `Go to step ${index+1}: ${section.querySelector('h1, h2')?.innerText.replace('<br>', ' ') || 'section'}`);
+                dot.setAttribute('title', `Step ${index+1}`);
+                dot.dataset.index = index;
+                
+                dot.addEventListener('click', () => {
+                    section.scrollIntoView({ behavior: 'smooth' });
+                });
+                dot.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+                
+                dotsContainer.appendChild(dot);
+            });
+            
+            const dots = document.querySelectorAll('.dot');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-active');
+                        const index = Array.from(sections).indexOf(entry.target);
+                        dots.forEach((dot, i) => {
+                            const isActive = i === index;
+                            dot.classList.toggle('active', isActive);
+                            dot.setAttribute('aria-current', isActive ? 'step' : 'false');
+                        });
+                    } else {
+                        entry.target.classList.remove('is-active');
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            sections.forEach(section => observer.observe(section));
+            
+            setTimeout(() => {
+                const visibleSection = Array.from(sections).find(s => s.getBoundingClientRect().top >= -100 && s.getBoundingClientRect().top <= window.innerHeight/2);
+                if (visibleSection) {
+                    const idx = Array.from(sections).indexOf(visibleSection);
+                    dots.forEach((d, i) => {
+                        d.classList.toggle('active', i === idx);
+                        d.setAttribute('aria-current', i === idx ? 'step' : 'false');
+                    });
+                }
+            }, 100);
+        })();
+    </script>
+    
+    <!-- Structured Data (JSON-LD) for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Content Creation Services",
+      "provider": {
+        "@type": "Organization",
+        "name": "Fundamentals",
+        "url": "https://fundamentals.com",
+        "logo": "https://fundamentals.com/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "email": "hello@fundamentals.com",
+          "contactType": "customer service"
+        }
+      },
+      "description": "Full-service content creation agency: strategy, copywriting, video production, design, social management, SEO, and analytics.",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Content Creation Process",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Content Strategy",
+              "description": "Audience research, competitive audit, content pillars, editorial calendar"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Creative Direction",
+              "description": "Brand voice, mood boards, art direction, style guides"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Copywriting",
+              "description": "Website copy, blog posts, email nurture, ad copy, technical writing"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Video Production",
+              "description": "4K/8K filming, motion graphics, animation, sound design, color grading"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Design & Visuals",
+              "description": "Social assets, infographics, white papers, pitch decks, UI/UX imagery"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Social Media Management",
+              "description": "LinkedIn/X/IG/TikTok scheduling, community engagement, influencer coordination"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "SEO & Distribution",
+              "description": "Keyword research, on-page SEO, link building, email distribution, PR outreach"
+            }
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Performance Analytics",
+              "description": "Dashboard reporting, A/B testing, attribution modeling, sentiment analysis"
+            }
+          }
+        ]
+      }
+    }
+    </script>
+</body>
+</html>
