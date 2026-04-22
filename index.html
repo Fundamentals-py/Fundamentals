@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Fundamentals | Intelligent Digital Solutions</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
-        :root { --purple: #a855f7; }
+        :root { --purple: #a855f7; --purple-glow: rgba(168,85,247,0.4); --purple-light: #c084fc; --purple-dark: #7c3aed; --purple-deep: #4c1d95; }
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: #000; 
@@ -18,6 +18,7 @@
             overflow-x: hidden;
         }
         .logo-font { font-family: 'League Spartan', sans-serif; font-weight: 700; }
+        .mono-font { font-family: 'JetBrains Mono', monospace; }
         
         .glass-nav { 
             background: rgba(0, 0, 0, 0.7); 
@@ -29,12 +30,13 @@
             position: fixed;
             width: 600px;
             height: 600px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0,0,0,0) 70%);
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0,0,0,0) 70%);
             border-radius: 50%;
             pointer-events: none;
             z-index: 0;
             transform: translate(-50%, -50%);
-            transition: transform 0.1s ease-out;
+            transition: transform 0.08s ease-out;
+            will-change: left, top;
         }
 
         .reveal-text {
@@ -43,7 +45,7 @@
             background-position: 100% 0;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            transition: background-position 1s ease-out;
+            transition: background-position 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
         .reveal-text.active { background-position: 0% 0; }
 
@@ -52,94 +54,241 @@
             overflow: hidden;
             background: #fff;
             color: #000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 1;
         }
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+            z-index: -1;
+        }
+        .btn-premium:hover::before { left: 100%; }
         .btn-premium:hover {
             background: var(--purple);
             color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px -5px rgba(168, 85, 247, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -8px rgba(168, 85, 247, 0.6);
         }
 
         .bento-card {
             background: linear-gradient(145deg, #0f0f0f, #050505);
             border: 1px solid rgba(255,255,255,0.05);
-            transition: border 0.3s ease, transform 0.3s ease;
+            transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
+        .bento-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(168,85,247,0.08), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+        .bento-card:hover::after { opacity: 1; }
         .bento-card:hover {
-            border-color: rgba(168, 85, 247, 0.3);
-            transform: scale(1.02);
+            border-color: rgba(168, 85, 247, 0.4);
+            transform: translateY(-6px) scale(1.01);
+            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.6);
         }
 
-        ::-webkit-scrollbar { width: 0px; }
-
-        /* ── Code Editor Mockup ── */
-        .code-line { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; font-size: 11px; font-family: 'Courier New', monospace; white-space: nowrap; }
-        .ln { color: #3a3a4a; min-width: 18px; text-align: right; font-size: 10px; }
-        .kw  { color: #c678dd; }
-        .fn  { color: #61afef; }
-        .str { color: #98c379; }
-        .ty  { color: #e5c07b; }
-        .cm  { color: #5c6370; }
-        .op  { color: #56b6c2; }
-        .num { color: #d19a66; }
-        .var { color: #e06c75; }
-
-        /* ── Phone App Screen ── */
-        .app-topbar { background: linear-gradient(135deg, #1a0533, #0d0d0d); padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; }
-        .app-card { background: rgba(168,85,247,0.08); border: 1px solid rgba(168,85,247,0.15); border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; }
-
-        /* ── Dashboard Chart ── */
-        .chart-bar { background: linear-gradient(to top, #a855f7, #7c3aed); border-radius: 4px 4px 0 0; transition: height 0.6s ease; }
-
-        /* ── Glow Pulse ── */
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); }
-            50%       { box-shadow: 0 0 20px 4px rgba(168,85,247,0.3); }
+        /* ========== CUSTOM SOFTWARE - CLEAN VERSION (NO SCANLINE) ========== */
+        @keyframes floatCode {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            100% { transform: translateY(-150px) rotate(15deg); opacity: 0; }
         }
-        .pulse-icon { animation: pulse-glow 2.5s ease-in-out infinite; }
-
-        /* ── Typing cursor ── */
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-        .cursor { animation: blink 1s step-end infinite; color: #a855f7; }
-
-        /* ── Floating badge ── */
-        @keyframes float-y {
-            0%,100%{transform:translateY(0)} 
-            50%{transform:translateY(-8px)}
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.3; filter: blur(20px); }
+            50% { opacity: 0.6; filter: blur(30px); }
         }
-        .float-badge { animation: float-y 3s ease-in-out infinite; }
-
-        /* Progress bar shimmer */
-        @keyframes shimmer {
-            0%{background-position:-200% 0}
-            100%{background-position:200% 0}
+        @keyframes terminalCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
+        @keyframes rotate3d {
+            0% { transform: rotateY(0deg) rotateX(5deg); }
+            50% { transform: rotateY(5deg) rotateX(8deg); }
+            100% { transform: rotateY(0deg) rotateX(5deg); }
+        }
+
+        .code-particle-3d {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: rgba(168,85,247,0.3);
+            pointer-events: none;
+            animation: floatCode 6s linear infinite;
+            z-index: 1;
+        }
+        .glow-orb {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: glowPulse 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 14px;
+            background: #a855f7;
+            animation: terminalCursor 1s step-end infinite;
+            vertical-align: middle;
+            margin-left: 2px;
+        }
+        .code-editor-bg {
+            background: linear-gradient(180deg, #0a0812 0%, #050308 100%);
+            border: 1px solid rgba(168,85,247,0.2);
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 20px 40px -20px rgba(0,0,0,0.5);
+        }
+        .editor-line {
+            transition: all 0.3s ease;
+        }
+        .editor-line:hover {
+            background: rgba(168,85,247,0.1);
+            border-left: 2px solid #a855f7;
+            padding-left: 8px;
+        }
+        .deploy-bar {
+            background: linear-gradient(90deg, #7c3aed, #a855f7, #c084fc);
+            background-size: 200% 100%;
+            animation: shimmer 2s linear infinite;
+            box-shadow: 0 0 20px rgba(168,85,247,0.5);
+        }
+        .architecture-node {
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .architecture-node:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 25px rgba(168,85,247,0.4);
+            border-color: #a855f7;
+        }
+        .tech-stack-badge {
+            background: rgba(168,85,247,0.08);
+            border: 0.5px solid rgba(168,85,247,0.2);
+            backdrop-filter: blur(5px);
+            transition: all 0.2s;
+        }
+        .tech-stack-badge:hover {
+            background: rgba(168,85,247,0.2);
+            border-color: #a855f7;
+            transform: translateY(-1px);
+        }
+
+        /* ========== MOBILE LAYOUT ========== */
+        .mobile-showcase { display: flex; flex-direction: column; height: 100%; }
+        .mobile-device-mock {
+            background: #0c0a14;
+            border-radius: 36px;
+            padding: 12px;
+            box-shadow: 0 30px 50px -15px #000, inset 0 0 0 1px rgba(168,85,247,0.2);
+            border: 1px solid #2a1f3a;
+        }
+        .mobile-screen {
+            background: radial-gradient(circle at 30% 20%, #1e1730, #0a0812);
+            border-radius: 28px;
+            padding: 18px 12px;
+            border: 1px solid #3a2a55;
+        }
+        .app-preview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .app-badge {
+            background: rgba(20, 15, 30, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 18px;
+            padding: 12px 8px;
+            transition: all 0.25s;
+        }
+        .app-badge:hover {
+            border-color: #a855f7;
+            background: rgba(50, 30, 70, 0.5);
+            transform: translateY(-2px);
+        }
+        .stat-highlight { background: linear-gradient(135deg, #1a1130, #0e0a18); border: 1px solid #a855f7; }
+        .feature-tag {
+            background: rgba(168,85,247,0.15);
+            border-radius: 40px;
+            padding: 6px 14px;
+            border: 0.5px solid rgba(168,85,247,0.4);
+            font-size: 11px;
+            font-weight: 600;
+            color: #d8b4fe;
+        }
+
+        /* Digital Marketing & SEO - Purple Theme */
+        .seo-glow { background: radial-gradient(circle at 80% 20%, rgba(168,85,247,0.1), transparent 70%); }
+        .seo-grid-pattern {
+            background-image: linear-gradient(rgba(168,85,247,0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(168,85,247,0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .serp-card {
+            background: rgba(168,85,247,0.05);
+            border: 1px solid rgba(168,85,247,0.2);
+            transition: all 0.3s;
+        }
+        .serp-card:hover { border-color: #a855f7; background: rgba(168,85,247,0.12); }
+        .keyword-pill { background: #1a1a1a; border: 1px solid #3a3a3a; transition: all 0.2s; }
+        .keyword-pill:hover { border-color: #a855f7; background: #1a102a; }
+        .rank-badge { background: linear-gradient(145deg, #a855f7, #7c3aed); border: 1px solid rgba(168,85,247,0.4); }
+        .pulse-seo { animation: seoPulse 2s infinite; }
+        @keyframes seoPulse { 0% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); } 70% { box-shadow: 0 0 0 10px rgba(168,85,247,0); } 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); } }
+
+        .chart-bar { transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .bento-card:hover .chart-bar { height: calc(100% + 8px) !important; }
+        
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(168, 85, 247, 0.5);
+            transform: scale(0);
+            animation: rippleAnim 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
+        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+        .animate-marquee { animation: marquee 14s linear infinite; }
         .shimmer-bar {
             background: linear-gradient(90deg, #7c3aed 25%, #c084fc 50%, #7c3aed 75%);
             background-size: 200% 100%;
-            animation: shimmer 2s linear infinite;
+            animation: shimmer 2.2s linear infinite;
             border-radius: 99px;
         }
+        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
+        .reel-animate { animation: slideReel 22s linear infinite; }
+        @keyframes slideReel { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
+        .reel-container:hover .reel-animate { animation-play-state: paused; }
+        .pulse-icon { animation: pulse-glow 2.5s ease-in-out infinite; }
+        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); } 50% { box-shadow: 0 0 20px 8px rgba(168,85,247,0.3); } }
     </style>
 </head>
 <body>
 
     <div id="glow-cursor"></div>
 
-    <nav class="fixed w-full z-50 glass-nav border-b border-white/5">
+    <nav class="fixed w-full z-50 glass-nav border-b border-white/5 backdrop-blur-xl transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="logo-font text-2xl lowercase tracking-tighter">fundamentals<span class="text-purple-500">.</span></div>
+            <div class="logo-font text-2xl lowercase tracking-tighter hover:text-purple-400 transition-colors duration-300">fundamentals<span class="text-purple-500">.</span></div>
             <div class="hidden md:flex space-x-10 text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">
-                <a href="#services" class="hover:text-white transition-colors">Services</a>
-                <a href="#about" class="hover:text-white transition-colors">Vision</a>
-                <a href="#contact" class="hover:text-white transition-colors">Project</a>
+                <a href="#services" class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full hover:text-white">Services</a>
+                <a href="#about" class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full hover:text-white">Vision</a>
+                <a href="#contact" class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full hover:text-white">Project</a>
             </div>
-            <a href="#contact" class="text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2.5 rounded-full btn-premium">Get Started</a>
+            <a href="#contact" class="text-xs font-bold uppercase tracking-widest bg-white text-black px-6 py-2.5 rounded-full btn-premium relative overflow-hidden group">Get Started</a>
         </div>
     </nav>
 
-    <!-- ══════════════ HERO ══════════════ -->
+    <!-- HERO -->
     <section class="min-h-screen flex flex-col items-center justify-center relative pt-20">
         <div class="text-center z-10 px-6 max-w-6xl">
             <h1 class="text-[12vw] md:text-[8vw] font-black tracking-tighter leading-[0.85] mb-8" data-aos="zoom-out-up">
@@ -149,510 +298,386 @@
                 We don't just build websites. We engineer digital foundations for the world's most ambitious brands.
             </p>
             <div class="flex flex-col sm:flex-row gap-6 justify-center" data-aos="fade-up" data-aos-delay="600">
-                <button class="btn-premium px-12 py-5 rounded-full font-bold text-lg">Work with us</button>
-                <button class="px-12 py-5 rounded-full border border-white/20 font-bold text-lg hover:bg-white/5 transition flex items-center gap-3">
-                    Our Process <span class="text-purple-500">→</span>
+                <button class="btn-premium px-12 py-5 rounded-full font-bold text-lg group relative overflow-hidden">Work with us</button>
+                <button class="px-12 py-5 rounded-full border border-white/20 font-bold text-lg hover:bg-white/5 transition-all duration-300 hover:scale-105 flex items-center gap-3">
+                    Our Process <span class="text-purple-500 group-hover:translate-x-1 transition-transform">→</span>
                 </button>
             </div>
         </div>
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-20">
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
         </div>
     </section>
 
-    <!-- ══════════════ SERVICES — REDESIGNED ══════════════ -->
+    <!-- SERVICES SECTION -->
     <section id="services" class="py-32 relative z-10 px-6">
         <div class="max-w-7xl mx-auto">
-
-            <div class="mb-20">
-                <h2 class="text-purple-500 font-bold tracking-widest uppercase text-xs mb-4">What we do</h2>
-                <h3 class="text-5xl md:text-7xl font-bold tracking-tighter">Everything to scale.</h3>
+            <div class="mb-20" data-aos="fade-right">
+                <h2 class="text-purple-500 font-bold tracking-widest uppercase text-xs mb-4 animate-pulse">What we do</h2>
+                <h3 class="text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">Everything to scale.</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-
-                <!-- ══ CARD 1 — Custom Software (Wide) ══ -->
-                <div class="md:col-span-8 bento-card p-6 md:p-10 rounded-[40px] flex flex-col justify-between group overflow-hidden relative" data-aos="fade-right" id="software_development">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <div class="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6 text-purple-500 pulse-icon">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-width="2"/></svg>
-                            </div>
-                            <h4 class="text-3xl font-bold mb-3">Custom Software</h4>
-                            <p class="text-gray-500 text-base max-w-xs leading-relaxed">Proprietary ERPs, CRMs, and automation engines built from the ground up for zero-friction scaling.</p>
-                        </div>
-                        <!-- Live metric badge -->
-                        <div class="float-badge hidden md:flex flex-col items-center bg-purple-500/10 border border-purple-500/20 rounded-2xl px-5 py-4 gap-1">
-                            <span class="text-purple-400 text-2xl font-black">98.7%</span>
-                            <span class="text-gray-500 text-[10px] uppercase tracking-widest">Efficiency</span>
-                        </div>
-                    </div>
-
-                    <!-- Code Editor Mockup -->
-                    <div class="mt-8 rounded-2xl overflow-hidden border border-white/5" style="background:#0d0d12;">
-                        <!-- Tab bar -->
-                        <div class="flex items-center gap-2 px-4 py-3 border-b border-white/5" style="background:#080810;">
-                            <div class="h-2.5 w-2.5 rounded-full bg-red-500/80 flex-shrink-0"></div>
-                            <div class="h-2.5 w-2.5 rounded-full bg-yellow-500/80 flex-shrink-0"></div>
-                            <div class="h-2.5 w-2.5 rounded-full bg-green-500/80 flex-shrink-0"></div>
-                            <div class="flex gap-1 ml-4 overflow-hidden">
-                                <div class="text-[10px] text-gray-400 bg-white/5 px-3 py-1 rounded-t-lg border border-white/10 border-b-0 whitespace-nowrap">api.service.ts</div>
-                                <div class="text-[10px] text-gray-600 px-3 py-1 whitespace-nowrap hidden sm:block">schema.prisma</div>
-                                <div class="text-[10px] text-gray-600 px-3 py-1 whitespace-nowrap hidden sm:block">dashboard.tsx</div>
-                            </div>
-                        </div>
-                        <!-- Code body — scrollable on mobile -->
-                        <div class="overflow-x-auto">
-                            <div class="p-5 grid grid-cols-1 gap-0" style="min-width: 480px;">
-                                <div class="code-line"><span class="ln">1</span><span class="cm">// Fundamentals ERP — Core Engine v4.2</span></div>
-                                <div class="code-line"><span class="ln">2</span><span class="kw">import</span> <span class="op">{</span> <span class="ty">Injectable</span><span class="op">,</span> <span class="ty">Singleton</span> <span class="op">}</span> <span class="kw">from</span> <span class="str">'@core/di'</span><span class="op">;</span></div>
-                                <div class="code-line"><span class="ln">3</span><span class="kw">import</span> <span class="op">{</span> <span class="ty">WorkflowEngine</span><span class="op">,</span> <span class="ty">AutomationRule</span> <span class="op">}</span> <span class="kw">from</span> <span class="str">'@fundamentals/engine'</span><span class="op">;</span></div>
-                                <div class="code-line"><span class="ln">4</span></div>
-                                <div class="code-line"><span class="ln">5</span><span class="op">@</span><span class="fn">Injectable</span><span class="op">()</span></div>
-                                <div class="code-line"><span class="ln">6</span><span class="kw">export class</span> <span class="ty">CRMService</span> <span class="op">{</span></div>
-                                <div class="code-line"><span class="ln">7</span>&nbsp;&nbsp;<span class="kw">async</span> <span class="fn">processLead</span><span class="op">(</span><span class="var">lead</span><span class="op">:</span> <span class="ty">LeadDTO</span><span class="op">)</span> <span class="op">{</span></div>
-                                <div class="code-line"><span class="ln">8</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">const</span> <span class="var">score</span> <span class="op">=</span> <span class="kw">await</span> <span class="fn">this</span><span class="op">.</span><span class="fn">ai.score</span><span class="op">(</span><span class="var">lead</span><span class="op">);</span></div>
-                                <div class="code-line"><span class="ln">9</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> <span class="op">(</span><span class="var">score</span> <span class="op">&gt;</span> <span class="num">0.85</span><span class="op">)</span> <span class="kw">return</span> <span class="fn">this</span><span class="op">.</span><span class="fn">autoClose</span><span class="op">(</span><span class="var">lead</span><span class="op">);</span><span class="cursor">█</span></div>
-                            </div>
-                        </div>
-                        <!-- Progress bars -->
-                        <div class="px-5 pb-5 space-y-2">
-                            <div class="flex justify-between text-[10px] text-gray-600 mb-1"><span>Build pipeline</span><span class="text-green-400">● Passing</span></div>
-                            <div class="w-full bg-white/5 rounded-full h-1.5"><div class="shimmer-bar h-1.5" style="width:87%"></div></div>
-                            <div class="flex justify-between text-[10px] text-gray-600 mt-2 mb-1"><span>Test coverage</span><span class="text-purple-400">94.2%</span></div>
-                            <div class="w-full bg-white/5 rounded-full h-1.5"><div class="shimmer-bar h-1.5" style="width:94%"></div></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ══ CARD 2 — Mobile Apps (col-span-4, 3 phones fan) ══ -->
-                <div class="md:col-span-4 bento-card p-8 rounded-[40px] relative overflow-hidden flex flex-col" data-aos="fade-left" id="mobile_app">
-                    <!-- BG glows -->
-                    <div style="position:absolute;top:-60px;left:10%;width:280px;height:280px;background:radial-gradient(circle,rgba(168,85,247,0.07),transparent 70%);pointer-events:none;"></div>
-                    <div style="position:absolute;top:-40px;right:5%;width:200px;height:200px;background:radial-gradient(circle,rgba(52,211,153,0.05),transparent 70%);pointer-events:none;"></div>
-
-                    <!-- Header -->
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 text-purple-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-width="2"/></svg>
-                    </div>
-                    <h4 class="text-3xl font-bold mb-2">Mobile Apps</h4>
-                    <p class="text-gray-500 text-sm mb-6 max-w-xs">iOS & Android experiences that feel native, fast, and weightless — across every industry.</p>
-                    <!-- Tags -->
-                    <div class="flex gap-2 mb-8 flex-wrap">
-                        <span style="font-size:9px;font-weight:700;letter-spacing:.07em;color:#a855f7;background:rgba(168,85,247,0.08);border:1px solid rgba(168,85,247,0.2);padding:4px 10px;border-radius:99px;">Finance</span>
-                        <span style="font-size:9px;font-weight:700;letter-spacing:.07em;color:#34d399;background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.2);padding:4px 10px;border-radius:99px;">Fitness</span>
-                        <span style="font-size:9px;font-weight:700;letter-spacing:.07em;color:#60a5fa;background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.2);padding:4px 10px;border-radius:99px;">Social</span>
-                    </div>
-
-                    <!-- 3 phones fan — compact, fills card bottom -->
-                    <div style="flex:1;display:flex;justify-content:center;align-items:flex-end;position:relative;min-height:360px;">
-
-                        <!-- PHONE LEFT: Finance -->
-                        <div style="position:absolute;left:50%;margin-left:-155px;bottom:0;transform:perspective(700px) rotateY(18deg) rotateX(3deg) translateY(18px) scale(0.82);transform-origin:bottom center;filter:drop-shadow(0 20px 35px rgba(168,85,247,0.3));z-index:1;">
-                            <div style="width:145px;border-radius:2.4rem;border:2px solid #2a1a3a;overflow:hidden;background:#0a0010;">
-                                <div style="background:#080010;padding:7px 11px 4px;display:flex;justify-content:space-between;align-items:center;">
-                                    <span style="font-size:8px;color:#6b7280;font-weight:700;">9:41</span>
-                                    <div style="width:44px;height:14px;background:#000;border-radius:999px;border:1px solid #1a0030;"></div>
-                                    <span style="font-size:8px;color:#6b7280;">▪▪</span>
-                                </div>
-                                <div style="background:linear-gradient(170deg,#0d0120,#060010);padding:10px 10px 0;">
-                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                                        <div><div style="font-size:7px;color:#7c3aed;font-weight:700;letter-spacing:.07em;">PORTFOLIO</div><div style="font-size:13px;font-weight:900;color:#fff;letter-spacing:-.03em;">Finance</div></div>
-                                        <div style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#a855f7,#7c3aed);display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" fill="white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></div>
-                                    </div>
-                                    <div style="background:linear-gradient(135deg,#4c1d95,#7c3aed);border-radius:11px;padding:10px;margin-bottom:8px;position:relative;overflow:hidden;">
-                                        <div style="position:absolute;top:-12px;right:-12px;width:55px;height:55px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
-                                        <div style="font-size:7px;color:rgba(255,255,255,0.6);margin-bottom:3px;letter-spacing:.07em;">TOTAL BALANCE</div>
-                                        <div style="font-size:16px;font-weight:900;color:#fff;letter-spacing:-.03em;">₹2,48,500</div>
-                                        <div style="font-size:7px;color:#c4b5fd;margin-top:2px;">↑ +4.2% this month</div>
-                                    </div>
-                                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(168,85,247,0.1);border-radius:8px;padding:7px;margin-bottom:8px;">
-                                        <div style="font-size:7px;color:#6b7280;margin-bottom:5px;">30-day trend</div>
-                                        <svg width="100%" height="30" viewBox="0 0 130 30" preserveAspectRatio="none">
-                                            <defs><linearGradient id="fg1b" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a855f7" stop-opacity=".35"/><stop offset="100%" stop-color="#a855f7" stop-opacity="0"/></linearGradient></defs>
-                                            <path d="M0,24 L16,21 L32,23 L48,15 L64,17 L80,10 L96,12 L112,6 L130,2" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-linecap="round"/>
-                                            <path d="M0,24 L16,21 L32,23 L48,15 L64,17 L80,10 L96,12 L112,6 L130,2 L130,30 L0,30 Z" fill="url(#fg1b)"/>
+            <!-- 2x2 Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- CARD 1: CUSTOM SOFTWARE - NO SCANLINE, CLEAN ALIGNMENT -->
+                <div class="bento-card p-6 md:p-8 rounded-[40px] flex flex-col group overflow-hidden relative" data-aos="fade-right" data-aos-duration="800" id="software_development">
+                    <!-- Floating code particles -->
+                    <div class="code-particle-3d" style="top: 5%; left: 90%; animation-duration: 5s;">&lt;div&gt;</div>
+                    <div class="code-particle-3d" style="top: 15%; left: 5%; animation-duration: 7s;">async</div>
+                    <div class="code-particle-3d" style="top: 40%; left: 95%; animation-duration: 4s;">await</div>
+                    <div class="code-particle-3d" style="top: 70%; left: 8%; animation-duration: 6s;">{ ... }</div>
+                    <div class="code-particle-3d" style="top: 85%; left: 85%; animation-duration: 5.5s;">() =&gt;</div>
+                    <div class="code-particle-3d" style="top: 30%; left: 50%; animation-duration: 8s;">const</div>
+                    
+                    <!-- Glow orb background -->
+                    <div class="glow-orb" style="top: -50px; right: -50px;"></div>
+                    <div class="glow-orb" style="bottom: -50px; left: -50px; animation-delay: 2s;"></div>
+                    
+                    <div class="relative z-10 flex flex-col h-full">
+                        <!-- Header with straightened icon -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="relative">
+                                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600/20 to-purple-900/40 border border-purple-500/30 flex items-center justify-center text-purple-400 pulse-icon">
+                                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="1.5"/>
                                         </svg>
                                     </div>
-                                    <div style="margin-bottom:10px;">
-                                        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-                                            <div style="display:flex;align-items:center;gap:5px;"><div style="width:18px;height:18px;border-radius:5px;background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.3);font-size:7px;font-weight:900;color:#60a5fa;display:flex;align-items:center;justify-content:center;">T</div><div style="font-size:8px;color:#e5e7eb;font-weight:600;">TATA</div></div>
-                                            <div style="text-align:right;"><div style="font-size:8px;color:#fff;font-weight:700;">₹3,420</div><div style="font-size:7px;color:#34d399;">+2.1%</div></div>
-                                        </div>
-                                        <div style="display:flex;justify-content:space-between;align-items:center;padding:5px 0;">
-                                            <div style="display:flex;align-items:center;gap:5px;"><div style="width:18px;height:18px;border-radius:5px;background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.3);font-size:7px;font-weight:900;color:#a855f7;display:flex;align-items:center;justify-content:center;">R</div><div style="font-size:8px;color:#e5e7eb;font-weight:600;">RELIANCE</div></div>
-                                            <div style="text-align:right;"><div style="font-size:8px;color:#fff;font-weight:700;">₹2,890</div><div style="font-size:7px;color:#f87171;">-0.8%</div></div>
-                                        </div>
-                                    </div>
                                 </div>
-                                <div style="background:#060010;padding:6px 10px 8px;display:flex;justify-content:space-around;border-top:1px solid rgba(168,85,247,0.08);">
-                                    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;"><svg width="12" height="12" fill="#a855f7" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg><div style="width:3px;height:3px;border-radius:50%;background:#a855f7;"></div></div>
-                                    <svg width="12" height="12" fill="#374151" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3z"/></svg>
-                                    <svg width="12" height="12" fill="#374151" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12z"/></svg>
+                                <div>
+                                    <h4 class="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">Custom Software</h4>
+                                    <p class="text-gray-400 text-xs mono-font flex items-center gap-1">
+                                        <span class="text-purple-400">~/fundamentals/engine</span>
+                                    </p>
                                 </div>
-                                <div style="background:#060010;height:14px;display:flex;align-items:center;justify-content:center;"><div style="width:32px;height:3px;background:#1a0a2a;border-radius:99px;"></div></div>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span class="text-purple-400 text-2xl font-black mono-font">99.99<span class="text-xs text-gray-500">%</span></span>
+                                <span class="text-gray-500 text-[8px] uppercase tracking-wider -mt-1">Uptime SLA</span>
                             </div>
                         </div>
 
-                        <!-- PHONE CENTER: Fitness (front, tallest) -->
-                        <div style="position:absolute;left:50%;margin-left:-85px;bottom:0;transform:perspective(700px) rotateY(0deg) rotateX(1deg);transform-origin:bottom center;filter:drop-shadow(0 30px 55px rgba(52,211,153,0.28)) drop-shadow(0 0 30px rgba(168,85,247,0.1));z-index:10;">
-                            <div style="width:170px;border-radius:2.8rem;border:2px solid #0a2a1a;overflow:hidden;background:#020d08;">
-                                <div style="background:#010a05;padding:8px 13px 5px;display:flex;justify-content:space-between;align-items:center;">
-                                    <span style="font-size:8px;color:#6b7280;font-weight:700;">9:41</span>
-                                    <div style="width:52px;height:15px;background:#000;border-radius:999px;border:1px solid #0a1a0a;"></div>
-                                    <span style="font-size:8px;color:#6b7280;">▪▪</span>
+                        <!-- 3D Code Editor Window -->
+                        <div class="code-editor-bg rounded-2xl p-4 mb-4 transform transition-transform duration-500" style="animation: rotate3d 8s ease-in-out infinite;">
+                            <!-- Editor header -->
+                            <div class="flex items-center justify-between mb-3 pb-2 border-b border-purple-500/20">
+                                <div class="flex items-center gap-2">
+                                    <div class="flex gap-1.5">
+                                        <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+                                        <div class="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                                        <div class="w-3 h-3 rounded-full bg-green-500/80"></div>
+                                    </div>
+                                    <span class="text-[10px] text-gray-500 mono-font ml-2">core-engine.service.ts</span>
                                 </div>
-                                <div style="background:linear-gradient(170deg,#021a0e,#010a05);padding:12px 12px 0;">
-                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                                        <div><div style="font-size:8px;color:#34d399;font-weight:700;letter-spacing:.07em;">TODAY</div><div style="font-size:14px;font-weight:900;color:#fff;letter-spacing:-.03em;">Activity</div></div>
-                                        <div style="width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;box-shadow:0 0 10px rgba(52,211,153,0.4);"><svg width="13" height="13" fill="white" viewBox="0 0 24 24"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div>
-                                    </div>
-                                    <!-- Ring -->
-                                    <div style="display:flex;justify-content:center;margin-bottom:12px;">
-                                        <div style="position:relative;width:88px;height:88px;">
-                                            <svg width="88" height="88" viewBox="0 0 88 88">
-                                                <circle cx="44" cy="44" r="37" fill="none" stroke="rgba(52,211,153,0.1)" stroke-width="7"/>
-                                                <circle cx="44" cy="44" r="37" fill="none" stroke="#34d399" stroke-width="7" stroke-dasharray="192 233" stroke-dashoffset="-29" stroke-linecap="round" transform="rotate(-90 44 44)"/>
-                                                <circle cx="44" cy="44" r="26" fill="none" stroke="rgba(251,191,36,0.1)" stroke-width="5"/>
-                                                <circle cx="44" cy="44" r="26" fill="none" stroke="#fbbf24" stroke-width="5" stroke-dasharray="130 163" stroke-dashoffset="-16" stroke-linecap="round" transform="rotate(-90 44 44)"/>
-                                                <circle cx="44" cy="44" r="16" fill="none" stroke="rgba(96,165,250,0.1)" stroke-width="4"/>
-                                                <circle cx="44" cy="44" r="16" fill="none" stroke="#60a5fa" stroke-width="4" stroke-dasharray="76 101" stroke-dashoffset="-10" stroke-linecap="round" transform="rotate(-90 44 44)"/>
-                                            </svg>
-                                            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><div style="font-size:15px;font-weight:900;color:#fff;">83%</div><div style="font-size:6px;color:#6b7280;">GOAL</div></div>
-                                        </div>
-                                    </div>
-                                    <!-- Stats -->
-                                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px;margin-bottom:10px;">
-                                        <div style="background:rgba(52,211,153,0.08);border:1px solid rgba(52,211,153,0.15);border-radius:8px;padding:6px;text-align:center;"><div style="font-size:11px;font-weight:900;color:#34d399;">8.2k</div><div style="font-size:6px;color:#4b5563;margin-top:1px;">Steps</div></div>
-                                        <div style="background:rgba(251,191,36,0.08);border:1px solid rgba(251,191,36,0.15);border-radius:8px;padding:6px;text-align:center;"><div style="font-size:11px;font-weight:900;color:#fbbf24;">612</div><div style="font-size:6px;color:#4b5563;margin-top:1px;">Cal</div></div>
-                                        <div style="background:rgba(96,165,250,0.08);border:1px solid rgba(96,165,250,0.15);border-radius:8px;padding:6px;text-align:center;"><div style="font-size:11px;font-weight:900;color:#60a5fa;">5.2</div><div style="font-size:6px;color:#4b5563;margin-top:1px;">km</div></div>
-                                    </div>
-                                    <!-- Workouts -->
-                                    <div style="margin-bottom:12px;">
-                                        <div style="font-size:7px;color:#4b5563;font-weight:700;letter-spacing:.07em;margin-bottom:5px;">UPCOMING</div>
-                                        <div style="display:flex;align-items:center;gap:7px;padding:6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:9px;margin-bottom:4px;">
-                                            <div style="width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" fill="white" viewBox="0 0 24 24"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div>
-                                            <div style="flex:1;"><div style="font-size:8px;color:#e5e7eb;font-weight:700;">HIIT Training</div><div style="font-size:7px;color:#4b5563;">30 min · 5:00 PM</div></div>
-                                            <div style="font-size:8px;color:#34d399;font-weight:700;">→</div>
-                                        </div>
-                                        <div style="display:flex;align-items:center;gap:7px;padding:6px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.04);border-radius:9px;">
-                                            <div style="width:22px;height:22px;border-radius:7px;background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="10" height="10" fill="#60a5fa" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg></div>
-                                            <div style="flex:1;"><div style="font-size:8px;color:#9ca3af;font-weight:600;">Yoga Flow</div><div style="font-size:7px;color:#4b5563;">45 min · 7:30 PM</div></div>
-                                        </div>
-                                    </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-[8px] text-purple-400 mono-font">TypeScript React</span>
+                                    <span class="text-[8px] text-gray-600">v2.4.1</span>
                                 </div>
-                                <div style="background:#010a05;padding:7px 12px 8px;display:flex;justify-content:space-around;border-top:1px solid rgba(52,211,153,0.08);">
-                                    <svg width="13" height="13" fill="#374151" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                                    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;"><svg width="13" height="13" fill="#34d399" viewBox="0 0 24 24"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg><div style="width:3px;height:3px;border-radius:50%;background:#34d399;"></div></div>
-                                    <svg width="13" height="13" fill="#374151" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12z"/></svg>
+                            </div>
+                            
+                            <!-- Code lines with syntax highlighting -->
+                            <div class="space-y-1.5 mono-font text-xs">
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">1</span>
+                                    <span class="text-purple-400">import</span> <span class="text-blue-400">{ MicroService }</span> <span class="text-purple-400">from</span> <span class="text-green-400">'@fundamentals/core'</span><span class="text-gray-500">;</span>
                                 </div>
-                                <div style="background:#010a05;height:16px;display:flex;align-items:center;justify-content:center;"><div style="width:36px;height:3px;background:#0a1a0a;border-radius:99px;"></div></div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">2</span>
+                                    <span class="text-gray-500"></span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">3</span>
+                                    <span class="text-purple-400">export class</span> <span class="text-yellow-400">ScalingEngine</span> <span class="text-purple-400">extends</span> <span class="text-blue-400">MicroService</span> <span class="text-gray-400">{</span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">4</span>
+                                    <span class="text-blue-400 ml-4">private</span> <span class="text-yellow-400">instances</span>: <span class="text-green-400">number</span> = <span class="text-orange-400">24</span><span class="text-gray-500">;</span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">5</span>
+                                    <span class="text-blue-400 ml-4">async</span> <span class="text-yellow-400">deploy</span><span class="text-gray-400">(</span><span class="text-blue-400">config</span>: <span class="text-green-400">DeployConfig</span><span class="text-gray-400">)</span><span class="text-purple-400">: Promise</span><span class="text-gray-400">&lt;</span><span class="text-green-400">void</span><span class="text-gray-400">&gt; {</span>
+                                </div>
+                                <div class="editor-line flex items-center bg-purple-500/10 border-l-2 border-purple-500 pl-2">
+                                    <span class="text-gray-600 w-6 text-right mr-3">6</span>
+                                    <span class="text-purple-400 ml-8">await</span> <span class="text-blue-400">this</span><span class="text-gray-400">.</span><span class="text-yellow-400">orchestrate</span><span class="text-gray-400">(</span><span class="text-orange-400">24</span> <span class="text-cyan-400">microservices</span><span class="text-gray-400">);</span> <span class="text-gray-500">// K8s cluster</span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">7</span>
+                                    <span class="text-purple-400 ml-8">return</span> <span class="text-blue-400">this</span><span class="text-gray-400">.</span><span class="text-yellow-400">healthCheck</span><span class="text-gray-400">();</span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">8</span>
+                                    <span class="text-gray-400 ml-4">}</span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">9</span>
+                                    <span class="text-gray-400">}</span>
+                                </div>
+                                <div class="editor-line flex items-center">
+                                    <span class="text-gray-600 w-6 text-right mr-3">10</span>
+                                    <span class="text-gray-500"></span>
+                                </div>
+                                <div class="editor-line flex items-center text-green-400">
+                                    <span class="text-gray-600 w-6 text-right mr-3">11</span>
+                                    <span class="ml-4">// ✓ 24 microservices active</span>
+                                    <span class="terminal-cursor ml-1"></span>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- PHONE RIGHT: Social/Chat -->
-                        <div style="position:absolute;left:50%;margin-left:25px;bottom:0;transform:perspective(700px) rotateY(-18deg) rotateX(3deg) translateY(18px) scale(0.82);transform-origin:bottom center;filter:drop-shadow(0 20px 35px rgba(96,165,250,0.25));z-index:1;">
-                            <div style="width:145px;border-radius:2.4rem;border:2px solid #1a1a2e;overflow:hidden;background:#02040f;">
-                                <div style="background:#010208;padding:7px 11px 4px;display:flex;justify-content:space-between;align-items:center;">
-                                    <span style="font-size:8px;color:#6b7280;font-weight:700;">9:41</span>
-                                    <div style="width:44px;height:14px;background:#000;border-radius:999px;border:1px solid #0a0a20;"></div>
-                                    <span style="font-size:8px;color:#6b7280;">▪▪</span>
+                        <!-- Architecture visualization -->
+                        <div class="grid grid-cols-4 gap-2 mb-4">
+                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-2 flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
+                                    <span class="text-xs mono-font text-purple-400">DB</span>
                                 </div>
-                                <div style="background:linear-gradient(170deg,#030520,#020410);padding:10px 10px 0;">
-                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-                                        <div><div style="font-size:7px;color:#60a5fa;font-weight:700;letter-spacing:.07em;">MESSAGES</div><div style="font-size:13px;font-weight:900;color:#fff;letter-spacing:-.03em;">Connect</div></div>
-                                        <div style="position:relative;">
-                                            <div style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#1d4ed8,#60a5fa);display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" fill="white" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
-                                            <div style="position:absolute;top:-3px;right:-3px;width:11px;height:11px;border-radius:50%;background:#ef4444;border:1.5px solid #02040f;display:flex;align-items:center;justify-content:center;font-size:5px;font-weight:900;color:#fff;">3</div>
-                                        </div>
-                                    </div>
-                                    <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:5px 8px;display:flex;align-items:center;gap:5px;margin-bottom:8px;">
-                                        <svg width="9" height="9" fill="#4b5563" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                                        <span style="font-size:8px;color:#4b5563;">Search...</span>
-                                    </div>
-                                    <!-- Chat threads -->
-                                    <div style="margin-bottom:10px;">
-                                        <div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-                                            <div style="position:relative;flex-shrink:0;"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#7c3aed);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;">A</div><div style="position:absolute;bottom:0;right:0;width:7px;height:7px;border-radius:50%;background:#22c55e;border:1px solid #02040f;"></div></div>
-                                            <div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span style="font-size:8px;font-weight:800;color:#fff;">Aditya K.</span><span style="font-size:7px;color:#4b5563;">2m</span></div><div style="font-size:7px;color:#9ca3af;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Deployment ready 🚀</div></div>
-                                            <div style="width:12px;height:12px;border-radius:50%;background:#60a5fa;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#fff;flex-shrink:0;">2</div>
-                                        </div>
-                                        <div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-                                            <div style="flex-shrink:0;"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;">S</div></div>
-                                            <div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span style="font-size:8px;font-weight:700;color:#9ca3af;">Sara M.</span><span style="font-size:7px;color:#4b5563;">18m</span></div><div style="font-size:7px;color:#4b5563;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Can we sync tomorrow?</div></div>
-                                        </div>
-                                        <div style="display:flex;align-items:center;gap:6px;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
-                                            <div style="flex-shrink:0;"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#d97706,#fbbf24);display:flex;align-items:center;justify-content:center;"><svg width="11" height="11" fill="white" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div></div>
-                                            <div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span style="font-size:8px;font-weight:800;color:#fff;">Dev Team</span><span style="font-size:7px;color:#4b5563;">1h</span></div><div style="font-size:7px;color:#9ca3af;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Build passed ✅</div></div>
-                                            <div style="width:12px;height:12px;border-radius:50%;background:#a855f7;display:flex;align-items:center;justify-content:center;font-size:6px;font-weight:900;color:#fff;flex-shrink:0;">1</div>
-                                        </div>
-                                        <div style="display:flex;align-items:center;gap:6px;padding:5px 0;">
-                                            <div style="flex-shrink:0;"><div style="width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#be185d,#f472b6);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:900;color:#fff;">P</div></div>
-                                            <div style="flex:1;min-width:0;"><div style="display:flex;justify-content:space-between;"><span style="font-size:8px;font-weight:700;color:#9ca3af;">Priya R.</span><span style="font-size:7px;color:#4b5563;">3h</span></div><div style="font-size:7px;color:#4b5563;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">Designs look amazing! 🎨</div></div>
-                                        </div>
-                                    </div>
+                                <span class="text-[8px] text-gray-400">PostgreSQL</span>
+                                <span class="text-[7px] text-green-400">● active</span>
+                            </div>
+                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-2 flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
+                                    <span class="text-xs mono-font text-purple-400">API</span>
                                 </div>
-                                <div style="background:#010208;padding:6px 10px 8px;display:flex;justify-content:space-around;border-top:1px solid rgba(96,165,250,0.08);">
-                                    <svg width="12" height="12" fill="#374151" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
-                                    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;"><svg width="12" height="12" fill="#60a5fa" viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg><div style="width:3px;height:3px;border-radius:50%;background:#60a5fa;"></div></div>
-                                    <svg width="12" height="12" fill="#374151" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12z"/></svg>
+                                <span class="text-[8px] text-gray-400">GraphQL</span>
+                                <span class="text-[7px] text-green-400">● active</span>
+                            </div>
+                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-2 flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
+                                    <span class="text-xs mono-font text-purple-400">K8s</span>
                                 </div>
-                                <div style="background:#010208;height:14px;display:flex;align-items:center;justify-content:center;"><div style="width:32px;height:3px;background:#0a0a20;border-radius:99px;"></div></div>
+                                <span class="text-[8px] text-gray-400">Kubernetes</span>
+                                <span class="text-[7px] text-green-400">● active</span>
+                            </div>
+                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-2 flex flex-col items-center">
+                                <div class="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
+                                    <span class="text-xs mono-font text-purple-400">CDN</span>
+                                </div>
+                                <span class="text-[8px] text-gray-400">CloudFront</span>
+                                <span class="text-[7px] text-green-400">● active</span>
                             </div>
                         </div>
 
-                    </div><!-- end phones -->
-                </div>
-
-                                <!-- ══ CARD 3 — Marketing / Analytics ══ -->
-                <div class="md:col-span-4 bento-card p-10 rounded-[40px] overflow-hidden relative" data-aos="fade-up" data-aos-delay="100" id="marketing">
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 text-purple-500">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-width="2"/></svg>
-                    </div>
-                    <h4 class="text-2xl font-bold mb-2">Marketing</h4>
-                    <p class="text-gray-500 text-sm mb-6">Data-driven reach that turns visibility into actual revenue.</p>
-
-                    <!-- Analytics dashboard mockup -->
-                    <div class="rounded-2xl overflow-hidden border border-white/5" style="background:#080810;">
-                        <div class="px-4 py-3 border-b border-white/5 flex justify-between items-center">
-                            <span style="font-size:10px;color:#6b7280;font-weight:700;letter-spacing:.1em;">ANALYTICS · LIVE</span>
-                            <span style="font-size:9px;color:#22c55e;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);padding:2px 8px;border-radius:99px;">● LIVE</span>
-                        </div>
-                        <!-- Chart area -->
-                        <div style="padding:14px 12px 0;">
-                            <div style="font-size:9px;color:#6b7280;margin-bottom:8px;">Conversion funnel · This week</div>
-                            <div style="display:flex;align-items:flex-end;gap:5px;height:70px;">
-                                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                                    <div style="font-size:8px;color:#a855f7;">12k</div>
-                                    <div style="flex:1;width:100%;background:linear-gradient(to top,#7c3aed,#a855f7);border-radius:4px 4px 0 0;min-height:55px;"></div>
-                                    <div style="font-size:7px;color:#4b5563;">Reach</div>
+                        <!-- Deployment progress & metrics -->
+                        <div class="bg-black/30 rounded-xl p-3 border border-purple-500/20">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="flex items-center gap-1">
+                                        <span class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+                                        <span class="text-[9px] text-gray-400 mono-font">DEPLOYING v3.2.0</span>
+                                    </span>
+                                    <span class="text-[8px] text-purple-400 mono-font">cluster-prod</span>
                                 </div>
-                                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                                    <div style="font-size:8px;color:#818cf8;">8.4k</div>
-                                    <div style="flex:1;width:100%;background:linear-gradient(to top,#4f46e5,#818cf8);border-radius:4px 4px 0 0;min-height:38px;"></div>
-                                    <div style="font-size:7px;color:#4b5563;">Clicks</div>
+                                <span class="text-[9px] text-gray-500 mono-font">24/24 pods ready</span>
+                            </div>
+                            <div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden mb-3">
+                                <div class="deploy-bar h-full rounded-full" style="width: 87%"></div>
+                            </div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="text-center">
+                                    <div class="text-purple-400 text-sm font-black mono-font">2.3<span class="text-[8px]">s</span></div>
+                                    <div class="text-[7px] text-gray-500 uppercase">Build Time</div>
                                 </div>
-                                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                                    <div style="font-size:8px;color:#c084fc;">3.2k</div>
-                                    <div style="flex:1;width:100%;background:linear-gradient(to top,#7c3aed,#c084fc);border-radius:4px 4px 0 0;min-height:22px;"></div>
-                                    <div style="font-size:7px;color:#4b5563;">Leads</div>
+                                <div class="text-center border-l border-r border-purple-500/20">
+                                    <div class="text-purple-400 text-sm font-black mono-font">98.7<span class="text-[8px]">%</span></div>
+                                    <div class="text-[7px] text-gray-500 uppercase">Efficiency</div>
                                 </div>
-                                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;">
-                                    <div style="font-size:8px;color:#34d399;">940</div>
-                                    <div style="flex:1;width:100%;background:linear-gradient(to top,#059669,#34d399);border-radius:4px 4px 0 0;min-height:12px;"></div>
-                                    <div style="font-size:7px;color:#4b5563;">Sales</div>
+                                <div class="text-center">
+                                    <div class="text-purple-400 text-sm font-black mono-font">∞</div>
+                                    <div class="text-[7px] text-gray-500 uppercase">Auto-scale</div>
                                 </div>
                             </div>
                         </div>
-                        <!-- KPI row -->
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.04);margin-top:12px;border-top:1px solid rgba(255,255,255,0.05);">
-                            <div style="padding:10px 12px;background:#080810;">
-                                <div style="font-size:14px;font-weight:900;color:#fff;">7.8%</div>
-                                <div style="font-size:8px;color:#4b5563;margin-top:2px;">CVR ↑ 2.1%</div>
-                            </div>
-                            <div style="padding:10px 12px;background:#080810;">
-                                <div style="font-size:14px;font-weight:900;color:#fff;">₹4.2L</div>
-                                <div style="font-size:8px;color:#4b5563;margin-top:2px;">Revenue MTD</div>
-                            </div>
+
+                        <!-- Tech stack -->
+                        <div class="flex flex-wrap gap-1.5 mt-4">
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">React 18</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">Next.js 14</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">Node.js</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">Python</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">Go</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">K8s</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">AWS</span>
+                            <span class="tech-stack-badge text-[8px] px-2.5 py-1 rounded-full mono-font">Terraform</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- ══ CARD 4 — Technology Training (Wide) ══ -->
-                <div class="md:col-span-8 bento-card p-10 rounded-[40px] overflow-hidden relative" style="background:linear-gradient(145deg,#0d0520,#050505);" data-aos="fade-up" data-aos-delay="200" id="technology_training">
-                    <!-- BG glow -->
-                    <div style="position:absolute;top:-60px;right:-60px;width:300px;height:300px;background:radial-gradient(circle,rgba(168,85,247,0.08),transparent 70%);pointer-events:none;"></div>
-
-                    <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
-                        <div class="flex-1">
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-5 text-purple-500">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-width="2"/></svg>
+                <!-- CARD 2: Mobile Apps -->
+                <div class="bento-card p-6 md:p-8 rounded-[40px] relative overflow-hidden flex flex-col" data-aos="fade-left" data-aos-duration="800" id="mobile_app">
+                    <div class="absolute inset-0 opacity-20 bg-gradient-to-br from-purple-600/20 via-fuchsia-600/10 to-pink-600/20 pointer-events-none"></div>
+                    <div class="relative z-10 flex flex-col h-full">
+                        <div class="flex items-start gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500 pulse-icon">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-width="2"/></svg>
                             </div>
-                            <h4 class="text-2xl font-bold mb-2">Technology Training</h4>
-                            <p class="text-gray-500 text-sm max-w-xs mb-6">Bridging the gap between theory and industry-grade engineering.</p>
-
-                            <!-- Course progress cards -->
-                            <div class="space-y-3">
-                                <div style="background:rgba(168,85,247,0.06);border:1px solid rgba(168,85,247,0.12);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:12px;">
-                                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(168,85,247,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                        <svg width="16" height="16" fill="#a855f7" viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
-                                    </div>
-                                    <div style="flex:1;">
-                                        <div style="font-size:11px;font-weight:700;color:#e5e7eb;margin-bottom:4px;">Full-Stack Development</div>
-                                        <div style="background:rgba(255,255,255,0.06);border-radius:99px;height:4px;">
-                                            <div class="shimmer-bar" style="height:4px;width:72%;"></div>
-                                        </div>
-                                    </div>
-                                    <span style="font-size:10px;color:#a855f7;font-weight:700;">72%</span>
-                                </div>
-                                <div style="background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.12);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:12px;">
-                                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                        <svg width="16" height="16" fill="#818cf8" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                                    </div>
-                                    <div style="flex:1;">
-                                        <div style="font-size:11px;font-weight:700;color:#e5e7eb;margin-bottom:4px;">Cloud & DevOps</div>
-                                        <div style="background:rgba(255,255,255,0.06);border-radius:99px;height:4px;">
-                                            <div style="height:4px;width:55%;background:linear-gradient(90deg,#4f46e5,#818cf8);border-radius:99px;"></div>
-                                        </div>
-                                    </div>
-                                    <span style="font-size:10px;color:#818cf8;font-weight:700;">55%</span>
-                                </div>
-                                <div style="background:rgba(20,184,166,0.06);border:1px solid rgba(20,184,166,0.12);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:12px;">
-                                    <div style="width:36px;height:36px;border-radius:10px;background:rgba(20,184,166,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                                        <svg width="16" height="16" fill="#2dd4bf" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm1 17.93V18a1 1 0 00-2 0v1.93A8.001 8.001 0 014.07 13H6a1 1 0 000-2H4.07A8.001 8.001 0 0111 4.07V6a1 1 0 002 0V4.07A8.001 8.001 0 0119.93 11H18a1 1 0 000 2h1.93A8.001 8.001 0 0113 19.93z"/></svg>
-                                    </div>
-                                    <div style="flex:1;">
-                                        <div style="font-size:11px;font-weight:700;color:#e5e7eb;margin-bottom:4px;">AI & Machine Learning</div>
-                                        <div style="background:rgba(255,255,255,0.06);border-radius:99px;height:4px;">
-                                            <div style="height:4px;width:38%;background:linear-gradient(90deg,#0f766e,#2dd4bf);border-radius:99px;"></div>
-                                        </div>
-                                    </div>
-                                    <span style="font-size:10px;color:#2dd4bf;font-weight:700;">38%</span>
-                                </div>
+                            <div>
+                                <h4 class="text-3xl font-bold mb-1">Mobile Applications</h4>
+                                <p class="text-gray-400 text-sm">Native & cross‑platform, 120Hz animations, offline sync, biometric security.</p>
                             </div>
                         </div>
 
-                        <!-- Desktop mockup -->
-                        <div class="flex-shrink-0 hidden md:block" style="transform:perspective(600px) rotateY(8deg) rotateX(-3deg);">
-                            <div style="width:220px;background:#0a0a0a;border:2px solid #1f1f2e;border-radius:14px;overflow:hidden;box-shadow:0 30px 60px rgba(0,0,0,0.8);">
-                                <!-- Menubar -->
-                                <div style="background:#060612;padding:7px 10px;display:flex;align-items:center;gap:6px;border-bottom:1px solid rgba(255,255,255,0.05);">
-                                    <div style="width:8px;height:8px;border-radius:50%;background:#ef4444;"></div>
-                                    <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;"></div>
-                                    <div style="width:8px;height:8px;border-radius:50%;background:#22c55e;"></div>
-                                    <div style="flex:1;background:rgba(255,255,255,0.05);border-radius:4px;height:12px;margin:0 10px;display:flex;align-items:center;padding:0 6px;">
-                                        <span style="font-size:7px;color:#4b5563;">fundamentals.dev/learn</span>
+                        <div class="mobile-showcase flex-1">
+                            <div class="mobile-device-mock mb-4">
+                                <div class="mobile-screen">
+                                    <div class="flex items-center justify-between mb-3 px-1">
+                                        <span class="text-[9px] font-semibold text-purple-300">9:41</span>
+                                        <span class="text-[9px] text-gray-400">📶 🔋</span>
                                     </div>
-                                </div>
-                                <!-- Screen content -->
-                                <div style="padding:10px;">
-                                    <div style="background:rgba(168,85,247,0.1);border:1px solid rgba(168,85,247,0.2);border-radius:8px;padding:8px;margin-bottom:8px;">
-                                        <div style="font-size:8px;font-weight:800;color:#a855f7;letter-spacing:.1em;margin-bottom:3px;">LIVE SESSION</div>
-                                        <div style="font-size:10px;font-weight:700;color:#fff;">System Design · Week 4</div>
-                                        <div style="font-size:8px;color:#6b7280;margin-top:2px;">48 students attending</div>
-                                    </div>
-                                    <!-- Code snippet on screen -->
-                                    <div style="background:#080812;border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:8px;font-family:'Courier New',monospace;">
-                                        <div style="font-size:8px;color:#5c6370;margin-bottom:4px;"># microservices/gateway.py</div>
-                                        <div style="font-size:8px;color:#c678dd;">class <span style="color:#61afef;">APIGateway</span>:</div>
-                                        <div style="font-size:8px;color:#e5e7eb;padding-left:12px;"><span style="color:#c678dd;">def</span> <span style="color:#61afef;">route</span>(self, req):</div>
-                                        <div style="font-size:8px;color:#98c379;padding-left:24px;">"Scales to ∞"<span style="color:#a855f7;animation:blink 1s infinite">█</span></div>
-                                    </div>
-                                    <!-- Attendee avatars -->
-                                    <div style="display:flex;align-items:center;gap:4px;margin-top:8px;">
-                                        <div style="display:flex;">
-                                            <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#7c3aed);border:1px solid #000;"></div>
-                                            <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#1d4ed8);border:1px solid #000;margin-left:-6px;"></div>
-                                            <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#15803d);border:1px solid #000;margin-left:-6px;"></div>
-                                            <div style="width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#b45309);border:1px solid #000;margin-left:-6px;"></div>
+                                    <div class="app-preview-grid">
+                                        <div class="app-badge flex flex-col items-center">
+                                            <span class="text-2xl mb-1">⚡</span>
+                                            <span class="text-[11px] font-bold">NEO BANK</span>
+                                            <span class="text-[8px] text-purple-300">Fintech · 4.9★</span>
                                         </div>
-                                        <span style="font-size:8px;color:#4b5563;">+44 more</span>
+                                        <div class="app-badge flex flex-col items-center">
+                                            <span class="text-2xl mb-1">🎵</span>
+                                            <span class="text-[11px] font-bold">SONIC</span>
+                                            <span class="text-[8px] text-purple-300">Audio · 4.8★</span>
+                                        </div>
+                                        <div class="app-badge flex flex-col items-center">
+                                            <span class="text-2xl mb-1">🏋️</span>
+                                            <span class="text-[11px] font-bold">FLEX</span>
+                                            <span class="text-[8px] text-purple-300">Fitness AI</span>
+                                        </div>
+                                        <div class="app-badge flex flex-col items-center">
+                                            <span class="text-2xl mb-1">📸</span>
+                                            <span class="text-[11px] font-bold">LENS</span>
+                                            <span class="text-[8px] text-purple-300">AR Camera</span>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 flex justify-center">
+                                        <div class="bg-black/30 px-3 py-1 rounded-full text-[9px] border border-white/10">120+ apps deployed →</div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- Monitor stand -->
-                            <div style="display:flex;justify-content:center;margin-top:2px;">
-                                <div style="width:30px;height:8px;background:#0a0a0a;border-left:2px solid #1f1f2e;border-right:2px solid #1f1f2e;border-bottom:2px solid #1f1f2e;border-radius:0 0 4px 4px;"></div>
+
+                            <div class="grid grid-cols-2 gap-3 mt-1">
+                                <div class="stat-highlight rounded-xl p-3 flex flex-col items-center border border-purple-500/30">
+                                    <span class="text-purple-400 text-xl font-black">0.8s</span>
+                                    <span class="text-[9px] text-gray-400">Avg Launch</span>
+                                </div>
+                                <div class="stat-highlight rounded-xl p-3 flex flex-col items-center border border-purple-500/30">
+                                    <span class="text-purple-400 text-xl font-black">99.9%</span>
+                                    <span class="text-[9px] text-gray-400">Crash-free</span>
+                                </div>
                             </div>
-                            <div style="display:flex;justify-content:center;">
-                                <div style="width:60px;height:4px;background:#111;border-radius:2px;"></div>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="feature-tag">Offline Sync</span>
+                                <span class="feature-tag">Biometric</span>
+                                <span class="feature-tag">Push</span>
+                                <span class="feature-tag">Real-time</span>
+                                <span class="feature-tag">Flutter/RN</span>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- CTA button -->
-                    <div class="flex items-center gap-4 mt-8">
-                        <button class="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center hover:scale-110 hover:bg-purple-500 hover:text-white transition duration-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-width="2.5"/></svg>
-                        </button>
-                        <span class="text-gray-500 text-sm font-medium">Explore curriculum</span>
+                        <div class="flex gap-3 mt-4 border-t border-white/10 pt-4">
+                            <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-48.9-17.5-76.1-17.5-42.2 0-84.1 24.4-110.4 66.3-26.5 42.3-24.8 108.5 11.8 167.5 14.7 23.5 34.1 49.2 58.6 49.5 23.3.3 29.8-15.1 60.5-15.1 30.8 0 36.7 15.1 61 14.9 24.8-.2 41.8-23.8 56.5-47.3 11.1-17.8 15.8-35.2 16-53.7z"/></svg><span class="text-[10px] font-bold">App Store</span></div>
+                            <div class="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 512 512"><path d="M48 59.2v393.6c0 10.6 8.6 19.2 19.2 19.2h377.6c10.6 0 19.2-8.6 19.2-19.2V59.2c0-10.6-8.6-19.2-19.2-19.2H67.2C56.6 40 48 48.6 48 59.2zM416 96v320H96V96h320z"/></svg><span class="text-[10px] font-bold">Google Play</span></div>
+                        </div>
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </section>
-
-    <!-- ══════════════ MARQUEE ══════════════ -->
-    <div class="py-20 overflow-hidden opacity-10 select-none">
-        <div class="flex whitespace-nowrap text-[15vw] font-black uppercase tracking-tighter leading-none gap-20 animate-marquee">
-            <span>Development</span>
-            <span>Design</span>
-            <span>Strategy</span>
-            <span>Intelligence</span>
-        </div>
-    </div>
-
-    <!-- ══════════════ CONTACT ══════════════ -->
-    <section id="contact" class="py-32 bg-[#050505] relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-            <div data-aos="fade-right">
-                <h2 class="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-none">LET'S<br><span class="text-purple-500">BEGIN.</span></h2>
-                <p class="text-gray-400 text-xl mb-12">Fundamentals isn't a vendor. We're your technical co-founders.</p>
-                <div class="space-y-4">
-                    <p class="text-2xl font-bold tracking-tight"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a7cfc2cbcbc889c1d2c9c3c6cac2c9d3c6cbd4c3cec0ced3c6cbe7c0cac6cecb89c4c8ca">hello.fundamentalsdigital@gmail.com</a></p>
-                    <p class="text-2xl font-bold tracking-tight">+91 790-433-6889</p>
-                </div>
-            </div>
-            <div class="bg-black p-1 rounded-[40px] border border-white/10" data-aos="zoom-in">
-                <div class="bg-[#0a0a0a] p-12 rounded-[38px] space-y-8">
-                    <div class="grid grid-cols-2 gap-8">
+                <!-- CARD 3: DIGITAL MARKETING & SEO -->
+                <div class="bento-card p-6 md:p-8 rounded-[40px] overflow-hidden relative seo-grid-pattern seo-glow" data-aos="fade-up" data-aos-duration="800" id="marketing">
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-purple-800/5 to-transparent pointer-events-none"></div>
+                    <div class="flex items-start justify-between relative z-10">
                         <div>
-                            <p class="text-purple-500 font-black text-4xl mb-2">99%</p>
-                            <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Uptime Guaranteed</p>
+                            <div class="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mb-6 text-purple-400 pulse-seo">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2"/><path d="M12 8v4l3 3" stroke-width="2"/></svg>
+                            </div>
+                            <h4 class="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-300 to-purple-200 bg-clip-text text-transparent">Digital Marketing & SEO</h4>
+                            <p class="text-gray-300 text-sm max-w-sm">Data-driven SEO, performance marketing & AI-powered campaigns that dominate SERPs.</p>
                         </div>
-                        <div>
-                            <p class="text-purple-500 font-black text-4xl mb-2">2x</p>
-                            <p class="text-gray-500 text-xs uppercase tracking-widest font-bold">Growth Velocity</p>
+                        <div class="rank-badge px-3 py-1.5 rounded-full text-[9px] font-bold text-white shadow-lg flex items-center gap-1">🏆 #1 Ranking</div>
+                    </div>
+                    <div class="mt-6 rounded-2xl overflow-hidden border border-purple-500/20 bg-black/60 backdrop-blur-sm">
+                        <div class="px-4 py-2 border-b border-purple-500/20 flex justify-between items-center">
+                            <span class="text-[9px] font-mono text-purple-300 font-bold">🔍 GOOGLE SERP PREVIEW</span>
+                            <span class="text-[8px] text-purple-400">position ↑2.3</span>
+                        </div>
+                        <div class="p-4 space-y-3">
+                            <div class="serp-card rounded-lg p-3 transition-all hover:scale-[1.02]">
+                                <div class="flex items-center gap-2 text-[10px] text-purple-400"><span>🌐 fundamentals.digital</span><span class="text-gray-500">› services</span></div>
+                                <div class="text-purple-300 font-bold text-sm">Intelligent Digital Solutions — Scale with Precision</div>
+                                <div class="text-[10px] text-gray-400">We engineer growth. 200+ brands trust our SEO & marketing frameworks.</div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div class="bg-black/40 rounded-lg p-2 border border-white/5">
+                                    <div class="text-purple-400 text-xs font-bold">14.2k</div>
+                                    <div class="text-[8px] text-gray-500">Monthly Clicks</div>
+                                    <div class="w-full h-1 bg-gray-800 mt-1"><div class="h-full w-3/4 bg-purple-500 shimmer-bar"></div></div>
+                                </div>
+                                <div class="bg-black/40 rounded-lg p-2 border border-white/5">
+                                    <div class="text-purple-400 text-xs font-bold">8.7%</div>
+                                    <div class="text-[8px] text-gray-500">CTR</div>
+                                    <div class="w-full h-1 bg-gray-800 mt-1"><div class="h-full w-2/3 bg-purple-500"></div></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="keyword-pill text-[9px] px-2 py-1 rounded-full">#1 "enterprise seo"</span>
+                                <span class="keyword-pill text-[9px] px-2 py-1 rounded-full">#2 "digital agency"</span>
+                                <span class="keyword-pill text-[9px] px-2 py-1 rounded-full">#3 "growth marketing"</span>
+                            </div>
+                            <div class="flex items-center gap-3 pt-2 border-t border-purple-500/20">
+                                <div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span><span class="text-[9px]">Impressions +143%</span></div>
+                                <div class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span><span class="text-[9px]">Conversions 2.1k</span></div>
+                            </div>
                         </div>
                     </div>
-                    <button class="w-full bg-white text-black py-6 rounded-[20px] font-black text-xl hover:bg-purple-500 hover:text-white transition-all duration-500 uppercase tracking-widest">Start Consultation</button>
+                    <div class="mt-5 flex flex-wrap gap-3 items-center justify-between">
+                        <div class="flex gap-2 text-[9px]"><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">SEO Audit</span><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">PPC</span><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">Content AI</span></div>
+                        <div class="text-[10px] text-purple-400 font-mono flex items-center gap-1"><span class="inline-block w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span> real‑time rank tracker</div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: Content Creation -->
+                <div class="bento-card p-6 md:p-8 rounded-[40px] overflow-hidden relative" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" id="content_creation">
+                    <div class="flex items-start justify-between">
+                        <div><div class="w-12 h-12 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-6 text-purple-500 pulse-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.5-4.5M15 10l-4.5 4.5M15 10h-4M15 10v4M9 15l-4.5 4.5M9 15l4.5-4.5M9 15v-4M9 15h-4" stroke-width="2"/><circle cx="12" cy="12" r="9" stroke-width="2"/></svg></div><h4 class="text-3xl font-bold mb-2">Content Creation</h4><p class="text-gray-400 text-sm max-w-sm">Cinematic storytelling, viral hooks, and AI-enhanced production that builds cult-like audiences.</p></div>
+                        <div class="bg-purple-500/10 px-3 py-1.5 rounded-full text-[9px] font-bold text-purple-400 border border-purple-500/20 animate-pulse">Viral Engine</div>
+                    </div>
+                    <div class="mt-6 flex gap-4 items-start"><div class="flex-1 reel-container bg-black/30 rounded-2xl border border-white/10 p-2 overflow-hidden h-56"><div class="reel-animate flex flex-col gap-2"><div class="bg-gradient-to-r from-purple-900/20 to-fuchsia-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-purple-500/20">🎬</div><div><div class="text-[11px] font-bold">Cinematic Ad</div><div class="text-[8px] text-gray-400">2.4M views</div></div></div><div class="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-blue-500/20">📱</div><div><div class="text-[11px] font-bold">UGC Campaign</div><div class="text-[8px] text-gray-400">+340% eng.</div></div></div><div class="bg-gradient-to-r from-emerald-900/20 to-teal-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-emerald-500/20">🎙️</div><div><div class="text-[11px] font-bold">Podcast Series</div><div class="text-[8px] text-gray-400">Top 10 charts</div></div></div><div class="bg-gradient-to-r from-rose-900/20 to-pink-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-rose-500/20">🎨</div><div><div class="text-[11px] font-bold">Motion Graphics</div><div class="text-[8px] text-gray-400">Shark Tank style</div></div></div><div class="bg-gradient-to-r from-amber-900/20 to-orange-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-amber-500/20">⚡</div><div><div class="text-[11px] font-bold">AI Shorts</div><div class="text-[8px] text-gray-400">Viral hooks</div></div></div><div class="bg-gradient-to-r from-indigo-900/20 to-purple-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-indigo-500/20">📸</div><div><div class="text-[11px] font-bold">Product Launch</div><div class="text-[8px] text-gray-400">1.2M reach</div></div></div></div></div><div class="flex flex-col gap-2 w-24 text-center"><div class="bg-white/5 rounded-xl p-2"><div class="text-purple-400 text-lg font-black">15B+</div><div class="text-[8px] text-gray-500">Impressions</div></div><div class="bg-white/5 rounded-xl p-2"><div class="text-purple-400 text-lg font-black">47%</div><div class="text-[8px] text-gray-500">Engagement Lift</div></div></div></div>
+                    <div class="mt-5 flex items-center justify-between"><div class="flex gap-1 text-[10px] text-gray-500"><span class="text-purple-400 animate-pulse">✨</span> AI Scripting · 24/7 Studio</div><button class="text-[10px] font-bold uppercase tracking-wider bg-white/5 hover:bg-purple-500/20 border border-white/10 px-4 py-1.5 rounded-full transition-all">Showreel →</button></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 px-6 border-t border-white/5 text-center">
-        <div class="logo-font text-2xl lowercase mb-4">fundamentals<span class="text-purple-500">.</span></div>
-        <p class="text-gray-600 text-[10px] uppercase tracking-[0.5em]">Scalable Performance • Future-Proof Intelligence</p>
-    </footer>
+    <div class="py-20 overflow-hidden opacity-10 select-none"><div class="flex whitespace-nowrap text-[15vw] font-black uppercase tracking-tighter leading-none gap-20 animate-marquee"><span>Development</span><span>Design</span><span>Strategy</span><span>Intelligence</span></div></div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <section id="contact" class="py-32 bg-[#050505] relative overflow-hidden"><div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-20 items-center"><div data-aos="fade-right"><h2 class="text-6xl md:text-8xl font-black tracking-tighter mb-8 leading-none">LET'S<br><span class="text-purple-500 animate-pulse">BEGIN.</span></h2><p class="text-gray-400 text-xl mb-12">Fundamentals isn't a vendor. We're your technical co-founders.</p><div class="space-y-4"><p class="text-2xl font-bold tracking-tight hover:text-purple-400 transition">hello.fundamentalsdigital@gmail.com</p><p class="text-2xl font-bold tracking-tight hover:text-purple-400 transition">+91 790-433-6889</p></div></div><div class="bg-black p-1 rounded-[40px] border border-white/10 hover:border-purple-500/40 transition-all duration-500" data-aos="zoom-in"><div class="bg-[#0a0a0a] p-12 rounded-[38px] space-y-8"><div class="grid grid-cols-2 gap-8"><div><p class="text-purple-500 font-black text-4xl mb-2">99%</p><p class="text-gray-500 text-xs">Uptime Guaranteed</p></div><div><p class="text-purple-500 font-black text-4xl mb-2">2x</p><p class="text-gray-500 text-xs">Growth Velocity</p></div></div><button class="w-full bg-white text-black py-6 rounded-[20px] font-black text-xl hover:bg-purple-500 hover:text-white transition-all duration-500 uppercase tracking-widest">Start Consultation</button></div></div></div></section>
+
+    <footer class="py-12 px-6 border-t border-white/5 text-center"><div class="logo-font text-2xl lowercase mb-4 hover:text-purple-400 transition">fundamentals<span class="text-purple-500">.</span></div><p class="text-gray-600 text-[10px] uppercase tracking-[0.5em]">Scalable Performance • Future-Proof Intelligence</p></footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true, easing: 'ease-out-quint' });
-
+        AOS.init({ duration: 1000, once: true, easing: 'ease-out-quint', offset: 100 });
         const glow = document.getElementById('glow-cursor');
         let cursorX = 0, cursorY = 0, glowX = 0, glowY = 0;
         window.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
-        function animateGlow() {
-            glowX += (cursorX - glowX) * 0.1;
-            glowY += (cursorY - glowY) * 0.1;
-            glow.style.left = glowX + 'px';
-            glow.style.top = glowY + 'px';
-            requestAnimationFrame(animateGlow);
-        }
+        function animateGlow() { glowX += (cursorX - glowX) * 0.12; glowY += (cursorY - glowY) * 0.12; glow.style.left = glowX + 'px'; glow.style.top = glowY + 'px'; requestAnimationFrame(animateGlow); }
         animateGlow();
+        window.addEventListener('scroll', () => { const reveal = document.getElementById('hero-reveal'); if (reveal && reveal.getBoundingClientRect().top < window.innerHeight * 0.8) reveal.classList.add('active'); });
+        const marquee = document.querySelector('.animate-marquee'); if (marquee) marquee.innerHTML += marquee.innerHTML;
 
-        window.addEventListener('scroll', () => {
-            const reveal = document.getElementById('hero-reveal');
-            if (reveal.getBoundingClientRect().top < window.innerHeight * 0.8) reveal.classList.add('active');
+        document.querySelectorAll('.bento-card').forEach(card => { 
+            card.addEventListener('click', (e) => { 
+                const rect = card.getBoundingClientRect(); 
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top; 
+                const ripple = document.createElement('span'); 
+                ripple.className = 'ripple'; 
+                ripple.style.left = `${x}px`; 
+                ripple.style.top = `${y}px`; 
+                card.style.position = 'relative'; 
+                card.appendChild(ripple); 
+                setTimeout(() => ripple.remove(), 600); 
+            }); 
         });
-
-        const marquee = document.querySelector('.animate-marquee');
-        if (marquee) marquee.innerHTML += marquee.innerHTML;
-    </script>
-
-    <style>
-        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        .animate-marquee { animation: marquee 12s linear infinite; }
-        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
-    </style>
-    <script>
-        
         let software_development = document.getElementById("software_development")
         let mobile_app = document.getElementById("mobile_app")
         let marketing = document.getElementById("marketing")
-        let technology_training = document.getElementById("technology_training")
+        let content_creation = document.getElementById("content_creation")
 
         software_development.addEventListener('click', () => {
             window.location.href = "softwareDevelopment.html"
@@ -666,10 +691,9 @@
             window.location.href = "digitalMarketing.html"
         })
         
-        technology_training.addEventListener('click', () => {
+        content_creation.addEventListener('click', () => {
             window.location.href = "contentCreation.html"
         })
-
     </script>
 </body>
 </html>
