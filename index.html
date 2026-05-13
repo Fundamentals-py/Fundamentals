@@ -3,724 +3,484 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Fundamentals | Intelligent Digital Solutions</title>
+    <title>Fundamentals — Spiral Intelligence | AI-Native Digital Agency</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;700&family=Inter:wght@300;400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700;800;900&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        :root { --purple: #a855f7; --purple-glow: rgba(168,85,247,0.4); --purple-light: #c084fc; --purple-dark: #7c3aed; --purple-deep: #4c1d95; }
-        * { box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #000; 
-            color: #fff; 
-            scroll-behavior: smooth;
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a12;
+            color: #ffffff;
             overflow-x: hidden;
-            width: 100%;
         }
-        .logo-font { font-family: 'League Spartan', sans-serif; font-weight: 700; }
-        .mono-font { font-family: 'JetBrains Mono', monospace; }
-        
-        .glass-nav { 
-            background: rgba(0, 0, 0, 0.7); 
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
+        .logo-font {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 800;
+            letter-spacing: -0.03em;
         }
-
-        #glow-cursor {
+        #spiralCanvas {
             position: fixed;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0,0,0,0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            transform: translate(-50%, -50%);
-            transition: transform 0.08s ease-out;
-            will-change: left, top;
-            opacity: 0.4;
+            top:0; left:0;
+            width:100%; height:100%;
+            z-index:0;
+            pointer-events:none;
         }
-        @media (max-width: 768px) {
-            #glow-cursor { display: none; }
+        .content-layer {
+            position: relative;
+            z-index:2;
         }
-
+        .glass-panel {
+            background: rgba(10,10,20,0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 1.5rem;
+            transition: all 0.4s;
+        }
+        @media (min-width: 768px) {
+            .glass-panel {
+                border-radius: 2.5rem;
+            }
+        }
+        .glass-panel:hover {
+            background: rgba(20,20,35,0.75);
+            border-color: rgba(168,85,247,0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px -15px rgba(168,85,247,0.2);
+        }
+        .btn-primary {
+            background: #ffffff;
+            color: #0a0a12;
+            font-weight: 700;
+            border-radius: 40px;
+            border: none;
+            transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+            box-shadow: 0 8px 20px -6px rgba(168,85,247,0.5);
+        }
+        .btn-primary:hover {
+            background: #c084fc;
+            color: white;
+            transform: scale(1.03);
+            box-shadow: 0 12px 28px -6px rgba(168,85,247,0.7);
+        }
+        .pill {
+            background: rgba(168,85,247,0.12);
+            border: 1px solid rgba(168,85,247,0.3);
+            border-radius: 40px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .pill:hover {
+            background: rgba(168,85,247,0.25);
+            border-color: #a78bfa;
+        }
         .reveal-text {
-            background: linear-gradient(to right, #ffffff 0%, #ffffff 50%, rgba(255,255,255,0.1) 50%);
+            background: linear-gradient(to right, #ffffff 0%, #ffffff 45%, rgba(255,255,255,0.1) 55%);
             background-size: 200% 100%;
             background-position: 100% 0;
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
-            transition: background-position 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: background-position 1.5s cubic-bezier(0.23,1,0.32,1);
         }
-        .reveal-text.active { background-position: 0% 0; }
-
-        .btn-premium {
-            position: relative;
-            overflow: hidden;
-            background: #fff;
-            color: #000;
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            z-index: 1;
+        .reveal-text.active {
+            background-position: 0% 0;
         }
-        .btn-premium::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-            z-index: -1;
-        }
-        .btn-premium:hover::before { left: 100%; }
-        .btn-premium:hover {
-            background: var(--purple);
-            color: #fff;
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px -8px rgba(168, 85, 247, 0.6);
-        }
-
-        .bento-card {
-            background: linear-gradient(145deg, #0f0f0f, #050505);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            width: 100%;
-        }
-        .bento-card::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(168,85,247,0.08), transparent 70%);
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
-        }
-        .bento-card:hover::after { opacity: 1; }
-        .bento-card:hover {
-            border-color: rgba(168, 85, 247, 0.4);
-            transform: translateY(-6px) scale(1.01);
-            box-shadow: 0 25px 40px -15px rgba(0,0,0,0.6);
-        }
-
-        /* CUSTOM SOFTWARE ANIMATIONS */
-        @keyframes floatCode {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-            100% { transform: translateY(-150px) rotate(15deg); opacity: 0; }
-        }
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.3; filter: blur(20px); }
-            50% { opacity: 0.6; filter: blur(30px); }
-        }
-        @keyframes terminalCursor {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-        @keyframes rotate3d {
-            0% { transform: rotateY(0deg) rotateX(5deg); }
-            50% { transform: rotateY(5deg) rotateX(8deg); }
-            100% { transform: rotateY(0deg) rotateX(5deg); }
-        }
-        .code-particle-3d {
-            position: absolute;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: rgba(168,85,247,0.3);
-            pointer-events: none;
-            animation: floatCode 6s linear infinite;
-            z-index: 1;
-        }
-        .glow-orb {
-            position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(168,85,247,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-            animation: glowPulse 4s ease-in-out infinite;
-            pointer-events: none;
-        }
-        .terminal-cursor {
-            display: inline-block;
-            width: 8px;
-            height: 14px;
-            background: #a855f7;
-            animation: terminalCursor 1s step-end infinite;
-            vertical-align: middle;
-            margin-left: 2px;
-        }
-        .code-editor-bg {
-            background: linear-gradient(180deg, #0a0812 0%, #050308 100%);
-            border: 1px solid rgba(168,85,247,0.2);
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.8), 0 20px 40px -20px rgba(0,0,0,0.5);
-        }
-        .editor-line {
-            transition: all 0.3s ease;
-        }
-        .editor-line:hover {
-            background: rgba(168,85,247,0.1);
-            border-left: 2px solid #a855f7;
-            padding-left: 8px;
-        }
-        .deploy-bar {
-            background: linear-gradient(90deg, #7c3aed, #a855f7, #c084fc);
-            background-size: 200% 100%;
-            animation: shimmer 2s linear infinite;
-            box-shadow: 0 0 20px rgba(168,85,247,0.5);
-        }
-        .architecture-node {
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-        .architecture-node:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 25px rgba(168,85,247,0.4);
-            border-color: #a855f7;
-        }
-        .tech-stack-badge {
-            background: rgba(168,85,247,0.08);
-            border: 0.5px solid rgba(168,85,247,0.2);
-            backdrop-filter: blur(5px);
-            transition: all 0.2s;
-        }
-        .tech-stack-badge:hover {
-            background: rgba(168,85,247,0.2);
-            border-color: #a855f7;
-            transform: translateY(-1px);
-        }
-
-        /* MOBILE LAYOUT */
-        .mobile-showcase { display: flex; flex-direction: column; height: 100%; }
-        .mobile-device-mock {
-            background: #0c0a14;
-            border-radius: 36px;
-            padding: 12px;
-            box-shadow: 0 30px 50px -15px #000, inset 0 0 0 1px rgba(168,85,247,0.2);
-            border: 1px solid #2a1f3a;
-        }
-        .mobile-screen {
-            background: radial-gradient(circle at 30% 20%, #1e1730, #0a0812);
-            border-radius: 28px;
-            padding: 18px 12px;
-            border: 1px solid #3a2a55;
-        }
-        .app-preview-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-        .app-badge {
-            background: rgba(20, 15, 30, 0.7);
-            backdrop-filter: blur(4px);
-            border: 1px solid rgba(168,85,247,0.3);
-            border-radius: 18px;
-            padding: 12px 8px;
+        .faq-item {
+            border-bottom: 1px solid rgba(255,255,255,0.06);
             transition: all 0.25s;
         }
-        .app-badge:hover {
-            border-color: #a855f7;
-            background: rgba(50, 30, 70, 0.5);
-            transform: translateY(-2px);
-        }
-        .stat-highlight { background: linear-gradient(135deg, #1a1130, #0e0a18); border: 1px solid #a855f7; }
-        .feature-tag {
-            background: rgba(168,85,247,0.15);
-            border-radius: 40px;
-            padding: 6px 14px;
-            border: 0.5px solid rgba(168,85,247,0.4);
-            font-size: 11px;
+        .faq-question {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
             font-weight: 600;
-            color: #d8b4fe;
+            font-size: 1rem;
+            color: #e0e0e0;
+            transition: color 0.2s;
         }
-
-        /* Digital Marketing & SEO */
-        .seo-glow { background: radial-gradient(circle at 80% 20%, rgba(168,85,247,0.1), transparent 70%); }
-        .seo-grid-pattern {
-            background-image: linear-gradient(rgba(168,85,247,0.05) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(168,85,247,0.05) 1px, transparent 1px);
-            background-size: 20px 20px;
+        @media (min-width: 640px) {
+            .faq-question {
+                font-size: 1.1rem;
+                padding: 1.2rem 0;
+            }
         }
-        .serp-card {
-            background: rgba(168,85,247,0.05);
-            border: 1px solid rgba(168,85,247,0.2);
-            transition: all 0.3s;
+        .faq-question:hover {
+            color: #c084fc;
         }
-        .serp-card:hover { border-color: #a855f7; background: rgba(168,85,247,0.12); }
-        .keyword-pill { background: #1a1a1a; border: 1px solid #3a3a3a; transition: all 0.2s; }
-        .keyword-pill:hover { border-color: #a855f7; background: #1a102a; }
-        .rank-badge { background: linear-gradient(145deg, #a855f7, #7c3aed); border: 1px solid rgba(168,85,247,0.4); }
-        .pulse-seo { animation: seoPulse 2s infinite; }
-        @keyframes seoPulse { 0% { box-shadow: 0 0 0 0 rgba(168,85,247,0.4); } 70% { box-shadow: 0 0 0 10px rgba(168,85,247,0); } 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); } }
-        .chart-bar { transition: height 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
-        .bento-card:hover .chart-bar { height: calc(100% + 8px) !important; }
-        
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(168, 85, 247, 0.5);
-            transform: scale(0);
-            animation: rippleAnim 0.6s linear;
-            pointer-events: none;
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.23,1,0.32,1);
+            color: #b0b0b0;
+            font-size: 0.9rem;
+            line-height: 1.6;
         }
-        @keyframes rippleAnim { to { transform: scale(4); opacity: 0; } }
-        @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
-        .animate-marquee { animation: marquee 14s linear infinite; }
-        .shimmer-bar {
-            background: linear-gradient(90deg, #7c3aed 25%, #c084fc 50%, #7c3aed 75%);
-            background-size: 200% 100%;
-            animation: shimmer 2.2s linear infinite;
-            border-radius: 99px;
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding-bottom: 1rem;
         }
-        @keyframes shimmer { 0%{background-position:-200% 0} 100%{background-position:200% 0} }
-        .reel-animate { animation: slideReel 22s linear infinite; }
-        @keyframes slideReel { 0% { transform: translateY(0); } 100% { transform: translateY(-50%); } }
-        .reel-container:hover .reel-animate { animation-play-state: paused; }
-        .pulse-icon { animation: pulse-glow 2.5s ease-in-out infinite; }
-        @keyframes pulse-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); } 50% { box-shadow: 0 0 20px 8px rgba(168,85,247,0.3); } }
-
-        /* Ensure all content is centered and padded */
-        .container-padding { padding-left: max(1.5rem, 5vw); padding-right: max(1.5rem, 5vw); }
-        .text-balance { text-wrap: balance; }
+        .faq-icon {
+            font-size: 1.3rem;
+            font-weight: 300;
+            transition: transform 0.3s;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        button, a, .faq-question {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .stat-block {
+            transition: transform 0.2s ease;
+        }
+        .stat-block:hover {
+            transform: translateY(-4px);
+        }
     </style>
 </head>
-<body class="w-full flex flex-col items-center">
+<body class="relative">
+    <canvas id="spiralCanvas"></canvas>
 
-    <div id="glow-cursor"></div>
-
-    <nav class="fixed w-full z-50 glass-nav border-b border-white/5 backdrop-blur-xl transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-wrap items-center justify-between">
-            <div class="logo-font text-xl sm:text-2xl lowercase tracking-tighter hover:text-purple-400 transition-colors duration-300">fundamentals<span class="text-purple-500">.</span></div>
-            <div class="hidden md:flex space-x-6 lg:space-x-10 text-[10px] lg:text-[11px] font-bold uppercase tracking-[0.15em] lg:tracking-[0.2em] text-gray-400">
-                <a href="#services" class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full hover:text-white">Services</a>
-                <a href="#about" class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full hover:text-white">Vision</a>
-                <a href="#contact" class="relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[2px] after:bg-purple-500 after:transition-all hover:after:w-full hover:text-white">Project</a>
+    <div class="content-layer">
+        <!-- Navigation -->
+        <nav class="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-lg border-b border-white/5">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+                <div class="logo-font text-xl sm:text-2xl md:text-3xl text-white">fundamentals<span class="text-purple-400">.</span></div>
+                <div class="hidden md:flex gap-5 lg:gap-6 text-sm text-gray-300 font-medium">
+                    <a href="#solutions" class="hover:text-white transition">solutions</a>
+                    <a href="#about" class="hover:text-white transition">approach</a>
+                    <a href="#why-spiral" class="hover:text-white transition">why spiral</a>
+                    <a href="#why-us" class="hover:text-white transition">why us</a>
+                    <a href="#faq" class="hover:text-white transition">faq</a>
+                    <a href="#contact" class="hover:text-white transition">contact</a>
+                </div>
+                <a href="#contact" class="btn-primary px-4 py-2 sm:px-5 sm:py-2.5 text-xs font-bold">start project →</a>
             </div>
-            <a href="#contact" class="text-[10px] sm:text-xs font-bold uppercase tracking-widest bg-white text-black px-4 sm:px-6 py-2 sm:py-2.5 rounded-full btn-premium relative overflow-hidden group whitespace-nowrap">Get Started</a>
-        </div>
-    </nav>
+        </nav>
 
-    <!-- HERO -->
-    <section class="min-h-screen flex flex-col items-center justify-center relative pt-20 w-full container-padding">
-        <div class="text-center z-10 w-full max-w-6xl mx-auto">
-            <h1 class="text-[15vw] sm:text-[12vw] md:text-[8vw] font-black tracking-tighter leading-[0.9] sm:leading-[0.85] mb-6 sm:mb-8" data-aos="zoom-out-up">
-                PURE<br><span class="reveal-text" id="hero-reveal">POTENTIAL.</span>
-            </h1>
-            <p class="text-gray-400 text-base sm:text-lg md:text-2xl max-w-3xl mx-auto mb-8 sm:mb-12 font-medium leading-tight px-2" data-aos="fade-up" data-aos-delay="400">
-                We don't just build websites. We engineer digital foundations for the world's most ambitious brands.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center" data-aos="fade-up" data-aos-delay="600">
-                <button class="btn-premium w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 rounded-full font-bold text-base sm:text-lg group relative overflow-hidden">Work with us</button>
-                <button class="w-full sm:w-auto px-8 sm:px-12 py-4 sm:py-5 rounded-full border border-white/20 font-bold text-base sm:text-lg hover:bg-white/5 transition-all duration-300 hover:scale-105 flex items-center justify-center gap-3">
-                    Our Process <span class="text-purple-500 group-hover:translate-x-1 transition-transform">→</span>
-                </button>
+        <!-- Hero -->
+        <section class="relative min-h-screen flex flex-col items-center justify-center px-4 sm:px-5 text-center z-10">
+            <div class="max-w-5xl mx-auto" data-aos="fade-up">
+                <div class="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-white/10 mb-4 sm:mb-6">
+                    <span class="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-purple-400 rounded-full animate-pulse"></span>
+                    <span class="text-[9px] sm:text-[10px] font-mono tracking-wider text-purple-300">SPIRAL INTELLIGENCE • AI NATIVE</span>
+                </div>
+                <h1 class="text-[13vw] sm:text-[10vw] md:text-[7vw] font-black tracking-tighter leading-[0.9] mb-3 sm:mb-5">
+                    SPIRAL<br><span class="reveal-text" id="heroReveal">INTELLIGENCE.</span>
+                </h1>
+                <p class="text-gray-300/80 text-sm sm:text-base md:text-xl lg:text-2xl max-w-2xl mx-auto mb-6 sm:mb-10 px-2">AI-native platforms, hypergrowth marketing & intelligent systems built for exponential scaling. We don't just build — we amplify.</p>
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center">
+                    <button class="btn-primary px-5 py-3 sm:px-8 sm:py-4 text-sm sm:text-base">Launch Intelligent Growth</button>
+                    <button class="bg-white/5 border border-white/20 text-white font-semibold px-5 py-3 sm:px-8 sm:py-4 rounded-full backdrop-blur-sm hover:bg-white/10 transition text-sm sm:text-base">See Case Studies →</button>
+                </div>
             </div>
-        </div>
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-        </div>
-    </section>
+        </section>
 
-    <!-- SERVICES SECTION -->
-    <section id="services" class="py-20 sm:py-32 relative z-10 w-full container-padding">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-12 sm:mb-20 text-center sm:text-left" data-aos="fade-right">
-                <h2 class="text-purple-500 font-bold tracking-widest uppercase text-xs mb-3 sm:mb-4 animate-pulse">What we do</h2>
-                <h3 class="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">Everything to scale.</h3>
-            </div>
-
-            <!-- 2x2 Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 sm:gap-6">
-                
-                <!-- CARD 1: CUSTOM SOFTWARE -->
-                <div class="bento-card p-5 sm:p-6 md:p-8 rounded-[32px] sm:rounded-[40px] flex flex-col group overflow-hidden relative w-full" data-aos="fade-right" data-aos-duration="800" id="software_development">
-                    <!-- Floating code particles -->
-                    <div class="code-particle-3d hidden sm:block" style="top: 5%; left: 90%; animation-duration: 5s;">&lt;div&gt;</div>
-                    <div class="code-particle-3d hidden sm:block" style="top: 15%; left: 5%; animation-duration: 7s;">async</div>
-                    <div class="code-particle-3d hidden sm:block" style="top: 40%; left: 95%; animation-duration: 4s;">await</div>
-                    <div class="code-particle-3d hidden sm:block" style="top: 70%; left: 8%; animation-duration: 6s;">{ ... }</div>
-                    <div class="code-particle-3d hidden sm:block" style="top: 85%; left: 85%; animation-duration: 5.5s;">() =&gt;</div>
-                    <div class="code-particle-3d hidden sm:block" style="top: 30%; left: 50%; animation-duration: 8s;">const</div>
-                    
-                    <div class="glow-orb" style="top: -50px; right: -50px;"></div>
-                    <div class="glow-orb" style="bottom: -50px; left: -50px; animation-delay: 2s;"></div>
-                    
-                    <div class="relative z-10 flex flex-col h-full">
-                        <div class="flex flex-wrap items-start justify-between mb-4 gap-3">
-                            <div class="flex items-center gap-3">
-                                <div class="relative">
-                                    <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-purple-600/20 to-purple-900/40 border border-purple-500/30 flex items-center justify-center text-purple-400 pulse-icon">
-                                        <svg class="w-6 h-6 sm:w-7 sm:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="1.5"/>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-white bg-clip-text text-transparent">Custom Software</h4>
-                                    <p class="text-gray-400 text-[10px] sm:text-xs mono-font flex items-center gap-1">
-                                        <span class="text-purple-400">~/fundamentals/engine</span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-end">
-                                <span class="text-purple-400 text-xl sm:text-2xl font-black mono-font">99.99<span class="text-xs text-gray-500">%</span></span>
-                                <span class="text-gray-500 text-[8px] uppercase tracking-wider -mt-1">Uptime SLA</span>
-                            </div>
-                        </div>
-
-                        <!-- 3D Code Editor Window -->
-                        <div class="code-editor-bg rounded-xl sm:rounded-2xl p-3 sm:p-4 mb-4 transform transition-transform duration-500 overflow-x-auto" style="animation: rotate3d 8s ease-in-out infinite;">
-                            <div class="flex items-center justify-between mb-2 sm:mb-3 pb-2 border-b border-purple-500/20">
-                                <div class="flex items-center gap-2">
-                                    <div class="flex gap-1 sm:gap-1.5">
-                                        <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500/80"></div>
-                                        <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500/80"></div>
-                                        <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500/80"></div>
-                                    </div>
-                                    <span class="text-[8px] sm:text-[10px] text-gray-500 mono-font ml-1 sm:ml-2">core-engine.service.ts</span>
-                                </div>
-                                <div class="flex items-center gap-1 sm:gap-2">
-                                    <span class="text-[7px] sm:text-[8px] text-purple-400 mono-font">TS React</span>
-                                    <span class="text-[7px] sm:text-[8px] text-gray-600">v2.4.1</span>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-1 sm:space-y-1.5 mono-font text-[9px] sm:text-xs">
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">1</span>
-                                    <span class="text-purple-400">import</span> <span class="text-blue-400">{ MicroService }</span> <span class="text-purple-400">from</span> <span class="text-green-400">'@fundamentals/core'</span><span class="text-gray-500">;</span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">2</span>
-                                    <span class="text-gray-500"></span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">3</span>
-                                    <span class="text-purple-400">export class</span> <span class="text-yellow-400">ScalingEngine</span> <span class="text-purple-400">extends</span> <span class="text-blue-400">MicroService</span> <span class="text-gray-400">{</span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">4</span>
-                                    <span class="text-blue-400 ml-3 sm:ml-4">private</span> <span class="text-yellow-400">instances</span>: <span class="text-green-400">number</span> = <span class="text-orange-400">24</span><span class="text-gray-500">;</span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">5</span>
-                                    <span class="text-blue-400 ml-3 sm:ml-4">async</span> <span class="text-yellow-400">deploy</span><span class="text-gray-400">(</span><span class="text-blue-400">config</span>: <span class="text-green-400">DeployConfig</span><span class="text-gray-400">)</span><span class="text-purple-400">: Promise</span><span class="text-gray-400">&lt;</span><span class="text-green-400">void</span><span class="text-gray-400">&gt; {</span>
-                                </div>
-                                <div class="editor-line flex items-center bg-purple-500/10 border-l-2 border-purple-500 pl-1 sm:pl-2">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">6</span>
-                                    <span class="text-purple-400 ml-6 sm:ml-8">await</span> <span class="text-blue-400">this</span><span class="text-gray-400">.</span><span class="text-yellow-400">orchestrate</span><span class="text-gray-400">(</span><span class="text-orange-400">24</span> <span class="text-cyan-400">microservices</span><span class="text-gray-400">);</span> <span class="text-gray-500">// K8s</span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">7</span>
-                                    <span class="text-purple-400 ml-6 sm:ml-8">return</span> <span class="text-blue-400">this</span><span class="text-gray-400">.</span><span class="text-yellow-400">healthCheck</span><span class="text-gray-400">();</span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">8</span>
-                                    <span class="text-gray-400 ml-3 sm:ml-4">}</span>
-                                </div>
-                                <div class="editor-line flex items-center">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">9</span>
-                                    <span class="text-gray-400">}</span>
-                                </div>
-                                <div class="editor-line flex items-center text-green-400">
-                                    <span class="text-gray-600 w-5 sm:w-6 text-right mr-2 sm:mr-3">11</span>
-                                    <span class="ml-3 sm:ml-4">// ✓ 24 microservices active</span>
-                                    <span class="terminal-cursor ml-1"></span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Architecture visualization -->
-                        <div class="grid grid-cols-4 gap-1.5 sm:gap-2 mb-4">
-                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-1.5 sm:p-2 flex flex-col items-center">
-                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
-                                    <span class="text-[10px] sm:text-xs mono-font text-purple-400">DB</span>
-                                </div>
-                                <span class="text-[7px] sm:text-[8px] text-gray-400">PostgreSQL</span>
-                                <span class="text-[6px] sm:text-[7px] text-green-400">● active</span>
-                            </div>
-                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-1.5 sm:p-2 flex flex-col items-center">
-                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
-                                    <span class="text-[10px] sm:text-xs mono-font text-purple-400">API</span>
-                                </div>
-                                <span class="text-[7px] sm:text-[8px] text-gray-400">GraphQL</span>
-                                <span class="text-[6px] sm:text-[7px] text-green-400">● active</span>
-                            </div>
-                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-1.5 sm:p-2 flex flex-col items-center">
-                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
-                                    <span class="text-[10px] sm:text-xs mono-font text-purple-400">K8s</span>
-                                </div>
-                                <span class="text-[7px] sm:text-[8px] text-gray-400">Kubernetes</span>
-                                <span class="text-[6px] sm:text-[7px] text-green-400">● active</span>
-                            </div>
-                            <div class="architecture-node bg-black/40 border border-purple-500/20 rounded-lg p-1.5 sm:p-2 flex flex-col items-center">
-                                <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-500/20 border border-purple-500/40 flex items-center justify-center mb-1">
-                                    <span class="text-[10px] sm:text-xs mono-font text-purple-400">CDN</span>
-                                </div>
-                                <span class="text-[7px] sm:text-[8px] text-gray-400">CloudFront</span>
-                                <span class="text-[6px] sm:text-[7px] text-green-400">● active</span>
-                            </div>
-                        </div>
-
-                        <div class="bg-black/30 rounded-xl p-2.5 sm:p-3 border border-purple-500/20">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="flex items-center gap-1">
-                                        <span class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
-                                        <span class="text-[8px] sm:text-[9px] text-gray-400 mono-font">DEPLOYING v3.2.0</span>
-                                    </span>
-                                    <span class="text-[7px] sm:text-[8px] text-purple-400 mono-font">cluster-prod</span>
-                                </div>
-                                <span class="text-[8px] sm:text-[9px] text-gray-500 mono-font">24/24 pods</span>
-                            </div>
-                            <div class="w-full h-1.5 bg-gray-800 rounded-full overflow-hidden mb-2 sm:mb-3">
-                                <div class="deploy-bar h-full rounded-full" style="width: 87%"></div>
-                            </div>
-                            <div class="grid grid-cols-3 gap-1 sm:gap-2">
-                                <div class="text-center">
-                                    <div class="text-purple-400 text-xs sm:text-sm font-black mono-font">2.3<span class="text-[7px] sm:text-[8px]">s</span></div>
-                                    <div class="text-[6px] sm:text-[7px] text-gray-500 uppercase">Build Time</div>
-                                </div>
-                                <div class="text-center border-l border-r border-purple-500/20">
-                                    <div class="text-purple-400 text-xs sm:text-sm font-black mono-font">98.7<span class="text-[7px] sm:text-[8px]">%</span></div>
-                                    <div class="text-[6px] sm:text-[7px] text-gray-500 uppercase">Efficiency</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-purple-400 text-xs sm:text-sm font-black mono-font">∞</div>
-                                    <div class="text-[6px] sm:text-[7px] text-gray-500 uppercase">Auto-scale</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-wrap gap-1.5 mt-3 sm:mt-4">
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">React 18</span>
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">Next.js 14</span>
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">Node.js</span>
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">Python</span>
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">Go</span>
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">K8s</span>
-                            <span class="tech-stack-badge text-[7px] sm:text-[8px] px-2 sm:px-2.5 py-1 rounded-full mono-font">AWS</span>
-                        </div>
+        <!-- About -->
+        <section id="about" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center" data-aos="fade-up">
+                <div>
+                    <span class="text-purple-400 text-xs font-mono bg-purple-500/10 px-3 py-1 rounded-full border border-purple-500/20">the spiral ethos</span>
+                    <h2 class="text-4xl sm:text-5xl md:text-6xl font-black tracking-tighter mt-4 sm:mt-5 leading-[1.1]">Architects of<br><span class="text-purple-400">AI-first transformation.</span></h2>
+                </div>
+                <div class="space-y-5 sm:space-y-6">
+                    <p class="text-gray-300 text-base sm:text-lg">We fuse strategy, creativity, and bleeding‑edge AI to build digital ecosystems that scale effortlessly. From zero‑day startups to global enterprises, we craft intelligence that compounds — just like a spiral.</p>
+                    <div class="grid sm:grid-cols-2 gap-4 sm:gap-5">
+                        <div class="border-l-2 border-purple-400 pl-4 sm:pl-5"><h3 class="text-lg sm:text-xl font-bold">Vision</h3><p class="text-gray-400 text-xs sm:text-sm">Shape a future where every business runs on intelligent, self‑optimizing systems.</p></div>
+                        <div class="border-l-2 border-purple-400 pl-4 sm:pl-5"><h3 class="text-lg sm:text-xl font-bold">Mission</h3><p class="text-gray-400 text-xs sm:text-sm">Democratize exponential impact — delivering AI‑infused digital products that redefine industries.</p></div>
                     </div>
                 </div>
+            </div>
+        </section>
 
-                <!-- CARD 2: Mobile Apps -->
-                <div class="bento-card p-5 sm:p-6 md:p-8 rounded-[32px] sm:rounded-[40px] relative overflow-hidden flex flex-col w-full" data-aos="fade-left" data-aos-duration="800" id="mobile_app">
-                    <div class="absolute inset-0 opacity-20 bg-gradient-to-br from-purple-600/20 via-fuchsia-600/10 to-pink-600/20 pointer-events-none"></div>
-                    <div class="relative z-10 flex flex-col h-full">
-                        <div class="flex items-start gap-3 sm:gap-4 mb-4">
-                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-500 pulse-icon">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-width="2"/></svg>
-                            </div>
-                            <div>
-                                <h4 class="text-2xl sm:text-3xl font-bold mb-1">Mobile Applications</h4>
-                                <p class="text-gray-400 text-xs sm:text-sm">Native & cross‑platform, 120Hz, offline sync, biometric security.</p>
-                            </div>
-                        </div>
-
-                        <div class="mobile-showcase flex-1">
-                            <div class="mobile-device-mock mb-4">
-                                <div class="mobile-screen">
-                                    <div class="flex items-center justify-between mb-3 px-1">
-                                        <span class="text-[9px] font-semibold text-purple-300">9:41</span>
-                                        <span class="text-[9px] text-gray-400">📶 🔋</span>
-                                    </div>
-                                    <div class="app-preview-grid">
-                                        <div class="app-badge flex flex-col items-center">
-                                            <span class="text-xl sm:text-2xl mb-1">⚡</span>
-                                            <span class="text-[10px] sm:text-[11px] font-bold">NEO BANK</span>
-                                            <span class="text-[7px] sm:text-[8px] text-purple-300">Fintech · 4.9★</span>
-                                        </div>
-                                        <div class="app-badge flex flex-col items-center">
-                                            <span class="text-xl sm:text-2xl mb-1">🎵</span>
-                                            <span class="text-[10px] sm:text-[11px] font-bold">SONIC</span>
-                                            <span class="text-[7px] sm:text-[8px] text-purple-300">Audio · 4.8★</span>
-                                        </div>
-                                        <div class="app-badge flex flex-col items-center">
-                                            <span class="text-xl sm:text-2xl mb-1">🏋️</span>
-                                            <span class="text-[10px] sm:text-[11px] font-bold">FLEX</span>
-                                            <span class="text-[7px] sm:text-[8px] text-purple-300">Fitness AI</span>
-                                        </div>
-                                        <div class="app-badge flex flex-col items-center">
-                                            <span class="text-xl sm:text-2xl mb-1">📸</span>
-                                            <span class="text-[10px] sm:text-[11px] font-bold">LENS</span>
-                                            <span class="text-[7px] sm:text-[8px] text-purple-300">AR Camera</span>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3 flex justify-center">
-                                        <div class="bg-black/30 px-3 py-1 rounded-full text-[8px] sm:text-[9px] border border-white/10">120+ apps deployed →</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-2 gap-3 mt-1">
-                                <div class="stat-highlight rounded-xl p-3 flex flex-col items-center border border-purple-500/30">
-                                    <span class="text-purple-400 text-lg sm:text-xl font-black">0.8s</span>
-                                    <span class="text-[8px] sm:text-[9px] text-gray-400">Avg Launch</span>
-                                </div>
-                                <div class="stat-highlight rounded-xl p-3 flex flex-col items-center border border-purple-500/30">
-                                    <span class="text-purple-400 text-lg sm:text-xl font-black">99.9%</span>
-                                    <span class="text-[8px] sm:text-[9px] text-gray-400">Crash-free</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap gap-2 mt-3">
-                                <span class="feature-tag">Offline Sync</span>
-                                <span class="feature-tag">Biometric</span>
-                                <span class="feature-tag">Push</span>
-                                <span class="feature-tag">Real-time</span>
-                                <span class="feature-tag">Flutter/RN</span>
-                            </div>
-                        </div>
-                        <div class="flex gap-3 mt-4 border-t border-white/10 pt-4">
-                            <div class="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 384 512"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-48.9-17.5-76.1-17.5-42.2 0-84.1 24.4-110.4 66.3-26.5 42.3-24.8 108.5 11.8 167.5 14.7 23.5 34.1 49.2 58.6 49.5 23.3.3 29.8-15.1 60.5-15.1 30.8 0 36.7 15.1 61 14.9 24.8-.2 41.8-23.8 56.5-47.3 11.1-17.8 15.8-35.2 16-53.7z"/></svg><span class="text-[9px] sm:text-[10px] font-bold">App Store</span></div>
-                            <div class="flex items-center gap-2 bg-white/5 px-3 sm:px-4 py-2 rounded-full"><svg class="w-4 h-4" fill="currentColor" viewBox="0 0 512 512"><path d="M48 59.2v393.6c0 10.6 8.6 19.2 19.2 19.2h377.6c10.6 0 19.2-8.6 19.2-19.2V59.2c0-10.6-8.6-19.2-19.2-19.2H67.2C56.6 40 48 48.6 48 59.2zM416 96v320H96V96h320z"/></svg><span class="text-[9px] sm:text-[10px] font-bold">Google Play</span></div>
-                        </div>
+        <!-- Why Spiral? Explainer -->
+        <section id="why-spiral" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+            <div class="text-center mb-10 sm:mb-12" data-aos="fade-down">
+                <span class="text-purple-400 text-xs font-mono bg-purple-500/10 px-3 py-1 rounded-full">the philosophy</span>
+                <h3 class="text-3xl sm:text-4xl md:text-5xl font-black mt-4">Why <span class="text-purple-400">Spiral</span>?</h3>
+                <div class="w-16 sm:w-20 h-0.5 bg-purple-500/40 mx-auto mt-3 sm:mt-4"></div>
+            </div>
+            <div class="glass-panel p-6 sm:p-8 md:p-10" data-aos="fade-up">
+                <div class="grid md:grid-cols-3 gap-6 sm:gap-8">
+                    <div class="space-y-2 sm:space-y-3">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">01</div>
+                        <h4 class="text-lg sm:text-xl font-bold">Compounding Growth</h4>
+                        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Unlike a circle that repeats, a spiral expands outward with every turn. Each project, model update, campaign builds on the last — creating exponential returns, not linear maintenance.</p>
+                    </div>
+                    <div class="space-y-2 sm:space-y-3">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">02</div>
+                        <h4 class="text-lg sm:text-xl font-bold">Adaptive Intelligence</h4>
+                        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">Spirals appear everywhere in nature — galaxies, shells, storms. They evolve while preserving core structure. Our systems learn from data, self‑optimize, and scale without losing integrity.</p>
+                    </div>
+                    <div class="space-y-2 sm:space-y-3">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">03</div>
+                        <h4 class="text-lg sm:text-xl font-bold">Connected & Boundless</h4>
+                        <p class="text-gray-400 text-xs sm:text-sm leading-relaxed">A spiral connects past, present, and future. We integrate legacy systems while boldly pushing toward new architectures — no dead ends, only upward momentum.</p>
                     </div>
                 </div>
+                <div class="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-white/10 text-center">
+                    <p class="text-gray-300 text-sm sm:text-md">Spiral Intelligence = technology that doesn't plateau. It spirals upward, creating compounding returns for your business.</p>
+                </div>
+            </div>
+        </section>
 
-                <!-- CARD 3: DIGITAL MARKETING & SEO -->
-                <div class="bento-card p-5 sm:p-6 md:p-8 rounded-[32px] sm:rounded-[40px] overflow-hidden relative seo-grid-pattern seo-glow w-full" data-aos="fade-up" data-aos-duration="800" id="marketing">
-                    <div class="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-purple-800/5 to-transparent pointer-events-none"></div>
-                    <div class="flex flex-wrap items-start justify-between relative z-10 gap-3">
-                        <div>
-                            <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mb-4 sm:mb-6 text-purple-400 pulse-seo">
-                                <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="2"/><path d="M12 8v4l3 3" stroke-width="2"/></svg>
-                            </div>
-                            <h4 class="text-2xl sm:text-3xl font-bold mb-2 bg-gradient-to-r from-purple-300 to-purple-200 bg-clip-text text-transparent">Digital Marketing & SEO</h4>
-                            <p class="text-gray-300 text-xs sm:text-sm max-w-sm">Data-driven SEO, performance marketing & AI-powered campaigns.</p>
-                        </div>
-                        <div class="rank-badge px-3 py-1.5 rounded-full text-[8px] sm:text-[9px] font-bold text-white shadow-lg flex items-center gap-1">🏆 #1 Ranking</div>
-                    </div>
-                    <div class="mt-5 sm:mt-6 rounded-2xl overflow-hidden border border-purple-500/20 bg-black/60 backdrop-blur-sm">
-                        <div class="px-3 sm:px-4 py-2 border-b border-purple-500/20 flex justify-between items-center">
-                            <span class="text-[8px] sm:text-[9px] font-mono text-purple-300 font-bold">🔍 GOOGLE SERP PREVIEW</span>
-                            <span class="text-[7px] sm:text-[8px] text-purple-400">position ↑2.3</span>
-                        </div>
-                        <div class="p-3 sm:p-4 space-y-3">
-                            <div class="serp-card rounded-lg p-3 transition-all hover:scale-[1.02]">
-                                <div class="flex items-center gap-2 text-[9px] sm:text-[10px] text-purple-400"><span>🌐 fundamentals.digital</span><span class="text-gray-500">› services</span></div>
-                                <div class="text-purple-300 font-bold text-xs sm:text-sm">Intelligent Digital Solutions — Scale with Precision</div>
-                                <div class="text-[9px] sm:text-[10px] text-gray-400">We engineer growth. 200+ brands trust our SEO & marketing frameworks.</div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div class="bg-black/40 rounded-lg p-2 border border-white/5">
-                                    <div class="text-purple-400 text-xs font-bold">14.2k</div>
-                                    <div class="text-[7px] sm:text-[8px] text-gray-500">Monthly Clicks</div>
-                                    <div class="w-full h-1 bg-gray-800 mt-1"><div class="h-full w-3/4 bg-purple-500 shimmer-bar"></div></div>
-                                </div>
-                                <div class="bg-black/40 rounded-lg p-2 border border-white/5">
-                                    <div class="text-purple-400 text-xs font-bold">8.7%</div>
-                                    <div class="text-[7px] sm:text-[8px] text-gray-500">CTR</div>
-                                    <div class="w-full h-1 bg-gray-800 mt-1"><div class="h-full w-2/3 bg-purple-500"></div></div>
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap gap-2 mt-3">
-                                <span class="keyword-pill text-[8px] sm:text-[9px] px-2 py-1 rounded-full">#1 "enterprise seo"</span>
-                                <span class="keyword-pill text-[8px] sm:text-[9px] px-2 py-1 rounded-full">#2 "digital agency"</span>
-                                <span class="keyword-pill text-[8px] sm:text-[9px] px-2 py-1 rounded-full">#3 "growth marketing"</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mt-4 sm:mt-5 flex flex-wrap gap-3 items-center justify-between">
-                        <div class="flex gap-2 text-[8px] sm:text-[9px]"><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">SEO Audit</span><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">PPC</span><span class="bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded-full">Content AI</span></div>
-                        <div class="text-[9px] sm:text-[10px] text-purple-400 font-mono flex items-center gap-1"><span class="inline-block w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span> real‑time rank tracker</div>
+        <!-- Services -->
+        <section id="solutions" class="py-16 px-4 sm:px-6 max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16" data-aos="fade-down">
+                <span class="text-purple-400 text-xs font-mono bg-purple-500/10 px-3 py-1 rounded-full">core capabilities</span>
+                <h3 class="text-3xl sm:text-4xl md:text-6xl font-black mt-3 sm:mt-4">what we deliver.</h3>
+                <p class="text-gray-400 max-w-2xl mx-auto mt-3 sm:mt-4 text-sm sm:text-base px-2">Intelligent engines, high‑velocity marketing, and digital experiences that create compounding returns.</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-5 sm:gap-6">
+                <div class="glass-panel p-5 sm:p-7" data-aos="zoom-in">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4"><div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center"><svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="1.7" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg></div><span class="pill">100% cloud-native</span></div>
+                    <h4 class="text-xl sm:text-2xl font-extrabold">AI & Custom Platforms</h4><p class="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">Next‑gen architectures, LLM integration, predictive pipelines & serverless scalability.</p>
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4"><span class="pill">Vector DBs</span><span class="pill">LangChain</span><span class="pill">K8s</span><span class="pill">AWS/GCP</span></div>
+                </div>
+                <div class="glass-panel p-5 sm:p-7" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4"><div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center"><svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-width="1.7"/></svg></div><span class="pill">+187% avg. lift</span></div>
+                    <h4 class="text-xl sm:text-2xl font-extrabold">Hypergrowth Marketing</h4><p class="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">Data‑fueled SEO, AI ad orchestration, and conversion architecture.</p>
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4"><span class="pill">Programmatic SEO</span><span class="pill">AI Ads</span><span class="pill">CRO</span></div>
+                </div>
+                <div class="glass-panel p-5 sm:p-7" data-aos="zoom-in" data-aos-delay="150">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4"><div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center"><svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-width="1.7"/></svg></div><span class="pill">4.9★ apps</span></div>
+                    <h4 class="text-xl sm:text-2xl font-extrabold">Intelligent Mobile & Edge</h4><p class="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">Offline‑first, on-device AI, real‑time sync — used by 120+ global brands.</p>
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4"><span class="pill">Flutter</span><span class="pill">React Native</span><span class="pill">TensorFlow Lite</span></div>
+                </div>
+                <div class="glass-panel p-5 sm:p-7" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="flex justify-between items-start mb-3 sm:mb-4"><div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-purple-500/20 border border-purple-500/40 flex items-center justify-center"><svg class="w-4 h-4 sm:w-5 sm:h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="1.7"/><path d="M15 10l4.5-4.5M15 10l-4.5 4.5" stroke-width="1.7"/></svg></div><span class="pill">AI-driven studio</span></div>
+                    <h4 class="text-xl sm:text-2xl font-extrabold">AI Content & Storytelling</h4><p class="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">Cinematic narratives, viral loops & generative video — turning attention into equity.</p>
+                    <div class="flex flex-wrap gap-1.5 sm:gap-2 mt-3 sm:mt-4"><span class="pill">Generative AI</span><span class="pill">Motion design</span><span class="pill">Script intelligence</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose Us -->
+        <section id="why-us" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16" data-aos="fade-down">
+                <span class="text-purple-400 text-xs font-mono bg-purple-500/10 px-3 py-1 rounded-full">spiral advantage</span>
+                <h3 class="text-3xl sm:text-4xl md:text-6xl font-black mt-3 sm:mt-4">The <span class="text-purple-400">Fundamentals</span> difference.</h3>
+                <p class="text-gray-400 max-w-xl mx-auto mt-3 sm:mt-4 text-sm sm:text-base px-2">Radical transparency, AI depth, and an obsession with your ROI — this is how we build lasting velocity.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+                <div class="glass-panel p-5 sm:p-6 text-center" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="text-3xl sm:text-4xl mb-3 sm:mb-4 font-bold text-purple-300">01</div>
+                    <h4 class="text-lg sm:text-xl font-bold mb-2">Velocity + Precision</h4>
+                    <p class="text-gray-400 text-xs sm:text-sm">99.9% on‑time delivery with zero technical debt. We sprint without compromise.</p>
+                </div>
+                <div class="glass-panel p-5 sm:p-6 text-center" data-aos="zoom-in" data-aos-delay="80">
+                    <div class="text-3xl sm:text-4xl mb-3 sm:mb-4 font-bold text-purple-300">02</div>
+                    <h4 class="text-lg sm:text-xl font-bold mb-2">AI-Native Core</h4>
+                    <p class="text-gray-400 text-xs sm:text-sm">Predictive models, generative AI, and intelligent automation baked into every layer.</p>
+                </div>
+                <div class="glass-panel p-5 sm:p-6 text-center" data-aos="zoom-in" data-aos-delay="120">
+                    <div class="text-3xl sm:text-4xl mb-3 sm:mb-4 font-bold text-purple-300">03</div>
+                    <h4 class="text-lg sm:text-xl font-bold mb-2">Zero-Trust Security</h4>
+                    <p class="text-gray-400 text-xs sm:text-sm">Encrypted pipelines, continuous auditing, and privacy-first design — your data is always protected.</p>
+                </div>
+                <div class="glass-panel p-5 sm:p-6 text-center" data-aos="zoom-in" data-aos-delay="160">
+                    <div class="text-3xl sm:text-4xl mb-3 sm:mb-4 font-bold text-purple-300">04</div>
+                    <h4 class="text-lg sm:text-xl font-bold mb-2">Transparent Partnership</h4>
+                    <p class="text-gray-400 text-xs sm:text-sm">Live metrics, weekly sprints, dedicated success leads — no black boxes, only shared wins.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Operational Core (replaced fabricated certifications) -->
+        <section id="operations" class="py-16 sm:py-20 px-4 sm:px-6 max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-10 sm:gap-12 items-center">
+                <div data-aos="fade-right">
+                    <span class="text-purple-400 text-xs font-mono bg-purple-500/10 px-3 py-1 rounded-full">how we work</span>
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl font-black tracking-tighter mt-4 sm:mt-5">Built on <span class="text-purple-400">process, transparency, and trust.</span></h2>
+                    <p class="text-gray-400 mt-4 sm:mt-6 text-sm sm:text-lg">Our operating model focuses on what truly matters: delivering high‑quality work on time, protecting your data, and keeping you informed at every step.</p>
+                    <div class="mt-6 sm:mt-8 grid grid-cols-2 gap-3 sm:gap-4">
+                        <div class="flex items-center gap-2 sm:gap-3"><span class="text-purple-400 text-base sm:text-xl">•</span><span class="text-xs sm:text-sm">Agile delivery with weekly sprints</span></div>
+                        <div class="flex items-center gap-2 sm:gap-3"><span class="text-purple-400 text-base sm:text-xl">•</span><span class="text-xs sm:text-sm">Security-first development lifecycle</span></div>
+                        <div class="flex items-center gap-2 sm:gap-3"><span class="text-purple-400 text-base sm:text-xl">•</span><span class="text-xs sm:text-sm">Real-time progress dashboards</span></div>
+                        <div class="flex items-center gap-2 sm:gap-3"><span class="text-purple-400 text-base sm:text-xl">•</span><span class="text-xs sm:text-sm">Post-launch continuous improvement</span></div>
+                        <div class="flex items-center gap-2 sm:gap-3"><span class="text-purple-400 text-base sm:text-xl">•</span><span class="text-xs sm:text-sm">Dedicated solution architect</span></div>
+                        <div class="flex items-center gap-2 sm:gap-3"><span class="text-purple-400 text-base sm:text-xl">•</span><span class="text-xs sm:text-sm">Transparent fixed-scope pricing</span></div>
                     </div>
                 </div>
+                <div class="glass-panel p-6 sm:p-8" data-aos="fade-left">
+                    <div class="text-center mb-5 sm:mb-6">
+                        <span class="text-3xl sm:text-4xl font-bold text-purple-400">100%</span>
+                        <p class="text-gray-300 mt-1 sm:mt-2 text-sm sm:text-base">focus on your business outcomes</p>
+                        <div class="w-12 sm:w-16 h-0.5 bg-purple-500/40 mx-auto my-3 sm:my-4"></div>
+                        <p class="text-gray-400 text-xs sm:text-sm">We don't believe in one‑size‑fits‑all. Every engagement starts with a deep discovery phase, followed by a tailored roadmap built around your goals, stack, and team.</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2 sm:gap-3 mt-3 sm:mt-4 text-center">
+                        <div class="border border-white/10 rounded-xl p-2 sm:p-3 bg-white/5"><span class="text-purple-300 font-bold text-sm sm:text-base">14-day</span><p class="text-gray-500 text-[10px] sm:text-xs">average iteration cycle</p></div>
+                        <div class="border border-white/10 rounded-xl p-2 sm:p-3 bg-white/5"><span class="text-purple-300 font-bold text-sm sm:text-base">24/7</span><p class="text-gray-500 text-[10px] sm:text-xs">support & monitoring</p></div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-                <!-- CARD 4: Content Creation -->
-                <div class="bento-card p-5 sm:p-6 md:p-8 rounded-[32px] sm:rounded-[40px] overflow-hidden relative w-full" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100" id="content_creation">
-                    <div class="flex flex-wrap items-start justify-between gap-3">
-                        <div><div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-purple-500/10 border border-purple-500/20 flex items-center justify-center mb-4 sm:mb-6 text-purple-500 pulse-icon"><svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 10l4.5-4.5M15 10l-4.5 4.5M15 10h-4M15 10v4M9 15l-4.5 4.5M9 15l4.5-4.5M9 15v-4M9 15h-4" stroke-width="2"/><circle cx="12" cy="12" r="9" stroke-width="2"/></svg></div><h4 class="text-2xl sm:text-3xl font-bold mb-2">Content Creation</h4><p class="text-gray-400 text-xs sm:text-sm max-w-sm">Cinematic storytelling, viral hooks, and AI-enhanced production.</p></div>
-                        <div class="bg-purple-500/10 px-3 py-1.5 rounded-full text-[8px] sm:text-[9px] font-bold text-purple-400 border border-purple-500/20 animate-pulse">Viral Engine</div>
+        <!-- NEW STATS SECTION: Replaced fake numbers with real operational principles -->
+        <div class="border-y border-white/5 py-10 sm:py-14 my-6 sm:my-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 text-center">
+                    <div class="stat-block">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">Agile</div>
+                        <div class="text-gray-400 text-xs sm:text-sm mt-1">Weekly sprints & continuous delivery</div>
                     </div>
-                    <div class="mt-5 sm:mt-6 flex flex-col sm:flex-row gap-4 items-start">
-                        <div class="flex-1 w-full reel-container bg-black/30 rounded-2xl border border-white/10 p-2 overflow-hidden h-56">
-                            <div class="reel-animate flex flex-col gap-2">
-                                <div class="bg-gradient-to-r from-purple-900/20 to-fuchsia-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-purple-500/20">🎬</div><div><div class="text-[10px] sm:text-[11px] font-bold">Cinematic Ad</div><div class="text-[7px] sm:text-[8px] text-gray-400">2.4M views</div></div></div>
-                                <div class="bg-gradient-to-r from-blue-900/20 to-cyan-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-blue-500/20">📱</div><div><div class="text-[10px] sm:text-[11px] font-bold">UGC Campaign</div><div class="text-[7px] sm:text-[8px] text-gray-400">+340% eng.</div></div></div>
-                                <div class="bg-gradient-to-r from-emerald-900/20 to-teal-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-emerald-500/20">🎙️</div><div><div class="text-[10px] sm:text-[11px] font-bold">Podcast Series</div><div class="text-[7px] sm:text-[8px] text-gray-400">Top 10 charts</div></div></div>
-                                <div class="bg-gradient-to-r from-rose-900/20 to-pink-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-rose-500/20">🎨</div><div><div class="text-[10px] sm:text-[11px] font-bold">Motion Graphics</div><div class="text-[7px] sm:text-[8px] text-gray-400">Shark Tank style</div></div></div>
-                                <div class="bg-gradient-to-r from-amber-900/20 to-orange-900/20 rounded-xl p-2 flex items-center gap-2"><div class="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-amber-500/20">⚡</div><div><div class="text-[10px] sm:text-[11px] font-bold">AI Shorts</div><div class="text-[7px] sm:text-[8px] text-gray-400">Viral hooks</div></div></div>
-                            </div>
-                        </div>
-                        <div class="flex flex-row sm:flex-col gap-2 w-full sm:w-24 text-center">
-                            <div class="bg-white/5 rounded-xl p-2 flex-1"><div class="text-purple-400 text-base sm:text-lg font-black">15B+</div><div class="text-[7px] sm:text-[8px] text-gray-500">Impressions</div></div>
-                            <div class="bg-white/5 rounded-xl p-2 flex-1"><div class="text-purple-400 text-base sm:text-lg font-black">47%</div><div class="text-[7px] sm:text-[8px] text-gray-500">Engagement Lift</div></div>
-                        </div>
+                    <div class="stat-block">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">Transparent</div>
+                        <div class="text-gray-400 text-xs sm:text-sm mt-1">Fixed pricing & live dashboards</div>
                     </div>
-                    <div class="mt-5 flex items-center justify-between"><div class="flex gap-1 text-[9px] sm:text-[10px] text-gray-500"><span class="text-purple-400 animate-pulse">✨</span> AI Scripting · 24/7 Studio</div><button class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-white/5 hover:bg-purple-500/20 border border-white/10 px-3 sm:px-4 py-1.5 rounded-full transition-all">Showreel →</button></div>
+                    <div class="stat-block">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">Zero lock-in</div>
+                        <div class="text-gray-400 text-xs sm:text-sm mt-1">You own 100% of the code</div>
+                    </div>
+                    <div class="stat-block">
+                        <div class="text-2xl sm:text-3xl font-black text-purple-400">∞</div>
+                        <div class="text-gray-400 text-xs sm:text-sm mt-1">Endless scalability</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <div class="py-16 sm:py-20 overflow-hidden opacity-10 select-none w-full"><div class="flex whitespace-nowrap text-[15vw] font-black uppercase tracking-tighter leading-none gap-10 sm:gap-20 animate-marquee"><span>Development</span><span>Design</span><span>Strategy</span><span>Intelligence</span></div></div>
-
-    <section id="contact" class="py-20 sm:py-32 bg-[#050505] relative overflow-hidden w-full container-padding">
-        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 md:gap-20 items-center">
-            <div data-aos="fade-right" class="text-center md:text-left">
-                <h2 class="text-5xl sm:text-6xl md:text-8xl font-black tracking-tighter mb-6 sm:mb-8 leading-none">LET'S<br><span class="text-purple-500 animate-pulse">BEGIN.</span></h2>
-                <p class="text-gray-400 text-base sm:text-xl mb-8 sm:mb-12">Fundamentals isn't a vendor. We're your technical co-founders.</p>
-                <div class="space-y-3 sm:space-y-4">
-                    <p class="text-lg sm:text-2xl font-bold tracking-tight hover:text-purple-400 transition break-all">hello.fundamentalsdigital@gmail.com</p>
-                    <p class="text-lg sm:text-2xl font-bold tracking-tight hover:text-purple-400 transition">+91 790-433-6889</p>
+        <!-- FAQ Section -->
+        <section id="faq" class="py-16 sm:py-24 px-4 sm:px-6 max-w-4xl mx-auto">
+            <div class="text-center mb-12 sm:mb-16" data-aos="fade-down">
+                <span class="text-purple-400 text-xs font-mono bg-purple-500/10 px-3 py-1 rounded-full">insights</span>
+                <h3 class="text-3xl sm:text-4xl md:text-5xl font-black mt-3 sm:mt-4">frequently asked <span class="text-purple-400">questions.</span></h3>
+            </div>
+            <div class="space-y-1 sm:space-y-2">
+                <div class="faq-item" data-aos="fade-up">
+                    <div class="faq-question">Which industries benefit most from your AI‑first approach? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">SaaS, FinTech, HealthTech, e‑commerce, and logistics. Our spiral intelligence framework adapts to any data‑rich environment — we're industry‑agnostic but outcome‑obsessed.</div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="50">
+                    <div class="faq-question">How fast can we launch an AI‑powered MVP? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">3‑5 weeks for a functional intelligent prototype. Full‑scale platforms typically 8‑12 weeks, with continuous AI refinement post‑launch.</div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="100">
+                    <div class="faq-question">What does ongoing AI optimization look like? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">Continuous model retraining, automated A/B testing, and performance monitoring. We offer retainer packages that evolve your AI stack as your data grows.</div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="150">
+                    <div class="faq-question">Is my proprietary data used to train external models? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">Never. We implement strict data isolation, private cloud fine‑tuning, and can deploy fully on‑prem/air‑gapped environments. Your IP stays yours.</div>
+                </div>
+                <div class="faq-item" data-aos="fade-up" data-aos-delay="200">
+                    <div class="faq-question">Can you work within our existing stack? <span class="faq-icon">+</span></div>
+                    <div class="faq-answer">Absolutely — AWS, Azure, GCP, Kubernetes, Snowflake, or legacy monoliths. We integrate cleanly and modernize at your pace.</div>
                 </div>
             </div>
-            <div class="bg-black p-1 rounded-[40px] border border-white/10 hover:border-purple-500/40 transition-all duration-500" data-aos="zoom-in">
-                <div class="bg-[#0a0a0a] p-6 sm:p-12 rounded-[38px] space-y-6 sm:space-y-8">
-                    <div class="grid grid-cols-2 gap-6 sm:gap-8">
-                        <div><p class="text-purple-500 font-black text-3xl sm:text-4xl mb-2">99%</p><p class="text-gray-500 text-xs">Uptime Guaranteed</p></div>
-                        <div><p class="text-purple-500 font-black text-3xl sm:text-4xl mb-2">2x</p><p class="text-gray-500 text-xs">Growth Velocity</p></div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 sm:py-24 px-4 sm:px-6 max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-8 sm:gap-10 items-center">
+                <div data-aos="fade-right">
+                    <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter">Turn intelligence into<br><span class="text-purple-400">exponential ROI.</span></h2>
+                    <p class="text-gray-400 mt-4 sm:mt-5 text-sm sm:text-base">Let’s discuss your vision — whether you need an AI platform, a revenue engine, or full‑stack growth, we’re ready to build.</p>
+                    <div class="mt-5 sm:mt-6 space-y-1 sm:space-y-2 text-gray-300 text-sm sm:text-base">hello@fundamentalsdigital@gmail.com<br>+91 790-433-6889</div>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-3 mt-6 sm:mt-8">
+                        <button class="btn-primary px-5 py-2.5 sm:px-6 sm:py-3 text-xs sm:text-sm font-bold">Book a Strategy Call →</button>
+                        <button class="bg-white/5 border border-white/20 text-white font-semibold px-5 py-2.5 sm:px-6 sm:py-3 rounded-full backdrop-blur-sm hover:bg-white/10 text-xs sm:text-sm">Get Estimated Quote</button>
                     </div>
-                    <button class="w-full bg-white text-black py-5 sm:py-6 rounded-[20px] font-black text-lg sm:text-xl hover:bg-purple-500 hover:text-white transition-all duration-500 uppercase tracking-widest">Start Consultation</button>
+                </div>
+                <div class="glass-panel p-5 sm:p-7" data-aos="zoom-in">
+                    <div class="grid grid-cols-2 gap-3 sm:gap-5 mb-5 sm:mb-6"><div class="text-center"><div class="text-2xl sm:text-3xl font-black text-purple-400">99.9%</div><div class="text-gray-400 text-[10px] sm:text-xs">on‑time delivery</div></div><div class="text-center"><div class="text-2xl sm:text-3xl font-black text-purple-400">2x</div><div class="text-gray-400 text-[10px] sm:text-xs">avg. growth multiplier</div></div></div>
+                    <form class="space-y-3 sm:space-y-4"><input type="email" placeholder="work@yourcompany.com" class="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:border-purple-500 outline-none"><textarea rows="2" placeholder="Tell us about your digital ambition..." class="w-full bg-black/40 border border-white/10 rounded-xl p-2.5 sm:p-3 text-xs sm:text-sm focus:border-purple-500 outline-none"></textarea><button class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2.5 sm:py-3 rounded-xl text-sm">Send Message →</button></form>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="py-10 sm:py-12 px-6 border-t border-white/5 text-center w-full">
-        <div class="logo-font text-xl sm:text-2xl lowercase mb-4 hover:text-purple-400 transition">fundamentals<span class="text-purple-500">.</span></div>
-        <p class="text-gray-600 text-[8px] sm:text-[10px] uppercase tracking-[0.3em] sm:tracking-[0.5em]">Scalable Performance • Future-Proof Intelligence</p>
-    </footer>
+        <!-- Footer -->
+        <footer class="py-8 sm:py-12 text-center border-t border-white/5">
+            <div class="logo-font text-2xl sm:text-3xl text-white">fundamentals<span class="text-purple-400">.</span></div>
+            <p class="text-gray-500 text-[10px] sm:text-xs tracking-widest mt-1 sm:mt-2">SPIRAL INTELLIGENCE | AI-NATIVE | ENDLESS SCALE</p>
+        </footer>
+    </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true, easing: 'ease-out-quint', offset: 60 });
-        
-        const glow = document.getElementById('glow-cursor');
-        if (glow && window.innerWidth > 768) {
-            let cursorX = 0, cursorY = 0, glowX = 0, glowY = 0;
-            window.addEventListener('mousemove', (e) => { cursorX = e.clientX; cursorY = e.clientY; });
-            function animateGlow() { glowX += (cursorX - glowX) * 0.12; glowY += (cursorY - glowY) * 0.12; glow.style.left = glowX + 'px'; glow.style.top = glowY + 'px'; requestAnimationFrame(animateGlow); }
-            animateGlow();
-        }
-        
-        window.addEventListener('scroll', () => { 
-            const reveal = document.getElementById('hero-reveal'); 
-            if (reveal && reveal.getBoundingClientRect().top < window.innerHeight * 0.8) reveal.classList.add('active'); 
-        });
-        
-        const marquee = document.querySelector('.animate-marquee'); 
-        if (marquee) marquee.innerHTML += marquee.innerHTML;
+        AOS.init({ duration: 800, once: true, easing: 'ease-out-quint' });
 
-        document.querySelectorAll('.bento-card').forEach(card => { 
-            card.addEventListener('click', (e) => { 
-                const rect = card.getBoundingClientRect(); 
-                const x = e.clientX - rect.left; 
-                const y = e.clientY - rect.top; 
-                const ripple = document.createElement('span'); 
-                ripple.className = 'ripple'; 
-                ripple.style.left = `${x}px`; 
-                ripple.style.top = `${y}px`; 
-                card.style.position = 'relative'; 
-                card.appendChild(ripple); 
-                setTimeout(() => ripple.remove(), 600); 
-            }); 
+        // 3D Spiral (mobile-optimized)
+        (function() {
+            const canvas = document.getElementById('spiralCanvas');
+            if (!canvas) return;
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 100);
+            camera.position.set(0,2,6);
+            const points = [];
+            const turns=6, height=18, radius=3.2, steps=400;
+            for(let i=0;i<=steps;i++){
+                const t=i/steps, angle=t*Math.PI*2*turns;
+                points.push(new THREE.Vector3(Math.cos(angle)*radius*(1-t*0.3), (t-0.5)*height, Math.sin(angle)*radius*(1-t*0.3)));
+            }
+            const curve = new THREE.CatmullRomCurve3(points);
+            const tube = new THREE.Mesh(new THREE.TubeGeometry(curve,300,0.12,8,false), new THREE.MeshStandardMaterial({color:0xa855f7,emissive:0x3b0764,emissiveIntensity:0.6,roughness:0.3,metalness:0.4,transparent:true,opacity:0.7}));
+            scene.add(tube);
+            const wireTube = new THREE.Mesh(new THREE.TubeGeometry(curve,200,0.25,6,false), new THREE.MeshBasicMaterial({color:0xc084fc,wireframe:true,transparent:true,opacity:0.15}));
+            scene.add(wireTube);
+            const particleCount = window.innerWidth < 768 ? 200 : 500;
+            const particlesGeo = new THREE.BufferGeometry();
+            const posArr = new Float32Array(particleCount*3);
+            for(let i=0;i<particleCount*3;i+=3){
+                const t=Math.random(), angle=t*Math.PI*2*turns, r=radius*(1-t*0.3)+(Math.random()-0.5)*0.8;
+                posArr[i]=Math.cos(angle)*r; posArr[i+1]=(t-0.5)*height+(Math.random()-0.5)*0.8; posArr[i+2]=Math.sin(angle)*r;
+            }
+            particlesGeo.setAttribute('position', new THREE.BufferAttribute(posArr,3));
+            const particles = new THREE.Points(particlesGeo, new THREE.PointsMaterial({color:0xcfb3ff,size:0.04,blending:THREE.AdditiveBlending,transparent:true,opacity:0.7}));
+            scene.add(particles);
+            scene.add(new THREE.AmbientLight(0x2a1a4a,0.7));
+            scene.add(new THREE.PointLight(0xa855f7,1,10,1.5)).position.set(2,1,2);
+            scene.add(new THREE.PointLight(0x7c3aed,0.8,10,1.5)).position.set(-2,-1,-2);
+            function updateCam(){
+                const p = Math.min(window.scrollY/(document.documentElement.scrollHeight-window.innerHeight),1)*0.85;
+                const pt = curve.getPointAt(p);
+                const tan = curve.getTangentAt(p).normalize();
+                const off = new THREE.Vector3(-tan.z,0,tan.x).normalize().multiplyScalar(0.6);
+                camera.position.copy(pt.clone().add(off).add(new THREE.Vector3(0,0.2,0)));
+                camera.lookAt(pt.x,pt.y,pt.z);
+            }
+            updateCam();
+            window.addEventListener('scroll', updateCam, {passive:true});
+            function animate(){ requestAnimationFrame(animate); particles.rotation.y+=0.0004; wireTube.rotation.y+=0.0001; tube.rotation.y+=0.00005; renderer.render(scene,camera); }
+            animate();
+            window.addEventListener('resize',()=>{ renderer.setSize(window.innerWidth,window.innerHeight); camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); });
+        })();
+
+        // Hero text reveal
+        const heroSpan = document.getElementById('heroReveal');
+        function reveal(){ if(heroSpan && heroSpan.getBoundingClientRect().top < window.innerHeight*0.85) heroSpan.classList.add('active'); }
+        window.addEventListener('scroll', reveal); reveal();
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(q=>{
+            q.addEventListener('click',()=>{
+                const item = q.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('active'));
+                if(!isActive) item.classList.add('active');
+            });
         });
 
-        // navigation
-        document.getElementById("software_development")?.addEventListener('click', () => { window.location.href = "softwareDevelopment.html"; });
-        document.getElementById("mobile_app")?.addEventListener('click', () => { window.location.href = "mobileApps.html"; });
-        document.getElementById("marketing")?.addEventListener('click', () => { window.location.href = "digitalMarketing.html"; });
-        document.getElementById("content_creation")?.addEventListener('click', () => { window.location.href = "contentCreation.html"; });
-        
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(a=>{
+            a.addEventListener('click',function(e){
+                const t=document.querySelector(this.getAttribute('href'));
+                if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+            });
+        });
     </script>
 </body>
 </html>
